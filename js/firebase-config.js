@@ -11,5 +11,10 @@ const firebaseConfig = {
     measurementId: "G-812W9QY820"
 };
 
+if (!window.firebase) {
+    console.error("Firebase global not found! Check script tags.");
+    throw new Error("Firebase not loaded");
+}
+
 window.firebase.initializeApp(firebaseConfig);
 export const db = window.firebase.firestore();
