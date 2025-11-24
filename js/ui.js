@@ -96,6 +96,23 @@ export const renderDashboard = () => {
             }
         });
     }
+
+    // Attach event listeners for debt actions in Upcoming list
+    document.querySelectorAll('.pay-btn').forEach(btn => {
+        btn.addEventListener('click', () => showPayModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.edit-debt-btn').forEach(btn => {
+        btn.addEventListener('click', () => showEditDebtModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-debt-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            if (confirm('Delete this debt?')) {
+                await store.deleteDebt(btn.dataset.id);
+            }
+        });
+    });
 };
 
 export const renderDebts = () => {
@@ -350,12 +367,25 @@ export const showEditPaymentModal = (paymentId) => {
     const payment = store.getPayments().find(p => p.id === paymentId);
     if (!payment) return;
 
+    const debts = store.getDebts('all');
+    const currentDebt = debts.find(d => d.id === payment.debtId);
+
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
         <div class="modal card">
             <h3>Edit Payment</h3>
             <form id="editPaymentForm">
+                <div class="form-group">
+                    <label>Debt</label>
+                    <select name="debtId" required>
+                        ${debts.map(d => `
+                            <option value="${d.id}" ${d.id === payment.debtId ? 'selected' : ''}>
+                                ${d.name}
+                            </option>
+                        `).join('')}
+                    </select>
+                </div>
                 <div class="form-group">
                     <label>Amount</label>
                     <input type="number" name="amount" step="0.01" value="${payment.amount}" required>
@@ -382,6 +412,7 @@ export const showEditPaymentModal = (paymentId) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         await store.updatePayment(paymentId, {
+            debtId: formData.get('debtId'),
             amount: formData.get('amount'),
             date: formData.get('date'),
             note: formData.get('note')

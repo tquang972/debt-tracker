@@ -217,8 +217,25 @@ export class Store {
 
         const oldPayment = paymentDoc.data();
 
-        // Update debt balance if amount changed
-        if (newData.amount && newData.amount !== oldPayment.amount) {
+        // Handle debt reassignment
+        if (newData.debtId && newData.debtId !== oldPayment.debtId) {
+            const oldDebt = this.data.debts.find(d => d.id === oldPayment.debtId);
+            const newDebt = this.data.debts.find(d => d.id === newData.debtId);
+
+            // Revert payment from old debt
+            if (oldDebt) {
+                const oldDebtNewBalance = parseFloat(oldDebt.balance) + parseFloat(oldPayment.amount);
+                await this.updateDebt(oldDebt.id, { balance: oldDebtNewBalance });
+            }
+
+            // Apply payment to new debt (use new amount if provided, otherwise old amount)
+            if (newDebt) {
+                const paymentAmount = newData.amount || oldPayment.amount;
+                const newDebtNewBalance = parseFloat(newDebt.balance) - parseFloat(paymentAmount);
+                await this.updateDebt(newDebt.id, { balance: newDebtNewBalance });
+            }
+        } else if (newData.amount && newData.amount !== oldPayment.amount) {
+            // Only amount changed, same debt
             const debt = this.data.debts.find(d => d.id === oldPayment.debtId);
             if (debt) {
                 const diff = parseFloat(newData.amount) - parseFloat(oldPayment.amount);
