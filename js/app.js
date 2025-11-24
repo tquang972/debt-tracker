@@ -56,4 +56,9 @@ const init = () => {
     });
 };
 
-document.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    // DOM already loaded, run init immediately
+    init();
+}
