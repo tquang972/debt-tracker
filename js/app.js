@@ -39,6 +39,19 @@ const init = () => {
 
     // Check notifications
     checkDueDates();
+
+    // Subscribe to Store Updates (Real-time Sync)
+    store.subscribe(() => {
+        const activeTab = document.querySelector('.nav-item.active');
+        const view = activeTab ? activeTab.dataset.view : 'dashboard';
+
+        if (view === 'dashboard') renderDashboard();
+        if (view === 'debts') renderDebts();
+        if (view === 'history') renderHistory();
+
+        // Also update user selector if people list changes
+        renderUserSelector();
+    });
 };
 
 document.addEventListener('DOMContentLoaded', init);
