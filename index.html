@@ -31,14 +31,34 @@
         </main>
 
         <script>
-            window.onerror = function (msg, url, line, col, error) {
-                document.getElementById('loadingMsg').textContent = 'Error Loading App:';
-                document.getElementById('errorLog').textContent += `\n${msg}\nAt: ${url}:${line}:${col}`;
+            // On-screen console logger
+            const logDiv = document.createElement('div');
+            logDiv.id = 'onScreenConsole';
+            logDiv.style.cssText = 'position:fixed;top:0;right:0;width:400px;max-height:50vh;overflow:auto;background:rgba(0,0,0,0.9);color:#0f0;font-family:monospace;font-size:11px;padding:10px;z-index:9999;';
+            document.body.appendChild(logDiv);
+
+            const addLog = (type, ...args) => {
+                const line = document.createElement('div');
+                line.style.color = type === 'error' ? '#f00' : type === 'warn' ? '#fa0' : '#0f0';
+                line.textContent = `[${type}] ${args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ')}`;
+                logDiv.appendChild(line);
+                logDiv.scrollTop = logDiv.scrollHeight;
+            };
+
+            const originalLog = console.log;
+            const originalError = console.error;
+            const originalWarn = console.warn;
+
+            console.log = (...args) => { originalLog(...args); addLog('log', ...args); };
+            console.error = (...args) => { originalError(...args); addLog('error', ...args); };
+            console.warn = (...args) => { originalWarn(...args); addLog('warn', ...args); };
+
+            window.onerror = (msg, url, line, col, error) => {
+                addLog('error', `${msg} at ${url}:${line}:${col}`);
                 return false;
             };
-            window.addEventListener('unhandledrejection', function (event) {
-                document.getElementById('loadingMsg').textContent = 'Error Loading App:';
-                document.getElementById('errorLog').textContent += `\nPromise Rejection: ${event.reason}`;
+            window.addEventListener('unhandledrejection', (event) => {
+                addLog('error', `Promise Rejection: ${event.reason}`);
             });
         </script>
 
