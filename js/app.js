@@ -2,6 +2,7 @@ import { renderDashboard, renderDebts, renderHistory, showPayModal, renderUserSe
 import { checkDueDates } from './notifications.js';
 
 const init = () => {
+    console.log("App init started");
     // Initial Render
     renderUserSelector();
     renderDashboard();
