@@ -1,15 +1,4 @@
 import { db } from './firebase-config.js';
-import {
-    collection,
-    addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
-    onSnapshot,
-    query,
-    getDocs,
-    writeBatch
-} from "firebase/firestore";
 import { initialData } from './initialData.js';
 
 const STORAGE_KEY = 'debt_tracker_data_v13';
@@ -32,8 +21,7 @@ export class Store {
         // 1. Setup Real-time Listeners
         this.setupListeners();
 
-        // 2. Check for Migration (only if we haven't initialized before)
-        // We wait a bit for the first snapshot to arrive
+        // 2. Check for Migration
         setTimeout(async () => {
             if (this.data.people.length === 0) {
                 await this.migrateData();
@@ -43,20 +31,20 @@ export class Store {
 
     setupListeners() {
         // Users
-        onSnapshot(collection(db, 'users'), (snapshot) => {
+        db.collection('users').onSnapshot((snapshot) => {
             this.data.people = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.setDefaultUser();
             this.notifyListeners();
         });
 
         // Debts
-        onSnapshot(collection(db, 'debts'), (snapshot) => {
+        db.collection('debts').onSnapshot((snapshot) => {
             this.data.debts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.notifyListeners();
         });
 
         // Payments
-        onSnapshot(collection(db, 'payments'), (snapshot) => {
+        db.collection('payments').onSnapshot((snapshot) => {
             this.data.payments = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.notifyListeners();
         });
@@ -70,12 +58,11 @@ export class Store {
 
     async migrateData() {
         console.log("Checking migration...");
-        const usersSnap = await getDocs(collection(db, 'users'));
+        const usersSnap = await db.collection('users').get();
         if (!usersSnap.empty) return; // Already has data
 
         console.log("Migrating initial data to Firestore...");
 
-        // Prefer localStorage data if available (it might have user edits)
         let sourceData = initialData;
         const local = localStorage.getItem(STORAGE_KEY);
         if (local) {
@@ -90,18 +77,17 @@ export class Store {
             }
         }
 
-        const batch = writeBatch(db);
+        const batch = db.batch();
 
         // Upload People
-        // We use the ID from source as the Doc ID to maintain relationships
         for (const p of sourceData.people) {
-            const ref = doc(db, 'users', p.id);
+            const ref = db.collection('users').doc(p.id);
             batch.set(ref, { name: p.name, isDefault: p.isDefault || false });
         }
 
         // Upload Debts
         for (const d of sourceData.debts) {
-            const ref = doc(db, 'debts', d.id);
+            const ref = db.collection('debts').doc(d.id);
             batch.set(ref, {
                 name: d.name,
                 balance: d.balance,
@@ -113,7 +99,7 @@ export class Store {
 
         // Upload Payments
         for (const p of sourceData.payments) {
-            const ref = doc(db, 'payments', p.id);
+            const ref = db.collection('payments').doc(p.id);
             batch.set(ref, {
                 debtId: p.debtId,
                 amount: p.amount,
@@ -129,7 +115,6 @@ export class Store {
     // --- Subscription ---
     subscribe(listener) {
         this.listeners.push(listener);
-        // Call immediately with current state
         listener();
         return () => {
             this.listeners = this.listeners.filter(l => l !== listener);
@@ -155,7 +140,7 @@ export class Store {
     }
 
     async addPerson(name) {
-        await addDoc(collection(db, 'users'), { name, isDefault: false });
+        await db.collection('users').add({ name, isDefault: false });
     }
 
     // --- Debts ---
@@ -165,15 +150,15 @@ export class Store {
     }
 
     async addDebt(debt) {
-        await addDoc(collection(db, 'debts'), debt);
+        await db.collection('debts').add(debt);
     }
 
     async updateDebt(id, updates) {
-        await updateDoc(doc(db, 'debts', id), updates);
+        await db.collection('debts').doc(id).update(updates);
     }
 
     async deleteDebt(id) {
-        await deleteDoc(doc(db, 'debts', id));
+        await db.collection('debts').doc(id).delete();
     }
 
     // --- Payments ---
@@ -182,9 +167,8 @@ export class Store {
     }
 
     async addPayment(payment) {
-        await addDoc(collection(db, 'payments'), payment);
+        await db.collection('payments').add(payment);
 
-        // Update debt balance
         const debt = this.data.debts.find(d => d.id === payment.debtId);
         if (debt) {
             const newBalance = parseFloat(debt.balance) - parseFloat(payment.amount);

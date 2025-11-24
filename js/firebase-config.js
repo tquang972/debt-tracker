@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+// Initialize Firebase (Compat)
+// firebase is available globally from the script tag
 
 const firebaseConfig = {
     apiKey: "AIzaSyCfsNlaVRn0SG-lShPngu37D6AKEXVebb8",
@@ -11,6 +11,5 @@ const firebaseConfig = {
     measurementId: "G-812W9QY820"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+export const db = firebase.firestore();
