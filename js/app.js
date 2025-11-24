@@ -22,13 +22,17 @@ const init = () => {
         });
     });
 
-    // Global Event Delegation for dynamic buttons
-    document.addEventListener('click', (e) => {
+    // Global Event Delegation for dynamic buttons (both click and touch)
+    const handlePayButton = (e) => {
         if (e.target.classList.contains('pay-btn')) {
+            e.preventDefault(); // Prevent double-firing
             const debtId = e.target.dataset.id;
             showPayModal(debtId);
         }
-    });
+    };
+
+    document.addEventListener('click', handlePayButton);
+    document.addEventListener('touchend', handlePayButton);
 
     // Check notifications
     checkDueDates();

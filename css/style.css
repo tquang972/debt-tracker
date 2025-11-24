@@ -188,6 +188,19 @@
     margin: 0;
 }
 
+.btn,
+.btn-sm,
+.btn-icon,
+.btn-secondary {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
 .btn-secondary {
     background: transparent;
     border: 1px solid var(--border);
