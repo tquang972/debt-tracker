@@ -23,16 +23,19 @@ const init = () => {
     });
 
     // Global Event Delegation for dynamic buttons (both click and touch)
+    // Global Event Delegation for dynamic buttons
     const handlePayButton = (e) => {
-        if (e.target.classList.contains('pay-btn')) {
-            e.preventDefault(); // Prevent double-firing
-            const debtId = e.target.dataset.id;
+        const btn = e.target.closest('.pay-btn');
+        if (btn) {
+            e.preventDefault();
+            const debtId = btn.dataset.id;
             showPayModal(debtId);
         }
     };
 
     document.addEventListener('click', handlePayButton);
-    document.addEventListener('touchend', handlePayButton);
+    // Removed touchend listener as it can conflict with scrolling and standard click behavior
+    // Relied on touch-action: manipulation in CSS for fast clicks
 
     // Check notifications
     checkDueDates();

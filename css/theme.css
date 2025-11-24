@@ -108,6 +108,8 @@ body {
     gap: 4px;
     cursor: pointer;
     transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .nav-item.active {
