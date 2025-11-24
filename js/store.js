@@ -5,6 +5,7 @@ const STORAGE_KEY = 'debt_tracker_data_v13';
 
 export class Store {
     constructor() {
+        console.log("[Store] Constructor called");
         this.data = {
             people: [],
             debts: [],
@@ -18,20 +19,27 @@ export class Store {
     }
 
     async init() {
+        console.log("[Store] Init started");
         // 1. Setup Real-time Listeners
         this.setupListeners();
+        console.log("[Store] Listeners setup complete");
 
         // 2. Check for Migration
         setTimeout(async () => {
+            console.log("[Store] Migration check - people.length:", this.data.people.length);
             if (this.data.people.length === 0) {
                 await this.migrateData();
+            } else {
+                console.log("[Store] Data already exists, skipping migration");
             }
         }, 2000);
     }
 
     setupListeners() {
+        console.log("[Store] Setting up Firestore listeners");
         // Users
         db.collection('users').onSnapshot((snapshot) => {
+            console.log("[Store] Users snapshot received:", snapshot.docs.length, "users");
             this.data.people = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.setDefaultUser();
             this.notifyListeners();
@@ -39,12 +47,14 @@ export class Store {
 
         // Debts
         db.collection('debts').onSnapshot((snapshot) => {
+            console.log("[Store] Debts snapshot received:", snapshot.docs.length, "debts");
             this.data.debts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.notifyListeners();
         });
 
         // Payments
         db.collection('payments').onSnapshot((snapshot) => {
+            console.log("[Store] Payments snapshot received:", snapshot.docs.length, "payments");
             this.data.payments = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.notifyListeners();
         });
@@ -114,6 +124,7 @@ export class Store {
 
     // --- Subscription ---
     subscribe(listener) {
+        console.log("[Store] Subscriber added, total:", this.listeners.length + 1);
         this.listeners.push(listener);
         listener();
         return () => {
@@ -122,6 +133,7 @@ export class Store {
     }
 
     notifyListeners() {
+        console.log("[Store] Notifying", this.listeners.length, "listeners");
         this.listeners.forEach(l => l());
     }
 
