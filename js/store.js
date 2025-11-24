@@ -187,6 +187,48 @@ export class Store {
             await this.updateDebt(debt.id, { balance: newBalance });
         }
     }
+
+    async deletePayment(paymentId) {
+        const paymentRef = db.collection('payments').doc(paymentId);
+        const paymentDoc = await paymentRef.get();
+
+        if (!paymentDoc.exists) {
+            console.error("Payment not found");
+            return;
+        }
+
+        const payment = paymentDoc.data();
+
+        // Revert debt balance
+        const debt = this.data.debts.find(d => d.id === payment.debtId);
+        if (debt) {
+            const newBalance = parseFloat(debt.balance) + parseFloat(payment.amount);
+            await this.updateDebt(debt.id, { balance: newBalance });
+        }
+
+        await paymentRef.delete();
+    }
+
+    async updatePayment(paymentId, newData) {
+        const paymentRef = db.collection('payments').doc(paymentId);
+        const paymentDoc = await paymentRef.get();
+
+        if (!paymentDoc.exists) return;
+
+        const oldPayment = paymentDoc.data();
+
+        // Update debt balance if amount changed
+        if (newData.amount && newData.amount !== oldPayment.amount) {
+            const debt = this.data.debts.find(d => d.id === oldPayment.debtId);
+            if (debt) {
+                const diff = parseFloat(newData.amount) - parseFloat(oldPayment.amount);
+                const newBalance = parseFloat(debt.balance) - diff;
+                await this.updateDebt(debt.id, { balance: newBalance });
+            }
+        }
+
+        await paymentRef.update(newData);
+    }
 }
 
 export const store = new Store();

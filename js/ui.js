@@ -121,6 +121,22 @@ export const renderDebts = () => {
     `;
 
     document.getElementById('addDebtBtn').addEventListener('click', showAddDebtModal);
+
+    document.querySelectorAll('.pay-btn').forEach(btn => {
+        btn.addEventListener('click', () => showPayModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.edit-debt-btn').forEach(btn => {
+        btn.addEventListener('click', () => showEditDebtModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-debt-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            if (confirm('Delete this debt?')) {
+                await store.deleteDebt(btn.dataset.id);
+            }
+        });
+    });
 };
 
 export const renderHistory = () => {
@@ -155,14 +171,33 @@ export const renderHistory = () => {
                         <span class="history-date">${formatDate(pay.date)}</span>
                         ${pay.note ? `<span class="history-note">${pay.note}</span>` : ''}
                     </div>
-                    <div class="history-amount success">
-                        -${formatCurrency(pay.amount)}
+                    <div class="history-right">
+                        <div class="history-amount success">
+                            -${formatCurrency(pay.amount)}
+                        </div>
+                        <div class="history-actions">
+                            <button class="btn-icon-sm edit-pay-btn" data-id="${pay.id}">✏️</button>
+                            <button class="btn-icon-sm delete-pay-btn" data-id="${pay.id}">🗑️</button>
+                        </div>
                     </div>
                 </div>
             `;
     }).join('')}
         </div>
     `;
+
+    document.querySelectorAll('.edit-pay-btn').forEach(btn => {
+        btn.addEventListener('click', () => showEditPaymentModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-pay-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            if (confirm('Delete this payment? The amount will be added back to the debt balance.')) {
+                await store.deletePayment(btn.dataset.id);
+                // UI update handled by listener
+            }
+        });
+    });
 };
 
 const createDebtItem = (debt) => {
@@ -177,7 +212,11 @@ const createDebtItem = (debt) => {
             </div>
             <div class="debt-actions">
                 <div class="debt-balance">${formatCurrency(debt.balance)}</div>
-                <button class="btn-sm pay-btn" data-id="${debt.id}">Pay</button>
+                <div class="debt-buttons">
+                    <button class="btn-sm pay-btn" data-id="${debt.id}">Pay</button>
+                    <button class="btn-icon-sm edit-debt-btn" data-id="${debt.id}">✏️</button>
+                    <button class="btn-icon-sm delete-debt-btn" data-id="${debt.id}">🗑️</button>
+                </div>
             </div>
         </div>
     `;
@@ -304,5 +343,100 @@ export const showPayModal = (debtId) => {
             if (activeTab === 'dashboard') renderDashboard();
             else renderDebts();
         }, 250);
+    });
+};
+
+export const showEditPaymentModal = (paymentId) => {
+    const payment = store.getPayments().find(p => p.id === paymentId);
+    if (!payment) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal card">
+            <h3>Edit Payment</h3>
+            <form id="editPaymentForm">
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" name="amount" step="0.01" value="${payment.amount}" required>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" name="date" value="${payment.date}" required>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <input type="text" name="note" value="${payment.note || ''}" placeholder="Optional note">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelEditPayBtn">Cancel</button>
+                    <button type="submit" class="btn">Update</button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById('cancelEditPayBtn').addEventListener('click', () => modal.remove());
+    document.getElementById('editPaymentForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        await store.updatePayment(paymentId, {
+            amount: formData.get('amount'),
+            date: formData.get('date'),
+            note: formData.get('note')
+        });
+        modal.remove();
+        store.notifyListeners();
+    });
+};
+
+export const showEditDebtModal = (debtId) => {
+    const debt = store.getDebts('all').find(d => d.id === debtId);
+    if (!debt) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal card">
+            <h3>Edit Debt</h3>
+            <form id="editDebtForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" value="${debt.name}" required>
+                </div>
+                <div class="form-group">
+                    <label>Balance</label>
+                    <input type="number" name="balance" step="0.01" value="${debt.balance}" required>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" name="dueDate" value="${debt.dueDate}" required>
+                </div>
+                <div class="form-group">
+                    <label>Note</label>
+                    <input type="text" name="note" value="${debt.note || ''}" placeholder="Optional note">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelEditDebtBtn">Cancel</button>
+                    <button type="submit" class="btn">Update</button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById('cancelEditDebtBtn').addEventListener('click', () => modal.remove());
+    document.getElementById('editDebtForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        await store.updateDebt(debtId, {
+            name: formData.get('name'),
+            balance: formData.get('balance'),
+            dueDate: formData.get('dueDate'),
+            note: formData.get('note')
+        });
+        modal.remove();
+        store.notifyListeners();
     });
 };
