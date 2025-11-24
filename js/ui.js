@@ -262,12 +262,12 @@ export const showPayModal = (debtId) => {
     document.body.appendChild(modal);
 
     document.getElementById('cancelPayBtn').addEventListener('click', () => modal.remove());
-    document.getElementById('payForm').addEventListener('submit', (e) => {
+    document.getElementById('payForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
 
-        // 1. Record Payment
-        store.addPayment({
+        // 1. Record Payment (await to ensure Firestore update before UI refresh)
+        await store.addPayment({
             debtId: debtId,
             amount: formData.get('amount'),
             date: formData.get('date'),
@@ -283,7 +283,7 @@ export const showPayModal = (debtId) => {
             // Format as YYYY-MM-DD
             const nextDueDate = currentDueDate.toISOString().split('T')[0];
 
-            store.addDebt({
+            await store.addDebt({
                 name: debt.name,
                 balance: debt.balance, // Assuming same amount
                 dueDate: nextDueDate,
@@ -293,9 +293,13 @@ export const showPayModal = (debtId) => {
         }
 
         modal.remove();
-        // Refresh current view
-        const activeTab = document.querySelector('.nav-item.active').dataset.view;
-        if (activeTab === 'dashboard') renderDashboard();
-        else renderDebts();
+        // Notify listeners that data may have changed
+        store.notifyListeners();
+        // Give Firestore snapshot a moment to update before re-rendering
+        setTimeout(() => {
+            const activeTab = document.querySelector('.nav-item.active').dataset.view;
+            if (activeTab === 'dashboard') renderDashboard();
+            else renderDebts();
+        }, 250);
     });
 };
