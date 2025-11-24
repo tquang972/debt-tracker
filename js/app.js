@@ -1,6 +1,8 @@
+console.log("[App] Loading imports...");
 import { renderDashboard, renderDebts, renderHistory, showPayModal, renderUserSelector } from './ui.js';
 import { store } from './store.js';
 import { checkDueDates } from './notifications.js';
+console.log("[App] Imports loaded, store:", store);
 
 const init = () => {
     console.log("App init started");
