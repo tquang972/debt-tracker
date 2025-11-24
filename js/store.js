@@ -9,7 +9,7 @@ import {
     query,
     getDocs,
     writeBatch
-} from "https://esm.sh/firebase@10.7.1/firestore";
+} from "firebase/firestore";
 import { initialData } from './initialData.js';
 
 const STORAGE_KEY = 'debt_tracker_data_v13';
