@@ -1,4 +1,4 @@
-const CACHE_NAME = 'debt-tracker-v3';
+const CACHE_NAME = 'debt-tracker-v4';
 const ASSETS = [
     './',
     './index.html',
@@ -39,6 +39,11 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
+    // Bypass cache for HTML pages to ensure latest index.html and inline scripts
+    if (e.request.destination === 'document') {
+        e.respondWith(fetch(e.request));
+        return;
+    }
     e.respondWith(
         fetch(e.request).catch(() => caches.match(e.request))
     );
