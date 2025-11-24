@@ -291,7 +291,7 @@ export const showPayModal = (debtId) => {
                 balance: debt.balance, // Assuming same amount
                 dueDate: nextDueDate,
                 personId: debt.personId,
-                note: debt.note
+                note: debt.note || ''
             });
         }
 
