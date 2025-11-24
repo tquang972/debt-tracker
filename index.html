@@ -83,7 +83,13 @@
         function loadApp() {
             if (window.firebase && window.firebase.firestore) {
                 console.log("Firebase ready, loading app...");
-                import('./js/app.js').catch(e => console.error("Failed to load app:", e));
+                import('./js/app.js')
+                    .then(() => console.log("App loaded successfully"))
+                    .catch(e => {
+                        console.error("Failed to load app:", e);
+                        document.getElementById('loadingMsg').textContent = 'Error loading app.js';
+                        document.getElementById('errorLog').textContent = e.toString();
+                    });
             } else {
                 console.log("Waiting for Firebase...");
                 setTimeout(loadApp, 200);
