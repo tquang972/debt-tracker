@@ -37,10 +37,10 @@ export const initialData = {
     {
       "id": "d_3",
       "name": "Amex Gold",
-      "balance": 336.21,
+      "balance": 139.82,
       "dueDate": "2025-11-28",
       "personId": "dung",
-      "note": "Calculation: 336.21-142.14-3.68 -2.5-7.94-24.55-15.58=336.21"
+      "note": "Calculation: 336.21-142.14-3.68 -2.5-7.94-24.55-15.58=139.82"
     },
     {
       "id": "d_4",
@@ -292,11 +292,11 @@ export const initialData = {
     },
     {
       "id": "d_35",
-      "name": "Mom's BOA: $",
-      "balance": 8653.0,
+      "name": "Mom's BOA",
+      "balance": 8999.12,
       "dueDate": "2026-02-06",
       "personId": "quang",
-      "note": "Calculation:  =8,653"
+      "note": "Calculation:  =8,999.12"
     },
     {
       "id": "d_36",

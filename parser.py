@@ -36,27 +36,35 @@ def parse_debt_line(line, person_id, is_upcoming=True):
     # Extract everything before "due" as the name/amount section
     before_due = line[:due_match.start()].strip()
     
-    # Find the amount (last number before "due", may have $ or comma)
-    amount_match = re.search(r'([\d,]+\.?\d*)\s*(?:\(|on|$)', before_due[::-1])
-    if not amount_match:
-        # Try to find any number pattern
-        amount_match = re.search(r'\$?([\d,]+\.?\d+)', before_due)
-        if not amount_match:
+    # Check if there's a math expression (number = result)
+    if '=' in before_due:
+        # Extract the result after the = sign
+        math_match = re.search(r'=\s*([\d,]+\.?\d*)', before_due)
+        if math_match:
+            amount_str = math_match.group(1)
+            amount = float(amount_str.replace(',', ''))
+            # Name is everything before the math expression
+            name = before_due.split(':')[0].strip().lstrip('-').strip()
+        else:
             return None
-        amount_str = amount_match.group(1)
     else:
-        # Reverse it back
-        amount_str = amount_match.group(1)[::-1]
-    
-    amount = float(amount_str.replace(',', ''))
-    
-    # Name is everything before the amount
-    name_end = before_due.rfind(amount_str)
-    name = before_due[:name_end].strip().lstrip('-').strip().rstrip(':').rstrip('：').strip()
-    
-    # If name still has = in it (math expression), extract the actual name
-    if '=' in name:
-        name = name.split(':')[0].strip()
+        # Find the amount (last number before "due", may have $ or comma)
+        amount_match = re.search(r'([\d,]+\.?\d*)\s*(?:\(|on|$)', before_due[::-1])
+        if not amount_match:
+            # Try to find any number pattern
+            amount_match = re.search(r'\$?([\d,]+\.?\d+)', before_due)
+            if not amount_match:
+                return None
+            amount_str = amount_match.group(1)
+        else:
+            # Reverse it back
+            amount_str = amount_match.group(1)[::-1]
+        
+        amount = float(amount_str.replace(',', ''))
+        
+        # Name is everything before the amount
+        name_end = before_due.rfind(amount_str)
+        name = before_due[:name_end].strip().lstrip('-').strip().rstrip(':').rstrip('：').strip()
     
     # Convert date to YYYY-MM-DD format
     date_parts = due_date_str.split('/')
