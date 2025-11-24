@@ -39,12 +39,6 @@ export const renderUserSelector = () => {
 };
 
 export const renderDashboard = () => {
-    // Hide loading elements
-    const loadingMsg = document.getElementById('loadingMsg');
-    const errorLog = document.getElementById('errorLog');
-    if (loadingMsg) loadingMsg.style.display = 'none';
-    if (errorLog) errorLog.style.display = 'none';
-
     const debts = store.getDebts().filter(d => d.balance > 0); // Only show unpaid debts
     const totalDebt = debts.reduce((sum, d) => sum + parseFloat(d.balance), 0);
 

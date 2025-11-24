@@ -1,4 +1,5 @@
 import { renderDashboard, renderDebts, renderHistory, showPayModal, renderUserSelector } from './ui.js';
+import { store } from './store.js';
 import { checkDueDates } from './notifications.js';
 
 const init = () => {
