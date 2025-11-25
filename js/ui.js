@@ -374,7 +374,7 @@ export const showPayModal = (debtId) => {
         <div class="modal card">
             <h3>Make Payment</h3>
             <p>For: ${debt.name}</p>
-            <form id="payForm">
+            <form id="payForm" action="javascript:void(0)">
                 <div class="form-group">
                     <label>Amount</label>
                     <input type="number" name="amount" step="0.01" value="${debt.balance}" required>
