@@ -399,8 +399,8 @@ export const showPayModal = (debtId) => {
     `;
     document.body.appendChild(modal);
 
-    document.getElementById('cancelPayBtn').addEventListener('click', () => modal.remove());
-    document.getElementById('payForm').addEventListener('submit', async (e) => {
+    modal.querySelector('#cancelPayBtn').addEventListener('click', () => modal.remove());
+    modal.querySelector('#payForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
 
@@ -489,8 +489,8 @@ export const showEditPaymentModal = (paymentId) => {
     `;
     document.body.appendChild(modal);
 
-    document.getElementById('cancelEditPayBtn').addEventListener('click', () => modal.remove());
-    document.getElementById('editPaymentForm').addEventListener('submit', async (e) => {
+    modal.querySelector('#cancelEditPayBtn').addEventListener('click', () => modal.remove());
+    modal.querySelector('#editPaymentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         await store.updatePayment(paymentId, {
@@ -583,14 +583,14 @@ export const showDeletePaymentModal = (paymentId) => {
     `;
     document.body.appendChild(modal);
 
-    document.getElementById('cancelDeleteBtn').addEventListener('click', () => modal.remove());
+    modal.querySelector('#cancelDeleteBtn').addEventListener('click', () => modal.remove());
 
-    document.getElementById('restoreBtn').addEventListener('click', async () => {
+    modal.querySelector('#restoreBtn').addEventListener('click', async () => {
         await store.deletePayment(paymentId);
         modal.remove();
     });
 
-    document.getElementById('permanentDeleteBtn').addEventListener('click', async () => {
+    modal.querySelector('#permanentDeleteBtn').addEventListener('click', async () => {
         await store.permanentlyDeletePayment(paymentId);
         modal.remove();
     });
