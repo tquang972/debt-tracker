@@ -213,6 +213,7 @@ export const renderHistory = () => {
 };
 
 export const renderAnalytics = () => {
+    console.log('[Analytics] Rendering Analytics tab');
     const currentUserId = store.getCurrentUserId();
     const allPayments = store.getPayments();
     const debts = store.getDebts('all');
@@ -435,8 +436,11 @@ export const showPayModal = (debtId) => {
         store.notifyListeners();
         // Give Firestore snapshot a moment to update before re-rendering
         setTimeout(() => {
-            const activeTab = document.querySelector('.nav-item.active').dataset.view;
-            if (activeTab === 'dashboard') renderDashboard();
+            console.log('[App] Store subscription fired');
+            const activeTab = document.querySelector('.nav-item.active');
+            const view = activeTab ? activeTab.dataset.view : 'dashboard';
+            console.log('[App] Active view:', view);
+            if (view === 'dashboard') renderDashboard();
             else renderDebts();
         }, 250);
     });
