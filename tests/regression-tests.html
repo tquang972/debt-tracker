@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt Tracker - Regression Tests</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #0f0;
+        }
+
+        .test-suite {
+            margin: 20px 0;
+            border: 1px solid #333;
+            padding: 15px;
+        }
+
+        .test-case {
+            margin: 10px 0;
+            padding: 5px;
+        }
+
+        .pass {
+            color: #0f0;
+        }
+
+        .fail {
+            color: #f00;
+        }
+
+        .pending {
+            color: #fa0;
+        }
+
+        h1 {
+            color: #0ff;
+        }
+
+        h2 {
+            color: #0af;
+        }
+
+        .summary {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Debt Tracker Regression Tests</h1>
+    <div id="results"></div>
+    <div id="summary" class="summary"></div>
+
+    <script type="module">
+        import { store } from '../js/store.js';
+
+        const results = document.getElementById('results');
+        const summary = document.getElementById('summary');
+        let passCount = 0;
+        let failCount = 0;
+        let totalTests = 0;
+
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test-case ${type}`;
+            div.textContent = message;
+            results.appendChild(div);
+        }
+
+        function assert(condition, testName) {
+            totalTests++;
+            if (condition) {
+                passCount++;
+                log(`✓ ${testName}`, 'pass');
+            } else {
+                failCount++;
+                log(`✗ ${testName}`, 'fail');
+            }
+        }
+
+        function assertEquals(actual, expected, testName) {
+            assert(actual === expected, `${testName} (expected: ${expected}, got: ${actual})`);
+        }
+
+        async function runTests() {
+            log('Starting regression tests...', 'pending');
+
+            // Test Suite 1: Store Initialization
+            results.innerHTML += '<div class="test-suite"><h2>Store Initialization</h2></div>';
+
+            assert(store !== undefined, 'Store exists');
+            assert(typeof store.getDebts === 'function', 'Store has getDebts method');
+            assert(typeof store.getPayments === 'function', 'Store has getPayments method');
+            assert(typeof store.addDebt === 'function', 'Store has addDebt method');
+            assert(typeof store.addPayment === 'function', 'Store has addPayment method');
+            assert(typeof store.deleteDebt === 'function', 'Store has deleteDebt method');
+            assert(typeof store.deletePayment === 'function', 'Store has deletePayment method');
+            assert(typeof store.permanentlyDeletePayment === 'function', 'Store has permanentlyDeletePayment method');
+            assert(typeof store.updateDebt === 'function', 'Store has updateDebt method');
+            assert(typeof store.updatePayment === 'function', 'Store has updatePayment method');
+
+            // Test Suite 2: Data Filtering
+            results.innerHTML += '<div class="test-suite"><h2>Data Filtering</h2></div>';
+
+            const allDebts = store.getDebts('all');
+            const activeDebts = store.getDebts();
+            assert(Array.isArray(allDebts), 'getDebts("all") returns array');
+            assert(Array.isArray(activeDebts), 'getDebts() returns array');
+
+            // Check that active debts filter works (balance >= 0.01)
+            const hasLowBalance = activeDebts.some(d => d.balance < 0.01);
+            assert(!hasLowBalance, 'Active debts filter excludes balances < 0.01');
+
+            // Test Suite 3: Payment Operations
+            results.innerHTML += '<div class="test-suite"><h2>Payment Operations</h2></div>';
+
+            const payments = store.getPayments();
+            assert(Array.isArray(payments), 'getPayments returns array');
+
+            // Check payment sorting (newest first)
+            if (payments.length > 1) {
+                const isSorted = payments.every((pay, i) => {
+                    if (i === 0) return true;
+                    return new Date(payments[i - 1].date) >= new Date(pay.date);
+                });
+                assert(isSorted, 'Payments are sorted by date (newest first)');
+            }
+
+            // Test Suite 4: User Management
+            results.innerHTML += '<div class="test-suite"><h2>User Management</h2></div>';
+
+            const currentUserId = store.getCurrentUserId();
+            assert(currentUserId !== null && currentUserId !== undefined, 'Current user ID exists');
+
+            const people = store.data.people;
+            assert(Array.isArray(people), 'People array exists');
+            assert(people.length > 0, 'At least one person exists');
+
+            // Test Suite 5: Balance Calculations
+            results.innerHTML += '<div class="test-suite"><h2>Balance Calculations</h2></div>';
+
+            // Verify all debts have numeric balances
+            const allBalancesNumeric = allDebts.every(d => typeof parseFloat(d.balance) === 'number');
+            assert(allBalancesNumeric, 'All debt balances are numeric');
+
+            // Verify balances are non-negative
+            const allBalancesNonNegative = allDebts.every(d => parseFloat(d.balance) >= 0);
+            assert(allBalancesNonNegative, 'All debt balances are non-negative');
+
+            // Test Suite 6: Date Handling
+            results.innerHTML += '<div class="test-suite"><h2>Date Handling</h2></div>';
+
+            // Verify all debts have valid due dates
+            const allDatesValid = allDebts.every(d => {
+                const date = new Date(d.dueDate);
+                return !isNaN(date.getTime());
+            });
+            assert(allDatesValid, 'All debt due dates are valid');
+
+            // Verify all payments have valid dates
+            const allPaymentDatesValid = payments.every(p => {
+                const date = new Date(p.date);
+                return !isNaN(date.getTime());
+            });
+            assert(allPaymentDatesValid, 'All payment dates are valid');
+
+            // Test Suite 7: Data Integrity
+            results.innerHTML += '<div class="test-suite"><h2>Data Integrity</h2></div>';
+
+            // Verify all debts have required fields
+            const allDebtsHaveRequiredFields = allDebts.every(d =>
+                d.id && d.name && d.balance !== undefined && d.dueDate && d.personId
+            );
+            assert(allDebtsHaveRequiredFields, 'All debts have required fields (id, name, balance, dueDate, personId)');
+
+            // Verify all payments have required fields
+            const allPaymentsHaveRequiredFields = payments.every(p =>
+                p.id && p.debtId && p.amount !== undefined && p.date
+            );
+            assert(allPaymentsHaveRequiredFields, 'All payments have required fields (id, debtId, amount, date)');
+
+            // Verify all payments reference valid debts
+            const allPaymentsReferenceValidDebts = payments.every(p =>
+                allDebts.some(d => d.id === p.debtId)
+            );
+            assert(allPaymentsReferenceValidDebts, 'All payments reference valid debts');
+
+            // Display Summary
+            summary.innerHTML = `
+                <h2>Test Summary</h2>
+                <p>Total Tests: ${totalTests}</p>
+                <p class="pass">Passed: ${passCount}</p>
+                <p class="fail">Failed: ${failCount}</p>
+                <p>Success Rate: ${((passCount / totalTests) * 100).toFixed(1)}%</p>
+            `;
+
+            if (failCount === 0) {
+                log('\\n✓ All tests passed!', 'pass');
+            } else {
+                log(`\\n✗ ${failCount} test(s) failed`, 'fail');
+            }
+        }
+
+        // Wait for store to initialize
+        setTimeout(runTests, 2000);
+    </script>
+</body>
+
+</html>
