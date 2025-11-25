@@ -209,6 +209,11 @@ export class Store {
         await paymentRef.delete();
     }
 
+    async permanentlyDeletePayment(paymentId) {
+        // Delete payment without affecting debt balance
+        await db.collection('payments').doc(paymentId).delete();
+    }
+
     async updatePayment(paymentId, newData) {
         const paymentRef = db.collection('payments').doc(paymentId);
         const paymentDoc = await paymentRef.get();

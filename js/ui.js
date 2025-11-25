@@ -208,12 +208,7 @@ export const renderHistory = () => {
     });
 
     document.querySelectorAll('.delete-pay-btn').forEach(btn => {
-        btn.addEventListener('click', async () => {
-            if (confirm('Delete this payment? The amount will be added back to the debt balance.')) {
-                await store.deletePayment(btn.dataset.id);
-                // UI update handled by listener
-            }
-        });
+        btn.addEventListener('click', () => showDeletePaymentModal(btn.dataset.id));
     });
 };
 
@@ -469,5 +464,47 @@ export const showEditDebtModal = (debtId) => {
         });
         modal.remove();
         store.notifyListeners();
+    });
+};
+
+export const showDeletePaymentModal = (paymentId) => {
+    const payment = store.getPayments().find(p => p.id === paymentId);
+    if (!payment) return;
+
+    const debt = store.getDebts('all').find(d => d.id === payment.debtId);
+    const debtName = debt ? debt.name : 'Unknown Debt';
+
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal card">
+            <h3>Delete Payment</h3>
+            <p>Payment: <strong>${formatCurrency(payment.amount)}</strong> for <strong>${debtName}</strong></p>
+            <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">Choose how to delete this payment:</p>
+            <div class="form-actions" style="margin-top: 1.5rem; flex-direction: column; gap: 0.75rem;">
+                <button type="button" class="btn" id="restoreBtn" style="width: 100%;">
+                    Restore to Upcoming
+                    <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 0.25rem;">Add ${formatCurrency(payment.amount)} back to debt balance</div>
+                </button>
+                <button type="button" class="btn-secondary" id="permanentDeleteBtn" style="width: 100%; color: var(--danger);">
+                    Permanently Delete
+                    <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 0.25rem;">Remove payment without changing balance</div>
+                </button>
+                <button type="button" class="btn-secondary" id="cancelDeleteBtn" style="width: 100%;">Cancel</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById('cancelDeleteBtn').addEventListener('click', () => modal.remove());
+
+    document.getElementById('restoreBtn').addEventListener('click', async () => {
+        await store.deletePayment(paymentId);
+        modal.remove();
+    });
+
+    document.getElementById('permanentDeleteBtn').addEventListener('click', async () => {
+        await store.permanentlyDeletePayment(paymentId);
+        modal.remove();
     });
 };
