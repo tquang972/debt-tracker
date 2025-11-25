@@ -11,10 +11,23 @@ const firebaseConfig = {
     measurementId: "G-812W9QY820"
 };
 
-if (!window.firebase) {
+if (typeof window === 'undefined' && !globalThis.firebase) {
+    // Provide a minimal mock for Node environment
+    globalThis.firebase = {
+        initializeApp: () => { },
+        firestore: () => ({
+            collection: () => ({
+                add: async (doc) => ({ id: 'mockId', ...doc }),
+                get: async () => ({ exists: true, data: () => ({}) })
+            })
+        })
+    };
+}
+
+if (!globalThis.firebase) {
     console.error("Firebase global not found! Check script tags.");
     throw new Error("Firebase not loaded");
 }
 
-window.firebase.initializeApp(firebaseConfig);
-export const db = window.firebase.firestore();
+globalThis.firebase.initializeApp(firebaseConfig);
+export const db = globalThis.firebase.firestore();

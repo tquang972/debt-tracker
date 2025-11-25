@@ -213,7 +213,6 @@ export const renderHistory = () => {
 };
 
 export const renderAnalytics = () => {
-    console.log('[Analytics] Rendering Analytics tab');
     const currentUserId = store.getCurrentUserId();
     const allPayments = store.getPayments();
     const debts = store.getDebts('all');

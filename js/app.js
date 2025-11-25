@@ -47,10 +47,8 @@ const init = () => {
 
     // Subscribe to Store Updates (Real-time Sync)
     store.subscribe(() => {
-        console.log('[App] Store subscription fired');
         const activeTab = document.querySelector('.nav-item.active');
         const view = activeTab ? activeTab.dataset.view : 'dashboard';
-        console.log('[App] Active view:', view);
 
         if (view === 'dashboard') renderDashboard();
         if (view === 'debts') renderDebts();

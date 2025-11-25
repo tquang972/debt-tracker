@@ -11,10 +11,15 @@ export class Store {
             debts: [],
             payments: []
         };
+        this.db = db;
         this.currentUserId = 'me';
         this.listeners = [];
         this.initialized = false;
-
+        if (globalThis.__TEST__) {
+            console.log('[Store] Test mode - skipping init');
+            this.initialized = true;
+            return;
+        }
         this.init();
     }
 
@@ -38,7 +43,7 @@ export class Store {
     setupListeners() {
         console.log("[Store] Setting up Firestore listeners");
         // Users
-        db.collection('users').onSnapshot((snapshot) => {
+        this.db.collection('users').onSnapshot((snapshot) => {
             console.log("[Store] Users snapshot received:", snapshot.docs.length, "users");
             this.data.people = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.setDefaultUser();
@@ -46,14 +51,14 @@ export class Store {
         });
 
         // Debts
-        db.collection('debts').onSnapshot((snapshot) => {
+        this.db.collection('debts').onSnapshot((snapshot) => {
             console.log("[Store] Debts snapshot received:", snapshot.docs.length, "debts");
             this.data.debts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.notifyListeners();
         });
 
         // Payments
-        db.collection('payments').onSnapshot((snapshot) => {
+        this.db.collection('payments').onSnapshot((snapshot) => {
             console.log("[Store] Payments snapshot received:", snapshot.docs.length, "payments");
             this.data.payments = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.notifyListeners();
@@ -68,7 +73,7 @@ export class Store {
 
     async migrateData() {
         console.log("Checking migration...");
-        const usersSnap = await db.collection('users').get();
+        const usersSnap = await this.db.collection('users').get();
         if (!usersSnap.empty) return; // Already has data
 
         console.log("Migrating initial data to Firestore...");
@@ -87,17 +92,17 @@ export class Store {
             }
         }
 
-        const batch = db.batch();
+        const batch = this.db.batch();
 
         // Upload People
         for (const p of sourceData.people) {
-            const ref = db.collection('users').doc(p.id);
+            const ref = this.db.collection('users').doc(p.id);
             batch.set(ref, { name: p.name, isDefault: p.isDefault || false });
         }
 
         // Upload Debts
         for (const d of sourceData.debts) {
-            const ref = db.collection('debts').doc(d.id);
+            const ref = this.db.collection('debts').doc(d.id);
             batch.set(ref, {
                 name: d.name,
                 balance: d.balance,
@@ -109,7 +114,7 @@ export class Store {
 
         // Upload Payments
         for (const p of sourceData.payments) {
-            const ref = db.collection('payments').doc(p.id);
+            const ref = this.db.collection('payments').doc(p.id);
             batch.set(ref, {
                 debtId: p.debtId,
                 amount: p.amount,
@@ -152,7 +157,7 @@ export class Store {
     }
 
     async addPerson(name) {
-        await db.collection('users').add({ name, isDefault: false });
+        await this.db.collection('users').add({ name, isDefault: false });
     }
 
     // --- Debts ---
@@ -162,15 +167,15 @@ export class Store {
     }
 
     async addDebt(debt) {
-        await db.collection('debts').add(debt);
+        await this.db.collection('debts').add(debt);
     }
 
     async updateDebt(id, updates) {
-        await db.collection('debts').doc(id).update(updates);
+        await this.db.collection('debts').doc(id).update(updates);
     }
 
     async deleteDebt(id) {
-        await db.collection('debts').doc(id).delete();
+        await this.db.collection('debts').doc(id).delete();
     }
 
     // --- Payments ---
@@ -179,7 +184,7 @@ export class Store {
     }
 
     async addPayment(payment) {
-        await db.collection('payments').add(payment);
+        await this.db.collection('payments').add(payment);
 
         const debt = this.data.debts.find(d => d.id === payment.debtId);
         if (debt) {
@@ -189,7 +194,7 @@ export class Store {
     }
 
     async deletePayment(paymentId) {
-        const paymentRef = db.collection('payments').doc(paymentId);
+        const paymentRef = this.db.collection('payments').doc(paymentId);
         const paymentDoc = await paymentRef.get();
 
         if (!paymentDoc.exists) {
@@ -211,11 +216,11 @@ export class Store {
 
     async permanentlyDeletePayment(paymentId) {
         // Delete payment without affecting debt balance
-        await db.collection('payments').doc(paymentId).delete();
+        await this.db.collection('payments').doc(paymentId).delete();
     }
 
     async updatePayment(paymentId, newData) {
-        const paymentRef = db.collection('payments').doc(paymentId);
+        const paymentRef = this.db.collection('payments').doc(paymentId);
         const paymentDoc = await paymentRef.get();
 
         if (!paymentDoc.exists) return;
