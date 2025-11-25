@@ -39,7 +39,7 @@ export const renderUserSelector = () => {
 };
 
 export const renderDashboard = () => {
-    const debts = store.getDebts().filter(d => d.balance > 0); // Only show unpaid debts
+    const debts = store.getDebts().filter(d => d.balance >= 0.01); // Only show unpaid debts (threshold for floating-point precision)
     const totalDebt = debts.reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     // Forecasting
@@ -122,7 +122,7 @@ export const renderDebts = () => {
     if (loadingMsg) loadingMsg.style.display = 'none';
     if (errorLog) errorLog.style.display = 'none';
 
-    const debts = store.getDebts().filter(d => d.balance > 0);
+    const debts = store.getDebts().filter(d => d.balance >= 0.01);
     console.log("[UI] renderDebts called");
     console.log("[UI] Current User ID:", store.getCurrentUserId());
     console.log("[UI] Debts found:", debts.length, debts);

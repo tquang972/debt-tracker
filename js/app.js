@@ -53,6 +53,7 @@ const init = () => {
         if (view === 'dashboard') renderDashboard();
         if (view === 'debts') renderDebts();
         if (view === 'history') renderHistory();
+        if (view === 'analytics') renderAnalytics();
 
         // Also update user selector if people list changes
         renderUserSelector();
