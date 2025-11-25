@@ -212,6 +212,90 @@ export const renderHistory = () => {
     });
 };
 
+export const renderAnalytics = () => {
+    const currentUserId = store.getCurrentUserId();
+    const allPayments = store.getPayments();
+    const debts = store.getDebts('all');
+
+    // Filter payments for current user
+    const payments = allPayments.filter(pay => {
+        const debt = debts.find(d => d.id === pay.debtId);
+        return debt && debt.personId === currentUserId;
+    });
+
+    // Group payments by year and month
+    const dataByYear = {};
+    payments.forEach(payment => {
+        const date = new Date(payment.date);
+        const year = date.getFullYear();
+        const month = date.toLocaleString('default', { month: 'short' });
+
+        if (!dataByYear[year]) dataByYear[year] = {};
+        if (!dataByYear[year][month]) {
+            dataByYear[year][month] = { total: 0, count: 0 };
+        }
+
+        dataByYear[year][month].total += parseFloat(payment.amount);
+        dataByYear[year][month].count += 1;
+    });
+
+    // Sort years descending
+    const years = Object.keys(dataByYear).sort((a, b) => b - a);
+
+    // Find max value for bar scaling
+    let maxMonthTotal = 0;
+    years.forEach(year => {
+        Object.values(dataByYear[year]).forEach(data => {
+            if (data.total > maxMonthTotal) maxMonthTotal = data.total;
+        });
+    });
+
+    const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    mainContent.innerHTML = `
+        <div class="section-header">
+            <h3>Analytics</h3>
+        </div>
+        <div class="analytics-container">
+            ${years.map(year => {
+        const yearTotal = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.total, 0);
+        const yearCount = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.count, 0);
+
+        return `
+                    <div class="analytics-year-section">
+                        <div class="analytics-year-header">
+                            <span class="analytics-year">${year}</span>
+                            <span class="analytics-year-total">Total: ${formatCurrency(yearTotal)}</span>
+                        </div>
+                        <div class="analytics-months">
+                            ${monthOrder.map(month => {
+            const data = dataByYear[year][month];
+            if (!data) return '';
+
+            const barWidth = (data.total / maxMonthTotal * 100).toFixed(1);
+
+            return `
+                                    <div class="analytics-month-row">
+                                        <div class="analytics-month-label">${month}</div>
+                                        <div class="analytics-bar-container">
+                                            <div class="analytics-bar" style="width: ${barWidth}%"></div>
+                                        </div>
+                                        <div class="analytics-month-details">
+                                            <span class="analytics-amount">${formatCurrency(data.total)}</span>
+                                            <span class="analytics-count">(${data.count})</span>
+                                        </div>
+                                    </div>
+                                `;
+        }).join('')}
+                        </div>
+                    </div>
+                `;
+    }).join('')}
+            ${years.length === 0 ? '<p class="empty-state">No payment data available.</p>' : ''}
+        </div>
+    `;
+};
+
 const createDebtItem = (debt) => {
     return `
         <div class="card debt-item">
