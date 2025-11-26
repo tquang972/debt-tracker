@@ -220,7 +220,7 @@ export const renderAnalytics = () => {
         return debt && debt.personId === currentUserId;
     });
 
-    // Group payments by year and month
+    // 1. Calculate Actual Payments (Group by Year/Month)
     const dataByYear = {};
     payments.forEach(payment => {
         const date = new Date(payment.date);
@@ -229,7 +229,7 @@ export const renderAnalytics = () => {
 
         if (!dataByYear[year]) dataByYear[year] = {};
         if (!dataByYear[year][month]) {
-            dataByYear[year][month] = { total: 0, count: 0, payments: [] };
+            dataByYear[year][month] = { total: 0, count: 0, payments: [], expected: 0 };
         }
 
         dataByYear[year][month].total += parseFloat(payment.amount);
@@ -243,70 +243,107 @@ export const renderAnalytics = () => {
         });
     });
 
+    // 2. Calculate Expected Payments (based on Debts)
+    // Expected = Current Balance + All Payments made to that debt
+    const userDebts = debts.filter(d => d.personId === currentUserId);
+    userDebts.forEach(debt => {
+        const date = new Date(debt.dueDate);
+        const year = date.getFullYear();
+        const month = date.toLocaleString('default', { month: 'short' });
+
+        // Calculate total original value of the debt
+        const debtPayments = allPayments.filter(p => p.debtId === debt.id);
+        const totalPaid = debtPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const originalAmount = parseFloat(debt.balance) + totalPaid;
+
+        // Initialize structure if it doesn't exist (e.g. no payments made yet)
+        if (!dataByYear[year]) dataByYear[year] = {};
+        if (!dataByYear[year][month]) {
+            dataByYear[year][month] = { total: 0, count: 0, payments: [], expected: 0 };
+        }
+
+        dataByYear[year][month].expected += originalAmount;
+    });
+
     // Sort years descending
     const years = Object.keys(dataByYear).sort((a, b) => b - a);
 
-    // Find max value for bar scaling
+    // Find max value for bar scaling (use max of Total OR Expected)
     let maxMonthTotal = 0;
     years.forEach(year => {
         Object.values(dataByYear[year]).forEach(data => {
-            if (data.total > maxMonthTotal) maxMonthTotal = data.total;
+            const maxVal = Math.max(data.total, data.expected);
+            if (maxVal > maxMonthTotal) maxMonthTotal = maxVal;
         });
     });
 
     const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     mainContent.innerHTML = `
-        <div class="section-header">
+        <header class="section-header">
             <h3>Analytics</h3>
-        </div>
+        </header>
         <div class="analytics-container">
             ${years.map(year => {
         const yearTotal = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.total, 0);
+        const yearExpected = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.expected, 0);
 
         return `
-                    <div class="analytics-year-section">
-                        <div class="analytics-year-header">
-                            <span class="analytics-year">${year}</span>
-                            <span class="analytics-year-total">Total: ${formatCurrency(yearTotal)}</span>
-                        </div>
-                        <div class="analytics-months">
+                    <section class="analytics-year">
+                        <header class="analytics-year__header">
+                            <span class="analytics-year__label">${year}</span>
+                            <div class="analytics-year__totals">
+                                <span class="analytics-year__total">Paid: ${formatCurrency(yearTotal)}</span>
+                                <span class="analytics-year__expected">Exp: ${formatCurrency(yearExpected)}</span>
+                            </div>
+                        </header>
+                        <div class="analytics-year__months">
                             ${monthOrder.map(month => {
             const data = dataByYear[year][month];
             if (!data) return '';
 
             const barWidth = (data.total / maxMonthTotal * 100).toFixed(1);
+            const expectedWidth = (data.expected / maxMonthTotal * 100).toFixed(1);
             const monthId = `analytics-${year}-${month}`;
 
+            // Calculate progress percentage for color coding
+            const percentPaid = data.expected > 0 ? (data.total / data.expected * 100) : 0;
+            const progressClass = percentPaid >= 100 ? 'complete' : percentPaid >= 50 ? 'good' : 'pending';
+
             return `
-                                    <div class="analytics-month-wrapper">
-                                        <div class="analytics-month-row" onclick="document.getElementById('${monthId}').classList.toggle('visible'); this.classList.toggle('expanded');">
-                                            <div class="analytics-month-label">${month}</div>
-                                            <div class="analytics-bar-container">
-                                                <div class="analytics-bar" style="width: ${barWidth}%"></div>
+                                    <article class="analytics-month">
+                                        <div class="analytics-month__summary" onclick="document.getElementById('${monthId}').classList.toggle('visible'); this.parentElement.classList.toggle('expanded');">
+                                            <div class="analytics-month__label">${month}</div>
+                                            <div class="analytics-month__bar-container">
+                                                <!-- Expected Bar (Background) -->
+                                                <div class="analytics-month__bar analytics-month__bar--expected" style="width: ${expectedWidth}%"></div>
+                                                <!-- Actual Bar (Foreground) -->
+                                                <div class="analytics-month__bar analytics-month__bar--actual ${progressClass}" style="width: ${barWidth}%"></div>
                                             </div>
-                                            <div class="analytics-month-details">
-                                                <span class="analytics-amount">${formatCurrency(data.total)}</span>
-                                                <span class="analytics-count">(${data.count})</span>
-                                                <svg class="analytics-chevron" viewBox="0 0 24 24">
+                                            <div class="analytics-month__details">
+                                                <div class="analytics-month__amounts">
+                                                    <span class="analytics-month__amount">${formatCurrency(data.total)}</span>
+                                                    <span class="analytics-month__expected-amount">/ ${formatCurrency(data.expected)}</span>
+                                                </div>
+                                                <svg class="analytics-month__chevron" viewBox="0 0 24 24">
                                                     <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
                                                 </svg>
                                             </div>
                                         </div>
-                                        <div id="${monthId}" class="analytics-payment-list">
+                                        <ul id="${monthId}" class="analytics-payment-list">
                                             ${data.payments.sort((a, b) => new Date(b.date) - new Date(a.date)).map(pay => `
-                                                <div class="analytics-payment-item">
-                                                    <span class="analytics-payment-date">${formatDate(pay.date)}</span>
-                                                    <span class="analytics-payment-name">${pay.debtName}</span>
-                                                    <span class="analytics-payment-amount">${formatCurrency(pay.amount)}</span>
-                                                </div>
+                                                <li class="analytics-payment-item">
+                                                    <span class="analytics-payment-item__date">${formatDate(pay.date)}</span>
+                                                    <span class="analytics-payment-item__name">${pay.debtName}</span>
+                                                    <span class="analytics-payment-item__amount">${formatCurrency(pay.amount)}</span>
+                                                </li>
                                             `).join('')}
-                                        </div>
-                                    </div>
+                                        </ul>
+                                    </article>
                                 `;
         }).join('')}
                         </div>
-                    </div>
+                    </section>
                 `;
     }).join('')}
             ${years.length === 0 ? '<p class="empty-state">No payment data available.</p>' : ''}

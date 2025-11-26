@@ -270,14 +270,14 @@
     gap: 2rem;
 }
 
-.analytics-year-section {
+.analytics-year {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.5rem;
 }
 
-.analytics-year-header {
+.analytics-year__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -286,71 +286,37 @@
     border-bottom: 1px solid var(--border);
 }
 
-.analytics-year {
+.analytics-year__label {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-primary);
 }
 
-.analytics-year-total {
+.analytics-year__totals {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.analytics-year__total {
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--accent-primary);
 }
 
-.analytics-months {
+.analytics-year__expected {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.analytics-year__months {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.analytics-month-row {
-    display: grid;
-    grid-template-columns: 3rem 1fr auto;
-    gap: 1rem;
-    align-items: center;
-}
-
-.analytics-month-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-align: right;
-}
-
-.analytics-bar-container {
-    background: var(--bg-body);
-    border-radius: 4px;
-    height: 24px;
-    overflow: hidden;
-}
-
-.analytics-bar {
-    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-    height: 100%;
-    border-radius: 4px;
-    transition: width 0.3s ease;
-    min-width: 2px;
-}
-
-.analytics-month-details {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-    min-width: 120px;
-}
-
-.analytics-amount {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.analytics-count {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-}
-
-.analytics-month-row {
+.analytics-month__summary {
     display: grid;
     grid-template-columns: 3rem 1fr auto;
     gap: 1rem;
@@ -361,18 +327,89 @@
     transition: background-color 0.2s;
 }
 
-.analytics-month-row:hover {
+.analytics-month__summary:hover {
     background-color: var(--bg-body);
 }
 
-.analytics-chevron {
+.analytics-month__label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+.analytics-month__bar-container {
+    background: var(--bg-body);
+    border-radius: 4px;
+    height: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+.analytics-month__bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    min-width: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.analytics-month__bar--expected {
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.analytics-month__bar--actual {
+    z-index: 2;
+    background: var(--accent-primary);
+}
+
+.analytics-month__bar--actual.complete {
+    background: var(--success);
+}
+
+.analytics-month__bar--actual.good {
+    background: var(--accent-primary);
+}
+
+.analytics-month__bar--actual.pending {
+    background: var(--warning);
+}
+
+.analytics-month__details {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    min-width: 120px;
+}
+
+.analytics-month__amounts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+}
+
+.analytics-month__amount {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.analytics-month__expected-amount {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.analytics-month__chevron {
     width: 20px;
     height: 20px;
     transition: transform 0.3s ease;
     fill: var(--text-secondary);
 }
 
-.analytics-month-row.expanded .analytics-chevron {
+.analytics-month.expanded .analytics-month__chevron {
     transform: rotate(180deg);
 }
 
@@ -385,6 +422,8 @@
     border-radius: 0 0 8px 8px;
     margin-top: -0.5rem;
     margin-bottom: 0.5rem;
+    list-style: none;
+    /* Remove list bullets */
 }
 
 .analytics-payment-list.visible {
@@ -402,12 +441,12 @@
     font-size: 0.875rem;
 }
 
-.analytics-payment-date {
+.analytics-payment-item__date {
     color: var(--text-secondary);
     width: 80px;
 }
 
-.analytics-payment-name {
+.analytics-payment-item__name {
     flex: 1;
     font-weight: 500;
     color: var(--text-primary);
@@ -417,7 +456,7 @@
     margin: 0 1rem;
 }
 
-.analytics-payment-amount {
+.analytics-payment-item__amount {
     font-weight: 600;
     color: var(--accent-primary);
 }
