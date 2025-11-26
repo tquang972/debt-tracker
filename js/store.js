@@ -184,13 +184,21 @@ export class Store {
     }
 
     async addPayment(payment) {
-        await this.db.collection('payments').add(payment);
+        // Add timeout to prevent hanging
+        const timeout = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Request timed out')), 10000)
+        );
 
-        const debt = this.data.debts.find(d => d.id === payment.debtId);
-        if (debt) {
-            const newBalance = parseFloat(debt.balance) - parseFloat(payment.amount);
-            await this.updateDebt(debt.id, { balance: newBalance });
-        }
+        const operation = async () => {
+            await this.db.collection('payments').add(payment);
+            const debt = this.data.debts.find(d => d.id === payment.debtId);
+            if (debt) {
+                const newBalance = parseFloat(debt.balance) - parseFloat(payment.amount);
+                await this.updateDebt(debt.id, { balance: newBalance });
+            }
+        };
+
+        await Promise.race([operation(), timeout]);
     }
 
     async deletePayment(paymentId) {
