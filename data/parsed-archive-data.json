@@ -1,0 +1,2297 @@
+[
+  {
+    "lineNumber": 4,
+    "person": "Than",
+    "debtName": "Dad owns Quang",
+    "amount": 3000,
+    "date": "2025-10-22",
+    "note": "[I] on Robinhood Gold BTpayment; paid 703 after 2297 offset on 10/22",
+    "originalLine": "\\-Dad owns Quang: 3000 (on Robinhood Gold BTpayment; paid 703 after 2297 offset "
+  },
+  {
+    "lineNumber": 5,
+    "person": "Than",
+    "debtName": "Dad Own Quang",
+    "amount": 9672.07,
+    "date": "2025-10-17",
+    "note": "[I] BT GoldAmex | AmexMOMBT | by offsetting to Quang's Loan",
+    "originalLine": "\\- Dad Own Quang: 911.16(BT GoldAmex) \\+ 200amexgoldstatefarm \\+ 3071.23 Mom AA "
+  },
+  {
+    "lineNumber": 6,
+    "person": "Than",
+    "debtName": "Dad’s Amex Personal Loan",
+    "amount": 818.35,
+    "date": "2025-10-12",
+    "note": "[I] 25k | auto BOA",
+    "originalLine": "\\- Dad’s Amex Personal Loan: 818.35 due 10/12(25k)(auto BOA)   "
+  },
+  {
+    "lineNumber": 7,
+    "person": "Than",
+    "debtName": "Dad's Biz loan",
+    "amount": 466.67,
+    "date": "2025-10-07",
+    "note": "[I] auto Dad's BOA",
+    "originalLine": "\\- Dad's Biz loan: $466.67 due 10/7 (auto Dad's BOA)  "
+  },
+  {
+    "lineNumber": 9,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 1189.68,
+    "date": "2025-10-05",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 1189.68 due 10/5 by Quang’s BT  "
+  },
+  {
+    "lineNumber": 10,
+    "person": "Than",
+    "debtName": "KC Water",
+    "amount": 140.21,
+    "date": "2025-10-01",
+    "note": "[I] auto BOA",
+    "originalLine": "\\- KC Water: $140.21 due 10/1 (auto BOA)   "
+  },
+  {
+    "lineNumber": 11,
+    "person": "Than",
+    "debtName": "Honda Payment",
+    "amount": 630.7,
+    "date": "2025-09-27",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Honda Payment: 630.70 due 9/27(auto BofA)   "
+  },
+  {
+    "lineNumber": 12,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 31.53,
+    "date": "2025-09-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Chase 31.53 due 9/28 (auto robin)   "
+  },
+  {
+    "lineNumber": 13,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-09-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 9/28(auto robin)  "
+  },
+  {
+    "lineNumber": 14,
+    "person": "Than",
+    "debtName": "Tesla Payment",
+    "amount": 656,
+    "date": "2025-09-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Tesla Payment: $656 due 9/25 (auto BofA)   "
+  },
+  {
+    "lineNumber": 15,
+    "person": "Than",
+    "debtName": "Dad Robinhood Gold",
+    "amount": 7482.26,
+    "date": "2025-09-22",
+    "note": "[I]",
+    "originalLine": "\\-Dad Robinhood Gold: 7,482.26 due 9/22   "
+  },
+  {
+    "lineNumber": 16,
+    "person": "Than",
+    "debtName": "Dad’s Amex Personal Loan",
+    "amount": 818.35,
+    "date": "2025-09-12",
+    "note": "[I] 25k | auto BOA",
+    "originalLine": "\\- Dad’s Amex Personal Loan: 818.35 due 9/12(25k)(auto BOA)   "
+  },
+  {
+    "lineNumber": 17,
+    "person": "Than",
+    "debtName": "Than's BofA",
+    "amount": 66.33,
+    "date": "2025-09-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's BofA 7849: $66.33 due 9/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 18,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 911.16,
+    "date": "2025-09-28",
+    "note": "[I] made on 9/11 BF by Quang",
+    "originalLine": "\\- Additional Gold Card: 911.16due 9/28 (made on 9/11 BF by Quang)  "
+  },
+  {
+    "lineNumber": 19,
+    "person": "Than",
+    "debtName": "KC Water",
+    "amount": 140.21,
+    "date": "2025-09-01",
+    "note": "[I] auto BOA",
+    "originalLine": "\\- KC Water: $140.21 due 9/1 (auto BOA)   "
+  },
+  {
+    "lineNumber": 20,
+    "person": "Than",
+    "debtName": "Mom's AA",
+    "amount": 571.65,
+    "date": "2025-09-02",
+    "note": "[I]",
+    "originalLine": "\\- Mom's AA: 571.65 due 9/2   "
+  },
+  {
+    "lineNumber": 21,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 106.05,
+    "date": "2025-08-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Chase 106.05 due 8/28 (auto robin)   "
+  },
+  {
+    "lineNumber": 22,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-08-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 8/28(auto robin)  "
+  },
+  {
+    "lineNumber": 23,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 1.87,
+    "date": "2025-08-28",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 1,446.44 \\-1.87due 8/28   "
+  },
+  {
+    "lineNumber": 24,
+    "person": "Than",
+    "debtName": "Dad Robinhood Gold",
+    "amount": 3678.33,
+    "date": "2025-09-01",
+    "note": "[I]",
+    "originalLine": "\\-Dad Robinhood Gold:3,678.33 due 9/1  "
+  },
+  {
+    "lineNumber": 25,
+    "person": "Than",
+    "debtName": "Tesla Payment",
+    "amount": 656,
+    "date": "2025-08-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Tesla Payment: $656 due 8/25 (auto BofA)   "
+  },
+  {
+    "lineNumber": 26,
+    "person": "Than",
+    "debtName": "Honda Payment",
+    "amount": 630.7,
+    "date": "2025-08-27",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Honda Payment: 630.70 due 8/27(auto BofA)   "
+  },
+  {
+    "lineNumber": 27,
+    "person": "Than",
+    "debtName": "Mom’s Amex Business Plat",
+    "amount": 0.45,
+    "date": "2025-08-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Mom’s Amex Business Plat: $0.45 due 8/28 (auto robin)   "
+  },
+  {
+    "lineNumber": 28,
+    "person": "Than",
+    "debtName": "Mom's Hyatt",
+    "amount": 30,
+    "date": "2025-08-28",
+    "note": "[I]",
+    "originalLine": "\\- Mom's Hyatt: 30 due 8/28   "
+  },
+  {
+    "lineNumber": 29,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 638.18,
+    "date": "2025-08-25",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than’s Amex Business Plat: $638.18 due 8/25 (auto robin)   "
+  },
+  {
+    "lineNumber": 30,
+    "person": "Than",
+    "debtName": "Dad’s Amex Personal Business",
+    "amount": 818.35,
+    "date": "2025-08-12",
+    "note": "[I] 25k | auto BOA",
+    "originalLine": "\\- Dad’s Amex Personal Business: 818.35 due 8/12(25k)(auto BOA)   "
+  },
+  {
+    "lineNumber": 31,
+    "person": "Than",
+    "debtName": "Than's BofA",
+    "amount": 400.1,
+    "date": "2025-08-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's BofA 7849: $400.10 due 8/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 32,
+    "person": "Than",
+    "debtName": "KC Water",
+    "amount": 150,
+    "date": "2025-08-01",
+    "note": "[I] auto BOA",
+    "originalLine": "\\- KC Water: $150 due 8/1 (auto BOA)   "
+  },
+  {
+    "lineNumber": 33,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 129.01,
+    "date": "2025-07-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Chase 129.01 due 7/28 (auto robin)   "
+  },
+  {
+    "lineNumber": 34,
+    "person": "Than",
+    "debtName": "Than's Delta Gold",
+    "amount": 150,
+    "date": "2025-07-28",
+    "note": "[I]",
+    "originalLine": "\\-Than's Delta Gold: $150 due 7/28  "
+  },
+  {
+    "lineNumber": 35,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 131.53,
+    "date": "2025-07-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than’s Amex Business Plat: $131.53 due 7/28 (auto robin)   "
+  },
+  {
+    "lineNumber": 36,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-07-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 7/28(auto robin)   "
+  },
+  {
+    "lineNumber": 37,
+    "person": "Than",
+    "debtName": "Honda Payment",
+    "amount": 630.7,
+    "date": "2025-07-27",
+    "note": "[I] auto boa",
+    "originalLine": "\\- Honda Payment: 630.70 due 7/27(auto boa)   "
+  },
+  {
+    "lineNumber": 38,
+    "person": "Than",
+    "debtName": "Tesla Payment",
+    "amount": 656,
+    "date": "2025-07-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Tesla Payment: $656 due 7/25 (auto BofA)  "
+  },
+  {
+    "lineNumber": 39,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 1376.6,
+    "date": "2025-07-24",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 1,376.60 due 7/24  "
+  },
+  {
+    "lineNumber": 40,
+    "person": "Than",
+    "debtName": "Zelle dzung",
+    "amount": 400,
+    "date": "2025-07-17",
+    "note": "[I]",
+    "originalLine": "\\-Zelle dzung $400 on gold due 7/17   "
+  },
+  {
+    "lineNumber": 41,
+    "person": "Than",
+    "debtName": "Dad’s Amex Personal Business",
+    "amount": 818.35,
+    "date": "2025-07-12",
+    "note": "[I] 25k | auto BOA",
+    "originalLine": "\\- Dad’s Amex Personal Business: 818.35 due 7/12(25k)(auto BOA)   "
+  },
+  {
+    "lineNumber": 42,
+    "person": "Than",
+    "debtName": "Than's BofA",
+    "amount": 400.1,
+    "date": "2025-07-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's BofA 7849: $400.10 due 7/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 43,
+    "person": "Than",
+    "debtName": "Dad Robinhood Gold",
+    "amount": 1250,
+    "date": "2025-07-08",
+    "note": "[I]",
+    "originalLine": "\\-Dad Robinhood Gold:1250due 7/8  "
+  },
+  {
+    "lineNumber": 44,
+    "person": "Than",
+    "debtName": "Dzung’s Alaska",
+    "amount": 1462.59,
+    "date": "2025-07-08",
+    "note": "[I]",
+    "originalLine": "\\-Dzung’s Alaska:1462.59 7/8  "
+  },
+  {
+    "lineNumber": 45,
+    "person": "Than",
+    "debtName": "Honda Payment",
+    "amount": 630.7,
+    "date": "2025-06-27",
+    "note": "[I] auto boa",
+    "originalLine": "\\- Honda Payment: 630.70 due 6/27(auto boa)   "
+  },
+  {
+    "lineNumber": 46,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 31.53,
+    "date": "2025-06-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Chase 31.53 due 6/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 47,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-06-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 6/28(auto robin)  "
+  },
+  {
+    "lineNumber": 48,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 179.65,
+    "date": "2025-06-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than’s Amex Business Plat: $179.65 due 6/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 49,
+    "person": "Than",
+    "debtName": "Tesla Payment",
+    "amount": 656,
+    "date": "2025-06-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Tesla Payment: $656 due 6/25 (auto BofA)  "
+  },
+  {
+    "lineNumber": 50,
+    "person": "Than",
+    "debtName": "Zelle Quang for Amazon",
+    "amount": 73,
+    "date": "2025-06-23",
+    "note": "[I]",
+    "originalLine": "\\-Zelle Quang for Amazon:73 due 6/23  "
+  },
+  {
+    "lineNumber": 51,
+    "person": "Than",
+    "debtName": "Zelle Quang Hyatt",
+    "amount": 2068.95,
+    "date": "2025-06-16",
+    "note": "[I]",
+    "originalLine": "\\-Zelle Quang Hyatt: 2068.95 due 6/16  "
+  },
+  {
+    "lineNumber": 52,
+    "person": "Than",
+    "debtName": "Than's BofA",
+    "amount": 240.91,
+    "date": "2025-06-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's BofA 7849: $240.91 due 6/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 53,
+    "person": "Than",
+    "debtName": "zelle QuangGold Balance & Flight for",
+    "amount": 2216.13,
+    "date": "2025-06-13",
+    "note": "[I] Calc: + 496.44 | if Dzung take Monday off",
+    "originalLine": "\\-zelle QuangGold Balance & Flight for 4: 1719.69 \\+ 496.44 = = 2216.13  (if Dzu"
+  },
+  {
+    "lineNumber": 54,
+    "person": "Than",
+    "debtName": "Mom's Hyatt",
+    "amount": 2068.95,
+    "date": "2025-06-12",
+    "note": "[I]",
+    "originalLine": "\\- Mom's Hyatt: 2068.95 due 6/12  "
+  },
+  {
+    "lineNumber": 55,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 1719.69,
+    "date": "2025-06-12",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 1719.69 due 6/12  "
+  },
+  {
+    "lineNumber": 56,
+    "person": "Than",
+    "debtName": "Dad’s Amex Personal Business",
+    "amount": 818.35,
+    "date": "2025-06-02",
+    "note": "[I] 25k | auto BOA",
+    "originalLine": "\\- Dad’s Amex Personal Business: 818.35 due 6/2(25k)(auto BOA)   "
+  },
+  {
+    "lineNumber": 57,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 31.53,
+    "date": "2025-05-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Chase 31.53 due 5/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 58,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-05-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 5/28(auto robin)  "
+  },
+  {
+    "lineNumber": 59,
+    "person": "Than",
+    "debtName": "Mom’s Amex Business Plat",
+    "amount": 145.14,
+    "date": "2025-05-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Mom’s Amex Business Plat: $145.14 due 5/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 60,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 120,
+    "date": "2025-05-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than’s Amex Business Plat: $120 due 5/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 61,
+    "person": "Than",
+    "debtName": "KC Water",
+    "amount": 150,
+    "date": "2025-05-22",
+    "note": "[I]",
+    "originalLine": "\\- KC Water: $150 due 5/22  "
+  },
+  {
+    "lineNumber": 62,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 1138.47,
+    "date": "2025-05-22",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 1138.47 due 5/22  "
+  },
+  {
+    "lineNumber": 64,
+    "person": "Than",
+    "debtName": "Dad’s Amex Personal Business",
+    "amount": 818.35,
+    "date": "2025-05-12",
+    "note": "[I] 25k | auto BOA",
+    "originalLine": "\\- Dad’s Amex Personal Business: 818.35 due 5/12(25k)(auto BOA)  "
+  },
+  {
+    "lineNumber": 65,
+    "person": "Than",
+    "debtName": "Than's  BofA",
+    "amount": 55.59,
+    "date": "2025-05-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's  BofA 7849: $55.59 due 5/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 66,
+    "person": "Than",
+    "debtName": "Honda Payment",
+    "amount": 597.15,
+    "date": "2025-05-01",
+    "note": "[I] auto boa",
+    "originalLine": "\\- Honda Payment: 597.15 due 5/1(auto boa)   "
+  },
+  {
+    "lineNumber": 67,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 31.53,
+    "date": "2025-04-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Chase 31.53 due 4/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 68,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-04-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 4/28(auto robin)  "
+  },
+  {
+    "lineNumber": 69,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 130.93,
+    "date": "2025-04-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than’s Amex Business Plat: $130.93 due 4/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 70,
+    "person": "Than",
+    "debtName": "zelle Dzung",
+    "amount": 700,
+    "date": "2025-04-29",
+    "note": "[I]",
+    "originalLine": "\\-zelle Dzung: 700 4/29  "
+  },
+  {
+    "lineNumber": 71,
+    "person": "Than",
+    "debtName": "Car Payment",
+    "amount": 656,
+    "date": "2025-04-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Car Payment: $656 due 4/25 (auto BofA)  "
+  },
+  {
+    "lineNumber": 72,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 2089.12,
+    "date": "2025-04-22",
+    "note": "[I] Calc: 2099.12-10 | 2099.12-10",
+    "originalLine": "\\- Additional Gold Card: (2099.12-10) \\= 2089.12  due 4/22  "
+  },
+  {
+    "lineNumber": 73,
+    "person": "Than",
+    "debtName": "Dad Chase Premier",
+    "amount": 2329.045,
+    "date": "2025-04-22",
+    "note": "[I]",
+    "originalLine": "\\- Dad Chase Premier: 2329.045 due 4/22  "
+  },
+  {
+    "lineNumber": 74,
+    "person": "Than",
+    "debtName": "Mom's Amex Plat Bus",
+    "amount": 194.86,
+    "date": "2025-04-18",
+    "note": "[I]",
+    "originalLine": "\\- Mom's Amex Plat Bus: 194.86 due 4/18  "
+  },
+  {
+    "lineNumber": 75,
+    "person": "Than",
+    "debtName": "Than's  BofA",
+    "amount": 329.03,
+    "date": "2025-04-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's  BofA 7849: $329.03 due 4/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 76,
+    "person": "Than",
+    "debtName": "Zelle Quang",
+    "amount": 764.23,
+    "date": "2025-04-11",
+    "note": "[I]",
+    "originalLine": "\\- Zelle Quang: $764.23 due 4/11  "
+  },
+  {
+    "lineNumber": 77,
+    "person": "Than",
+    "debtName": "KC Water",
+    "amount": 144.52,
+    "date": "2025-05-03",
+    "note": "[I] paid 4/11",
+    "originalLine": "\\- KC Water: $144.52 due 5/3 (paid 4/11)  "
+  },
+  {
+    "lineNumber": 78,
+    "person": "Than",
+    "debtName": "Honda Payment",
+    "amount": 597.15,
+    "date": "2025-04-01",
+    "note": "[I] auto boa",
+    "originalLine": "\\- Honda Payment: 597.15 due 4/1(auto boa)   "
+  },
+  {
+    "lineNumber": 79,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 51.53,
+    "date": "2025-03-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\-  Than's Chase 51.53 due 3/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 80,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-03-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 3/28(auto robin)  "
+  },
+  {
+    "lineNumber": 81,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 448.27,
+    "date": "2025-03-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\-  Than’s Amex Business Plat: $448.27 due 3/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 82,
+    "person": "Than",
+    "debtName": "Car Payment",
+    "amount": 656,
+    "date": "2025-03-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Car Payment: $656 due 3/25 (auto BofA)  "
+  },
+  {
+    "lineNumber": 83,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 1504.42,
+    "date": "2025-03-23",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: $1504.42  due 3/23  "
+  },
+  {
+    "lineNumber": 84,
+    "person": "Than",
+    "debtName": "Mom's Hyatt",
+    "amount": 801.58,
+    "date": "2025-03-23",
+    "note": "[I]",
+    "originalLine": "\\- Mom's Hyatt: 185.79+426.35+189.44  \\=801.58 due 3/23  "
+  },
+  {
+    "lineNumber": 85,
+    "person": "Than",
+    "debtName": "Than's  BofA",
+    "amount": 538.23,
+    "date": "2025-03-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's  BofA 7849: $538.23 due 3/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 86,
+    "person": "Than",
+    "debtName": "Evergy",
+    "amount": 185.79,
+    "date": "2025-03-01",
+    "note": "[I]",
+    "originalLine": "\\- Evergy $185.79 3/1  "
+  },
+  {
+    "lineNumber": 87,
+    "person": "Than",
+    "debtName": "KC Water",
+    "amount": 173.03,
+    "date": "2025-03-01",
+    "note": "[I]",
+    "originalLine": "\\- KC Water: $173.03 due 3/1  "
+  },
+  {
+    "lineNumber": 88,
+    "person": "Than",
+    "debtName": "StateFarm",
+    "amount": 426.35,
+    "date": "2025-03-01",
+    "note": "[I]",
+    "originalLine": "\\-  StateFarm: $426.35 due 3/1/25  "
+  },
+  {
+    "lineNumber": 89,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 122.82,
+    "date": "2025-02-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\-  Than's Chase $122.82 due 2/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 90,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-02-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 2/28(auto robin)  "
+  },
+  {
+    "lineNumber": 91,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 312.17,
+    "date": "2025-02-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\-  Than’s Amex Business Plat: $312.17 due 2/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 92,
+    "person": "Than",
+    "debtName": "Mom's Amex Plat Bus",
+    "amount": 370.99,
+    "date": "2025-03-01",
+    "note": "[I] Calc: 244.04+126.95 | paid 180.20",
+    "originalLine": "\\- Mom's Amex Plat Bus: 244.04+126.95= 370.99 due 3/1 (paid 180.20)  "
+  },
+  {
+    "lineNumber": 93,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 1901.05,
+    "date": "2025-02-27",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: $1901.05  due 2/27  "
+  },
+  {
+    "lineNumber": 94,
+    "person": "Than",
+    "debtName": "Car Payment",
+    "amount": 656,
+    "date": "2025-02-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Car Payment: $656 due 2/25 (auto BofA)  "
+  },
+  {
+    "lineNumber": 95,
+    "person": "Than",
+    "debtName": "Than's  BofA",
+    "amount": 25.46,
+    "date": "2025-02-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's  BofA 7849: $25.46 due 2/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 96,
+    "person": "Than",
+    "debtName": "Dzung Barclay",
+    "amount": 99,
+    "date": "2025-03-10",
+    "note": "[I]",
+    "originalLine": "\\- Dzung Barclay: $99 due 3/10/25\\[annual fee\\]  "
+  },
+  {
+    "lineNumber": 97,
+    "person": "Than",
+    "debtName": "Chase ink bus",
+    "amount": 5845.14,
+    "date": "2025-02-02",
+    "note": "[I]",
+    "originalLine": "\\-  Chase ink bus 5154: $5,845.14 due 2/2/25  "
+  },
+  {
+    "lineNumber": 98,
+    "person": "Than",
+    "debtName": "StateFarm",
+    "amount": 170,
+    "date": "2025-02-02",
+    "note": "[I]",
+    "originalLine": "\\-  StateFarm: $170 due 2/2/25  "
+  },
+  {
+    "lineNumber": 99,
+    "person": "Than",
+    "debtName": "Dzung Barclay",
+    "amount": 10,
+    "date": "2025-01-29",
+    "note": "[I]",
+    "originalLine": "\\- Dzung Barclay: $10 due 1/29/25  "
+  },
+  {
+    "lineNumber": 100,
+    "person": "Than",
+    "debtName": "Than's Chase",
+    "amount": 253.65,
+    "date": "2025-01-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\-  Than's Chase $253.65 due 1/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 101,
+    "person": "Than",
+    "debtName": "Than's Bus Ink",
+    "amount": 70.7,
+    "date": "2025-01-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than's Bus Ink 2131: $70.70 due 1/28(auto robin)  "
+  },
+  {
+    "lineNumber": 102,
+    "person": "Than",
+    "debtName": "Than’s Amex Business Plat",
+    "amount": 538.41,
+    "date": "2025-01-28",
+    "note": "[I] auto robin",
+    "originalLine": "\\- Than’s Amex Business Plat: $538.41 due 1/28 (auto robin)  "
+  },
+  {
+    "lineNumber": 103,
+    "person": "Than",
+    "debtName": "Car Payment",
+    "amount": 656,
+    "date": "2025-01-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Car Payment: $656 due 1/25 (auto BofA)  "
+  },
+  {
+    "lineNumber": 104,
+    "person": "Than",
+    "debtName": "KC Water",
+    "amount": 108,
+    "date": "2025-01-25",
+    "note": "[I]",
+    "originalLine": "\\- KC Water: $108 due 1/25  "
+  },
+  {
+    "lineNumber": 105,
+    "person": "Than",
+    "debtName": "Mom's Amex Plat Bus",
+    "amount": 2684.33,
+    "date": "2025-01-22",
+    "note": "[I] 1251 \\-1413.331/22",
+    "originalLine": "\\- Mom's Amex Plat Bus: 2684.33  (1251 \\-1413.33(1/22)quang paid debt 1/17) due "
+  },
+  {
+    "lineNumber": 106,
+    "person": "Than",
+    "debtName": "Additional Gold Card",
+    "amount": 884.74,
+    "date": "2025-01-22",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: $884.74  due 1/22  "
+  },
+  {
+    "lineNumber": 107,
+    "person": "Than",
+    "debtName": "Than's  BofA",
+    "amount": 19.22,
+    "date": "2025-01-14",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Than's  BofA 7849: $19.22 due 1/14 (auto BofA)  "
+  },
+  {
+    "lineNumber": 108,
+    "person": "Than",
+    "debtName": "Dzung's Delta",
+    "amount": 9846.16,
+    "date": "2025-01-02",
+    "note": "[I]",
+    "originalLine": "\\- Dzung's Delta: 9,846.16 due 1/2/25  "
+  },
+  {
+    "lineNumber": 109,
+    "person": "Than",
+    "debtName": "Mobile Phone Bill",
+    "amount": 120,
+    "date": "2025-01-15",
+    "note": "[I]",
+    "originalLine": "\\-  Mobile Phone Bill $120 due 1/15  "
+  },
+  {
+    "lineNumber": 111,
+    "person": "Quang",
+    "debtName": "mom's amex",
+    "amount": 2297,
+    "date": "2025-10-22",
+    "note": "[I] Calc: 147.90-50 | annualfee",
+    "originalLine": "\\-mom's amex:147.90-50+312.16-60+267.23 21.38+300(annualfee)+287.64+902.3+211.14"
+  },
+  {
+    "lineNumber": 113,
+    "person": "Quang",
+    "debtName": "zelle dad",
+    "amount": 47,
+    "date": "2025-10-17",
+    "note": "[I] Calc: 9719-9672 | Calc: 9719-9672",
+    "originalLine": "\\-zelle dad:3000+3000(9/12)}} paid 10/17: 9719-9672=47. zelled 47 on 10/17  "
+  },
+  {
+    "lineNumber": 114,
+    "person": "Quang",
+    "debtName": "Nhan SF",
+    "amount": 211.14,
+    "date": "2025-10-16",
+    "note": "[I] 6th payment out of 6",
+    "originalLine": "\\-Nhan SF 211.14 due 10/16(6th payment out of 6)   "
+  },
+  {
+    "lineNumber": 115,
+    "person": "Quang",
+    "debtName": "Quang's Chase",
+    "amount": 256.76,
+    "date": "2025-10-28",
+    "note": "[I] Balance Trans",
+    "originalLine": "\\- Quang's Chase 9403: 256.76 due 10/28(Balance Trans)  "
+  },
+  {
+    "lineNumber": 116,
+    "person": "Quang",
+    "debtName": "Nhan's Barclay",
+    "amount": 179.97,
+    "date": "2025-10-16",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Nhan's Barclay: 179.97 due 10/16 (Auto Robin)   "
+  },
+  {
+    "lineNumber": 117,
+    "person": "Quang",
+    "debtName": "Zelle dad per loan",
+    "amount": 326.14,
+    "date": "2025-10-15",
+    "note": "[I] personal loan 5k",
+    "originalLine": "\\- Zelle dad per loan: 326.14(personal loan 5k) due 10/15  "
+  },
+  {
+    "lineNumber": 118,
+    "person": "Quang",
+    "debtName": "Zelle Dad",
+    "amount": 170,
+    "date": "2025-10-15",
+    "note": "[I]",
+    "originalLine": "\\- Zelle Dad $170 for Insurance due 10/15  "
+  },
+  {
+    "lineNumber": 119,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 500,
+    "date": "2025-10-15",
+    "note": "[I]",
+    "originalLine": "\\- Than's Debt: 500 due 10/15 \\[17th PAYMENT\\]  "
+  },
+  {
+    "lineNumber": 120,
+    "person": "Quang",
+    "debtName": "Quang's BOA",
+    "amount": 130,
+    "date": "2025-10-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\-Quang's BOA 6493: 130 due 10/15 (Auto Robin)   "
+  },
+  {
+    "lineNumber": 121,
+    "person": "Quang",
+    "debtName": "Dzung's Plat",
+    "amount": 1598,
+    "date": "2025-10-15",
+    "note": "[I]",
+    "originalLine": "\\-Dzung's Plat: 1598 due 10/15   "
+  },
+  {
+    "lineNumber": 122,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 130,
+    "date": "2025-10-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $130 due 10/9(Auto Robin)   "
+  },
+  {
+    "lineNumber": 123,
+    "person": "Quang",
+    "debtName": "Mom’s BOA",
+    "amount": 83,
+    "date": "2025-10-04",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Mom’s BOA : $83 due 10/4(Auto Robin)   "
+  },
+  {
+    "lineNumber": 124,
+    "person": "Quang",
+    "debtName": "Dzung Plat",
+    "amount": 20.2,
+    "date": "2025-10-05",
+    "note": "[I]",
+    "originalLine": "\\-Dzung Plat: 120.14 \\+16.12+20.20 due 10/5  "
+  },
+  {
+    "lineNumber": 125,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 3901.95,
+    "date": "2025-10-05",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 3901.95 due 10/5 paid by BT  "
+  },
+  {
+    "lineNumber": 126,
+    "person": "Quang",
+    "debtName": "Dad's Biz loan",
+    "amount": 466.67,
+    "date": "2025-10-03",
+    "note": "[I] auto Dad's BOA",
+    "originalLine": "\\- Dad's Biz loan: $466.67 due 10/3 (auto Dad's BOA)  "
+  },
+  {
+    "lineNumber": 128,
+    "person": "Quang",
+    "debtName": "Zelle dad per loan",
+    "amount": 326.14,
+    "date": "2025-09-26",
+    "note": "[I] personal loan 5k",
+    "originalLine": "\\- Zelle dad per loan: 326.14(personal loan 5k) due 9/26  "
+  },
+  {
+    "lineNumber": 129,
+    "person": "Quang",
+    "debtName": "dad's amazon",
+    "amount": 656.06,
+    "date": "2025-09-30",
+    "note": "[I] Calc: 49.51+17.48+7.63+17.49+26.71+(31.47-18.45)+35.18+41.50+10.92+14.20+22.84+24.59+32.29+14.27+10.78+21.84+33.01+87.47+25.14+22.71+19.67+10.92+17.81+27.33+25.15+15.3+11.30 | Calc: 3-16 | 31.47-18.45",
+    "originalLine": "\\-dad's amazon: 3-16-9/4:49.51+17.48+7.63+17.49+26.71+(31.47-18.45)+35.18+41.50+"
+  },
+  {
+    "lineNumber": 130,
+    "person": "Quang",
+    "debtName": "Quang's Chase",
+    "amount": 90.95,
+    "date": "2025-09-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Chase 9403: 90.95 due 9/28(Auto Robin)  "
+  },
+  {
+    "lineNumber": 131,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 500,
+    "date": "2025-09-27",
+    "note": "[I]",
+    "originalLine": "\\- Than's Debt: 500 due 9/27 \\[16th PAYMENT\\]  "
+  },
+  {
+    "lineNumber": 132,
+    "person": "Quang",
+    "debtName": "Tesla Payment",
+    "amount": 670,
+    "date": "2025-09-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Tesla Payment: $670 due 9/25 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 133,
+    "person": "Quang",
+    "debtName": "Mom's AA",
+    "amount": 3071.23,
+    "date": "2025-09-15",
+    "note": "[I] Quang's BT",
+    "originalLine": "\\- Mom's AA: 3071.23 due 9/15 (Quang's BT)   "
+  },
+  {
+    "lineNumber": 134,
+    "person": "Quang",
+    "debtName": "Zelle Dad",
+    "amount": 170,
+    "date": "2025-09-20",
+    "note": "[I]",
+    "originalLine": "\\-Zelle Dad $170 for Insurance due 9/20  "
+  },
+  {
+    "lineNumber": 135,
+    "person": "Quang",
+    "debtName": "Dad Amex Cash",
+    "amount": 142.8,
+    "date": "2025-09-20",
+    "note": "[I]",
+    "originalLine": "\\-Dad Amex Cash: $142.8 due 9/20  "
+  },
+  {
+    "lineNumber": 136,
+    "person": "Quang",
+    "debtName": "zelel dzung",
+    "amount": 5,
+    "date": "2025-09-17",
+    "note": "[I]",
+    "originalLine": "\\-zelel dzung $5 for chipotle due 9/17  "
+  },
+  {
+    "lineNumber": 137,
+    "person": "Quang",
+    "debtName": "Quang's Amex",
+    "amount": 1000,
+    "date": "2025-09-16",
+    "note": "[I] Balance Transfer",
+    "originalLine": "\\- Quang's Amex: 1,000 due 9/16 (Balance Transfer)  "
+  },
+  {
+    "lineNumber": 138,
+    "person": "Quang",
+    "debtName": "Quang's",
+    "amount": 51,
+    "date": "2025-09-15",
+    "note": "[I]",
+    "originalLine": "\\-Quang's 6493: 51 due 9/15  "
+  },
+  {
+    "lineNumber": 139,
+    "person": "Quang",
+    "debtName": "Nhan SF",
+    "amount": 211.14,
+    "date": "2025-10-02",
+    "note": "[I] 5th payment out of 6",
+    "originalLine": "\\-Nhan SF 211.14 due 10/2(5th payment out of 6)   "
+  },
+  {
+    "lineNumber": 140,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 131,
+    "date": "2025-09-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $131 due 9/9(Auto Robin)   "
+  },
+  {
+    "lineNumber": 141,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 1142.39,
+    "date": "2025-09-28",
+    "note": "[I] interest credit back | made on 9/11 BT",
+    "originalLine": "\\- Additional Gold Card: 328.07+732.98+81.34(interest credit back) \\=1142.39due "
+  },
+  {
+    "lineNumber": 142,
+    "person": "Quang",
+    "debtName": "Nhan Barclay fee",
+    "amount": 99,
+    "date": "2025-09-03",
+    "note": "[I]",
+    "originalLine": "\\-Nhan Barclay fee: 99 due 9/3  "
+  },
+  {
+    "lineNumber": 143,
+    "person": "Quang",
+    "debtName": "Mom’s BOA",
+    "amount": 84,
+    "date": "2025-09-04",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Mom’s BOA : $84 due 9/4(Auto Robin)   "
+  },
+  {
+    "lineNumber": 144,
+    "person": "Quang",
+    "debtName": "Mom's AA",
+    "amount": 211.14,
+    "date": "2025-09-02",
+    "note": "[I]",
+    "originalLine": "\\- Mom's AA: 211.14 due 9/2   "
+  },
+  {
+    "lineNumber": 145,
+    "person": "Quang",
+    "debtName": "Quang's Amex",
+    "amount": 2423.64,
+    "date": "2025-08-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Amex: 2423.64 due 8/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 146,
+    "person": "Quang",
+    "debtName": "Quang's Chase",
+    "amount": 95.25,
+    "date": "2025-08-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Chase 9403: 95.25 due 8/28(Auto Robin)  "
+  },
+  {
+    "lineNumber": 147,
+    "person": "Quang",
+    "debtName": "Dad's Biz loan",
+    "amount": 466.67,
+    "date": "2025-09-07",
+    "note": "[I]",
+    "originalLine": "\\-Dad's Biz loan: $466.67 due 9/7 (auto Dad's BOA, zelle(8/26  "
+  },
+  {
+    "lineNumber": 148,
+    "person": "Quang",
+    "debtName": "Tesla Payment",
+    "amount": 670,
+    "date": "2025-08-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Tesla Payment: $670 due 8/25 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 149,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 81.34,
+    "date": "2025-08-28",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 1391.93 \\-81.34due 8/28  "
+  },
+  {
+    "lineNumber": 150,
+    "person": "Quang",
+    "debtName": "Quang's BOA",
+    "amount": 10400,
+    "date": "2025-08-15",
+    "note": "[I] 9,225",
+    "originalLine": "\\-Quang's BOA 6493: $9,984 due 8/15 \\+ 4% \\= $10,400(9,225)   "
+  },
+  {
+    "lineNumber": 151,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 93,
+    "date": "2025-08-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $93 due 8/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 152,
+    "person": "Quang",
+    "debtName": "Quang's BOA",
+    "amount": 5800,
+    "date": "2025-08-15",
+    "note": "[I] 5,146.99",
+    "originalLine": "\\-Quang's BOA 4972: $5,568 due 8/15 \\+4% fee \\= 5,800(5,146.99)  "
+  },
+  {
+    "lineNumber": 154,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 132,
+    "date": "2025-08-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $132 due 8/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 155,
+    "person": "Quang",
+    "debtName": "Mom’s BOA",
+    "amount": 85,
+    "date": "2025-08-04",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Mom’s BOA : $85 due 8/4(Auto Robin)   "
+  },
+  {
+    "lineNumber": 156,
+    "person": "Quang",
+    "debtName": "Zelle Dad",
+    "amount": 170,
+    "date": "2025-08-12",
+    "note": "[I]",
+    "originalLine": "\\-Zelle Dad $170 for Insurance due 8/12 made 7/31  "
+  },
+  {
+    "lineNumber": 157,
+    "person": "Quang",
+    "debtName": "Zelle dad per loan",
+    "amount": 326.14,
+    "date": "2025-08-12",
+    "note": "[I] personal loan 5k",
+    "originalLine": "\\- Zelle dad per loan: 326.14(personal loan 5k) due 8/12 made 7/31  "
+  },
+  {
+    "lineNumber": 158,
+    "person": "Quang",
+    "debtName": "Dad's Biz loan",
+    "amount": 466.67,
+    "date": "2025-08-07",
+    "note": "[I] auto Dad's BOA, zelle Dad",
+    "originalLine": "\\-Dad's Biz loan: $466.67 due 8/7 (auto Dad's BOA, zelle Dad) made 7/31  "
+  },
+  {
+    "lineNumber": 159,
+    "person": "Quang",
+    "debtName": "Dad Robinhood Gold",
+    "amount": 2332.82,
+    "date": "2025-08-09",
+    "note": "[I]",
+    "originalLine": "\\-Dad Robinhood Gold:100+84+22.99+54+10+35+137.30+42.41+8.75+447+359.15+162.45+4"
+  },
+  {
+    "lineNumber": 160,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 500,
+    "date": "2025-08-15",
+    "note": "[I] apple pay deposit 7/31",
+    "originalLine": "\\- Than's Debt: 500 due 8/15 \\[15th PAYMENT\\]  (apple pay deposit 7/31)  "
+  },
+  {
+    "lineNumber": 162,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 25,
+    "date": "2025-07-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 8014: $25 due 7/25(Auto Robin)  "
+  },
+  {
+    "lineNumber": 163,
+    "person": "Quang",
+    "debtName": "Tesla Payment",
+    "amount": 671,
+    "date": "2025-07-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Tesla Payment: $671 due 7/25 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 164,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 1296.75,
+    "date": "2025-07-28",
+    "note": "[I] $719 made on 7/24",
+    "originalLine": "\\- Additional Gold Card: 1296.75 due 7/28 ($719 made on 7/24)  "
+  },
+  {
+    "lineNumber": 165,
+    "person": "Quang",
+    "debtName": "Quang's Amex",
+    "amount": 110,
+    "date": "2025-07-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Amex: 110 due 7/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 166,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 1920,
+    "date": "2025-07-28",
+    "note": "[I] left over: 1646.80",
+    "originalLine": "\\-Dzung’s BOA 8014: $1,920 due 7/28 \\+ 4% fee(left over: 1646.80)  "
+  },
+  {
+    "lineNumber": 167,
+    "person": "Quang",
+    "debtName": "Zelle dad",
+    "amount": 830,
+    "date": "2025-07-24",
+    "note": "[I]",
+    "originalLine": "\\-Zelle dad 830 tci trip due 7/24  "
+  },
+  {
+    "lineNumber": 168,
+    "person": "Quang",
+    "debtName": "hyatt",
+    "amount": 73.71,
+    "date": "2025-07-19",
+    "note": "[I]",
+    "originalLine": "\\-hyatt: 73.71 due 7/19  "
+  },
+  {
+    "lineNumber": 169,
+    "person": "Quang",
+    "debtName": "Quang's SW",
+    "amount": 4.59,
+    "date": "2025-07-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's SW 6841: $4.59 due 7/15 (Auto Robin)   "
+  },
+  {
+    "lineNumber": 170,
+    "person": "Quang",
+    "debtName": "Quang's Chase",
+    "amount": 91.57,
+    "date": "2025-07-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Chase 9403: 91.57 due 7/15(Auto Robin)   "
+  },
+  {
+    "lineNumber": 171,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 93,
+    "date": "2025-07-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $93 due 7/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 172,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 54,
+    "date": "2025-07-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 4972: $54 due 7/15  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 173,
+    "person": "Quang",
+    "debtName": "Dad Robinhood Gold",
+    "amount": 384.41,
+    "date": "2025-07-10",
+    "note": "[I]",
+    "originalLine": "\\-Dad Robinhood Gold:54 \\+7+35.27+101+5.14+76+30+10+16+50 \\=384.41due 7/10 throu"
+  },
+  {
+    "lineNumber": 174,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 500,
+    "date": "2025-07-10",
+    "note": "[I]",
+    "originalLine": "\\- Than's Debt: 500 due 7/10 \\[14th PAYMENT\\]   "
+  },
+  {
+    "lineNumber": 175,
+    "person": "Quang",
+    "debtName": "Zelle dad per loan",
+    "amount": 326.14,
+    "date": "2025-07-10",
+    "note": "[I] personal loan 5k",
+    "originalLine": "\\- Zelle dad per loan: 326.14(personal loan 5k) due 7/10  "
+  },
+  {
+    "lineNumber": 176,
+    "person": "Quang",
+    "debtName": "Mom’s BOA",
+    "amount": 86,
+    "date": "2025-07-04",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Mom’s BOA : $86 due 7/4(Auto Robin)  "
+  },
+  {
+    "lineNumber": 177,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 95,
+    "date": "2025-07-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $95 due 7/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 178,
+    "person": "Quang",
+    "debtName": "Dad's Biz loan",
+    "amount": 466.67,
+    "date": "2025-07-03",
+    "note": "[I] auto Dad's BOA, zelle Dad",
+    "originalLine": "\\-Dad's Biz loan: $466.67 due 7/3 (auto Dad's BOA, zelle Dad)   "
+  },
+  {
+    "lineNumber": 179,
+    "person": "Quang",
+    "debtName": "Zelle Dad",
+    "amount": 170,
+    "date": "2025-07-01",
+    "note": "[I]",
+    "originalLine": "\\-Zelle Dad $170 for Insurance due 7/1  "
+  },
+  {
+    "lineNumber": 180,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 25,
+    "date": "2025-06-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 8014: $25 due 6/25(Auto Robin)  "
+  },
+  {
+    "lineNumber": 181,
+    "person": "Quang",
+    "debtName": "Tesla Payment",
+    "amount": 671,
+    "date": "2025-06-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Tesla Payment: $671 due 6/25 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 182,
+    "person": "Quang",
+    "debtName": "Dzung's Alaska",
+    "amount": 44,
+    "date": "2025-06-23",
+    "note": "[I]",
+    "originalLine": "\\- Dzung's Alaska:553airbnb \\+ 183.9statefarm \\+ 150.61 \\+44due 6/23i  "
+  },
+  {
+    "lineNumber": 183,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 95,
+    "date": "2025-06-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $95 due 6/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 184,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 54,
+    "date": "2025-06-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 4972: $54 due 6/15  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 185,
+    "person": "Quang",
+    "debtName": "Mom's Hyatt",
+    "amount": 1601,
+    "date": "2025-06-12",
+    "note": "[I]",
+    "originalLine": "\\- Mom's Hyatt: 342.19 \\+11 \\+ 1136.44 \\+ 33+5+21.18+52.19 \\= 1601  due 6/12   "
+  },
+  {
+    "lineNumber": 186,
+    "person": "Quang",
+    "debtName": "Zelle Dad",
+    "amount": 135,
+    "date": "2025-06-12",
+    "note": "[I]",
+    "originalLine": "\\- Zelle Dad: 135 sw flight 6/12  "
+  },
+  {
+    "lineNumber": 187,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 1471.44,
+    "date": "2025-06-12",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 1471.44 due 6/12  "
+  },
+  {
+    "lineNumber": 188,
+    "person": "Quang",
+    "debtName": "Quang's Amex",
+    "amount": 4919.97,
+    "date": "2025-06-12",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Amex: 4,919.97 due 6/12 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 189,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 9200,
+    "date": "2025-06-02",
+    "note": "[I]",
+    "originalLine": "\\-Dzung’s BOA 9312: $9,200 due 6/2  "
+  },
+  {
+    "lineNumber": 190,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 1000,
+    "date": "2025-06-07",
+    "note": "[I]",
+    "originalLine": "\\- Than's Debt: 1000 due 6/7 \\[14th PAYMENT\\]  "
+  },
+  {
+    "lineNumber": 191,
+    "person": "Quang",
+    "debtName": "Quang's SW",
+    "amount": 250,
+    "date": "2025-06-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's SW 6841: $250 due 6/28 (Auto Robin)   "
+  },
+  {
+    "lineNumber": 192,
+    "person": "Quang",
+    "debtName": "Mom’s BOA",
+    "amount": 87,
+    "date": "2025-06-04",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Mom’s BOA : $87 due 6/4(Auto Robin)  "
+  },
+  {
+    "lineNumber": 193,
+    "person": "Quang",
+    "debtName": "Dad's Biz loan",
+    "amount": 466.67,
+    "date": "2025-06-02",
+    "note": "[I] auto Dad's BOA, zelle Dad",
+    "originalLine": "\\-Dad's Biz loan: $466.67 due 6/2 (auto Dad's BOA, zelle Dad)   "
+  },
+  {
+    "lineNumber": 194,
+    "person": "Quang",
+    "debtName": "Zelle Dad",
+    "amount": 170,
+    "date": "2025-06-02",
+    "note": "[I]",
+    "originalLine": "\\-Zelle Dad $170 for Insurance due 6/2  "
+  },
+  {
+    "lineNumber": 195,
+    "person": "Quang",
+    "debtName": "Zelle dad per loan",
+    "amount": 326.14,
+    "date": "2025-06-02",
+    "note": "[I] personal loan 5k",
+    "originalLine": "\\- Zelle dad per loan: 326.14(personal loan 5k) due 6/2  "
+  },
+  {
+    "lineNumber": 196,
+    "person": "Quang",
+    "debtName": "Quang's Chase",
+    "amount": 26,
+    "date": "2025-05-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Chase 9403: 26 due 5/28(Auto Robin)  "
+  },
+  {
+    "lineNumber": 197,
+    "person": "Quang",
+    "debtName": "Car Payment",
+    "amount": 656,
+    "date": "2025-05-25",
+    "note": "[I] auto BofA",
+    "originalLine": "\\- Car Payment: $656 due 5/25 (auto BofA)  "
+  },
+  {
+    "lineNumber": 198,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 25,
+    "date": "2025-05-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 8014: $25 due 5/25(Auto Robin)  "
+  },
+  {
+    "lineNumber": 199,
+    "person": "Quang",
+    "debtName": "Car Payment",
+    "amount": 671,
+    "date": "2025-05-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Car Payment: $671 due 5/25 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 200,
+    "person": "Quang",
+    "debtName": "Quang's SW",
+    "amount": 9278.73,
+    "date": "2025-05-22",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's SW 6841: $9,278.73 due 5/22 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 201,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 322,
+    "date": "2025-05-28",
+    "note": "[I]",
+    "originalLine": "\\- Additional Gold Card: 119.78 \\+ 322 due 5/28  "
+  },
+  {
+    "lineNumber": 202,
+    "person": "Quang",
+    "debtName": "Dzung Citi",
+    "amount": 4901.4,
+    "date": "2025-05-21",
+    "note": "[I]",
+    "originalLine": "\\- Dzung Citi: $4,901.40 due 5/21 \\+ 5% fee   "
+  },
+  {
+    "lineNumber": 203,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 95,
+    "date": "2025-05-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $95 due 5/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 204,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 54,
+    "date": "2025-05-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 4972: $54 due 5/15  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 205,
+    "person": "Quang",
+    "debtName": "Paid dad's insurance",
+    "amount": 400,
+    "date": "2025-05-14",
+    "note": "[I] Calc: 200+200",
+    "originalLine": "\\- Paid dad's insurance 200+200 = 400 for april and may due 5/14  "
+  },
+  {
+    "lineNumber": 206,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 98,
+    "date": "2025-05-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $98 due 5/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 207,
+    "person": "Quang",
+    "debtName": "Zelle dad per loan",
+    "amount": 326.14,
+    "date": "2025-05-09",
+    "note": "[I] personal loan 5k",
+    "originalLine": "\\- Zelle dad per loan: 326.14(personal loan 5k) due 5/9  "
+  },
+  {
+    "lineNumber": 208,
+    "person": "Quang",
+    "debtName": "Dad's Biz loan",
+    "amount": 466.67,
+    "date": "2025-05-07",
+    "note": "[I] auto Dad's BOA, zelle Dad",
+    "originalLine": "\\-Dad's Biz loan: $466.67 due 5/7 (auto Dad's BOA, zelle Dad)  "
+  },
+  {
+    "lineNumber": 209,
+    "person": "Quang",
+    "debtName": "Mom’s BOA",
+    "amount": 88,
+    "date": "2025-05-05",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Mom’s BOA : $88 due 5/5(Auto Robin)  "
+  },
+  {
+    "lineNumber": 211,
+    "person": "Quang",
+    "debtName": "Quang's SW",
+    "amount": 121.21,
+    "date": "2025-04-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\-  Quang's SW 6841: $121.21 due 4/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 212,
+    "person": "Quang",
+    "debtName": "Quang's Amex",
+    "amount": 792.62,
+    "date": "2025-04-28",
+    "note": "[I] paid 1,100 1/12 | Auto Robin",
+    "originalLine": "\\-  Quang's Amex: 1,892.62 (paid 1,100 1/12) and 792.62 due 4/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 213,
+    "person": "Quang",
+    "debtName": "Dzung Citi",
+    "amount": 50,
+    "date": "2025-04-27",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung Citi: $50 due 4/27(Auto Robin)  "
+  },
+  {
+    "lineNumber": 214,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 25,
+    "date": "2025-04-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 8014: $25 due 4/25(Auto Robin)  "
+  },
+  {
+    "lineNumber": 215,
+    "person": "Quang",
+    "debtName": "Car Payment",
+    "amount": 671,
+    "date": "2025-04-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Car Payment: $671 due 4/25 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 216,
+    "person": "Quang",
+    "debtName": "zelle cuong",
+    "amount": 1100,
+    "date": "2025-04-25",
+    "note": "[I]",
+    "originalLine": "\\-zelle cuong 1,100 due 4/25  "
+  },
+  {
+    "lineNumber": 217,
+    "person": "Quang",
+    "debtName": "Dad's Premier",
+    "amount": 6200.68,
+    "date": "2025-04-28",
+    "note": "[I] Calc: *0.98 | 136.48+737.71 | 5k paid by Dad'checking 4/22",
+    "originalLine": "\\- Dad's Premier: 5,481\\*0.975+(136.48+737.71)\\*0.98= 6200.68 due 4/28 (5k paid "
+  },
+  {
+    "lineNumber": 218,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 54,
+    "date": "2025-04-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 4972: $54 due 4/15  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 219,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 96,
+    "date": "2025-04-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $96 due 4/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 220,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 1238.47,
+    "date": "2025-04-28",
+    "note": "[I] paid 4/11",
+    "originalLine": "\\-Additional Gold Card: 425.98+872.49 \\-60 \\= 1238.47 due 4/28(paid 4/11)(overpa"
+  },
+  {
+    "lineNumber": 221,
+    "person": "Quang",
+    "debtName": "zelle dad per loan",
+    "amount": 491.01,
+    "date": "2025-04-11",
+    "note": "[I]",
+    "originalLine": "\\-zelle dad per loan: $491.01 due 4/11  "
+  },
+  {
+    "lineNumber": 222,
+    "person": "Quang",
+    "debtName": "Hilton on mom card",
+    "amount": 111.88,
+    "date": "2025-04-11",
+    "note": "[I]",
+    "originalLine": "\\-Hilton on mom card:111.88 due. 4/11  "
+  },
+  {
+    "lineNumber": 224,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 98,
+    "date": "2025-04-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $98 due 4/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 225,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 89,
+    "date": "2025-04-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $89 due 4/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 226,
+    "person": "Quang",
+    "debtName": "Quang's Chase",
+    "amount": 53.42,
+    "date": "2025-03-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang's Chase 9403: 53.42 due 3/28(Auto Robin)  "
+  },
+  {
+    "lineNumber": 227,
+    "person": "Quang",
+    "debtName": "Quang's SW",
+    "amount": 128.23,
+    "date": "2025-03-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\-  Quang's SW 6841: $128.23 due 3/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 228,
+    "person": "Quang",
+    "debtName": "Dzung Citi",
+    "amount": 50,
+    "date": "2025-03-27",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\-  Dzung Citi: $50 due 3/27(Auto Robin)  "
+  },
+  {
+    "lineNumber": 229,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 25,
+    "date": "2025-03-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 8014: $25 due 3/25(Auto Robin)  "
+  },
+  {
+    "lineNumber": 230,
+    "person": "Quang",
+    "debtName": "Car Payment",
+    "amount": 671,
+    "date": "2025-03-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Car Payment: $671 due 3/25 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 231,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 872.49,
+    "date": "2025-03-23",
+    "note": "[I]",
+    "originalLine": "\\-Additional Gold Card: $872.49 3/23  "
+  },
+  {
+    "lineNumber": 233,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 54,
+    "date": "2025-03-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 4972: $54 due 3/15  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 235,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 96,
+    "date": "2025-03-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $96 due 3/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 236,
+    "person": "Quang",
+    "debtName": "Insurance",
+    "amount": 170,
+    "date": "2025-03-15",
+    "note": "[I]",
+    "originalLine": "\\-  Insurance: $170 due 3/15  "
+  },
+  {
+    "lineNumber": 237,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 99,
+    "date": "2025-03-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $99 due 3/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 238,
+    "person": "Quang",
+    "debtName": "Dad's Delta",
+    "amount": 2.12,
+    "date": "2025-03-05",
+    "note": "[I]",
+    "originalLine": "\\- Dad's Delta: 2.12 due 3/5  "
+  },
+  {
+    "lineNumber": 239,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 468.42,
+    "date": "2025-03-15",
+    "note": "[I] 171.58+140 correction mom amex credit",
+    "originalLine": "\\- Than's Debt: $500-(171.58+140 correction mom amex credit) \\= 468.42 due 3/15/"
+  },
+  {
+    "lineNumber": 240,
+    "person": "Quang",
+    "debtName": "Quang's SW",
+    "amount": 130.23,
+    "date": "2025-02-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\-  Quang's SW 6841: $130.23 due 2/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 241,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 588.46,
+    "date": "2025-02-28",
+    "note": "[I]",
+    "originalLine": "\\-Additional Gold Card: $588.46 2/28  "
+  },
+  {
+    "lineNumber": 242,
+    "person": "Quang",
+    "debtName": "own dad",
+    "amount": 300,
+    "date": "2025-02-28",
+    "note": "[I]",
+    "originalLine": "\\- own dad: $300 due 2/28  "
+  },
+  {
+    "lineNumber": 243,
+    "person": "Quang",
+    "debtName": "Dzung Citi",
+    "amount": 51,
+    "date": "2025-02-27",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung Citi: $51 due 2/27(Auto Robin)  "
+  },
+  {
+    "lineNumber": 244,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 25,
+    "date": "2025-02-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 8014: $25 due 2/25(Auto Robin)  "
+  },
+  {
+    "lineNumber": 245,
+    "person": "Quang",
+    "debtName": "Car Payment",
+    "amount": 671,
+    "date": "2025-02-25",
+    "note": "[I] Auto Robin | $500+5",
+    "originalLine": "\\- Car Payment: $671 due 2/25 (Auto Robin) \\[33k principle \\-($500+5) each month"
+  },
+  {
+    "lineNumber": 246,
+    "person": "Quang",
+    "debtName": "Feb Rent",
+    "amount": 500,
+    "date": "2025-02-13",
+    "note": "[I]",
+    "originalLine": "\\- Feb Rent: $500 due 2/13   "
+  },
+  {
+    "lineNumber": 247,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 97,
+    "date": "2025-02-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $97 due 2/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 248,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 54,
+    "date": "2025-02-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 4972: $54 due 2/15  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 249,
+    "person": "Quang",
+    "debtName": "Insurance",
+    "amount": 170,
+    "date": "2025-02-10",
+    "note": "[I] apple pay to check",
+    "originalLine": "\\-  Insurance: $170 due 2/10(apple pay to check)  "
+  },
+  {
+    "lineNumber": 250,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 136.69,
+    "date": "2025-02-10",
+    "note": "[I] Calc: 500-140 | overpaid mom's card | panasia",
+    "originalLine": "\\- Than's Debt: $500-140(overpaid mom's card) \\- $223.31(panasia) \\= 136.69 due "
+  },
+  {
+    "lineNumber": 251,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 100,
+    "date": "2025-02-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $100 due 2/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 252,
+    "person": "Quang",
+    "debtName": "Dad's rent jan",
+    "amount": 500,
+    "date": "2025-02-10",
+    "note": "[I]",
+    "originalLine": "\\- Dad's rent jan: $500 \\- $70rayban creidt due 2/10  "
+  },
+  {
+    "lineNumber": 253,
+    "person": "Quang",
+    "debtName": "Than's Premier Ink",
+    "amount": 2039.3,
+    "date": "2025-02-02",
+    "note": "[I] Calc: ) | Calc: 2035- 40.7 | zaxby gc",
+    "originalLine": "\\- Than's Premier Ink: 2035- 40.7+45(zaxby gc)=2039.3 due 2/2  "
+  },
+  {
+    "lineNumber": 254,
+    "person": "Quang",
+    "debtName": "Quang's Chase",
+    "amount": 423.37,
+    "date": "2025-01-28",
+    "note": "[I]",
+    "originalLine": "\\- Quang's Chase 9403: $423.37 due 1/28  "
+  },
+  {
+    "lineNumber": 255,
+    "person": "Quang",
+    "debtName": "Quang's Amex",
+    "amount": 46.78,
+    "date": "2025-01-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\-  Quang's Amex: $46.78 due 1/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 256,
+    "person": "Quang",
+    "debtName": "Quang's SW",
+    "amount": 130.23,
+    "date": "2025-01-28",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\-  Quang's SW 6841: $130.23 due 1/28 (Auto Robin)  "
+  },
+  {
+    "lineNumber": 257,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 25,
+    "date": "2025-01-25",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 8014: $25 due 1/25(Auto Robin)  "
+  },
+  {
+    "lineNumber": 258,
+    "person": "Quang",
+    "debtName": "Car Payment",
+    "amount": 671,
+    "date": "2025-01-25",
+    "note": "[I] Auto Robin | $500+5",
+    "originalLine": "\\- Car Payment: $671 due 1/25 (Auto Robin) \\[33k principle \\-($500+5) each month"
+  },
+  {
+    "lineNumber": 259,
+    "person": "Quang",
+    "debtName": "Dzung Citi",
+    "amount": 51,
+    "date": "2025-01-27",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung Citi: $51 due 1/27(Auto Robin)  "
+  },
+  {
+    "lineNumber": 260,
+    "person": "Quang",
+    "debtName": "Quang Owns Dad",
+    "amount": 815.35,
+    "date": "2025-01-22",
+    "note": "[I] rayban correction 81.99 | rayban refund \\-385.64 | [crypto.com]http://crypto.com",
+    "originalLine": "\\-Quang Owns Dad $60+160+100 \\-(rayban correction 81.99)+(rayban refund \\-385.64"
+  },
+  {
+    "lineNumber": 261,
+    "person": "Quang",
+    "debtName": "Additional Gold Card",
+    "amount": 364.65,
+    "date": "2025-01-22",
+    "note": "[I] Calc: 1854.44-1778.34 | 1854.44-1778.34 | on thi credit",
+    "originalLine": "\\-Additional Gold Card: 466.76-(1854.44-1778.34)-26.01(on thi credit) \\= 364.65 "
+  },
+  {
+    "lineNumber": 262,
+    "person": "Quang",
+    "debtName": "Mom's Amex Plat Bus",
+    "amount": 511.15,
+    "date": "2025-01-22",
+    "note": "[I]",
+    "originalLine": "\\- Mom's Amex Plat Bus: $511.15 1/22  "
+  },
+  {
+    "lineNumber": 263,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 1251,
+    "date": "2025-01-17",
+    "note": "[I]",
+    "originalLine": "\\- Than's Debt: $1,251 due 1/17 \\[11th payment\\](dzung robin to mom amex plat  "
+  },
+  {
+    "lineNumber": 264,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 55,
+    "date": "2025-01-15",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 4972: $55 due 1/15  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 265,
+    "person": "Quang",
+    "debtName": "Quang' BOA",
+    "amount": 98,
+    "date": "2025-01-14",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Quang' BOA 6493: $98 due 1/14  (Auto Robin)  "
+  },
+  {
+    "lineNumber": 266,
+    "person": "Quang",
+    "debtName": "Dzung’s BOA",
+    "amount": 101,
+    "date": "2025-01-09",
+    "note": "[I] Auto Robin",
+    "originalLine": "\\- Dzung’s BOA 9312: $101 due 1/9(Auto Robin)  "
+  },
+  {
+    "lineNumber": 267,
+    "person": "Quang",
+    "debtName": "Zelle",
+    "amount": 1588.12,
+    "date": "2025-01-06",
+    "note": "[I] Calc: 385.64-70 | $233 before discount saigon hotel | Dzung Delta Hotel | personal prob tax bill | 385.64-70 | apple pay1500+88.12zelle",
+    "originalLine": "\\- Zelle 458.92 to Dad for Hotel on Delta \\- $130($233 before discount saigon ho"
+  },
+  {
+    "lineNumber": 268,
+    "person": "Quang",
+    "debtName": "Insurance",
+    "amount": 200,
+    "date": "2025-01-06",
+    "note": "[I]",
+    "originalLine": "\\-  Insurance: $200 due 1/6  "
+  },
+  {
+    "lineNumber": 269,
+    "person": "Quang",
+    "debtName": "Than's Debt",
+    "amount": 500,
+    "date": "2025-01-02",
+    "note": "[I]",
+    "originalLine": "\\- Than's Debt: $500 due 1/2/25 \\[10th PAYMENT\\]"
+  }
+]
