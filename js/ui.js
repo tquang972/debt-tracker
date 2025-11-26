@@ -373,76 +373,67 @@ export const showPayModal = (debtId) => {
         <div class="modal card">
             <h3>Make Payment</h3>
             <p>For: ${debt.name}</p>
-            <form id="payForm" action="javascript:void(0)">
+            <div id="payContainer">
                 <div class="form-group">
                     <label>Amount</label>
-                    <input type="number" name="amount" step="0.01" value="${debt.balance}" required>
+                    <input type="number" id="payAmount" step="0.01" value="${debt.balance}" required>
                 </div>
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="date" name="date" value="${new Date().toISOString().split('T')[0]}" required>
+                    <input type="date" id="payDate" value="${new Date().toISOString().split('T')[0]}" required>
                 </div>
                 <div class="form-group">
                     <label>Note</label>
-                    <input type="text" name="note" placeholder="Optional note">
+                    <input type="text" id="payNote" placeholder="Optional note">
                 </div>
                 <div class="form-group checkbox-group">
-                    <input type="checkbox" id="recurring" name="recurring" checked>
+                    <input type="checkbox" id="recurring" checked>
                     <label for="recurring">Populate next month's debt?</label>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn-secondary" id="cancelPayBtn">Cancel</button>
-                    <button type="submit" class="btn">Confirm Payment</button>
+                    <button type="button" class="btn" id="confirmPayBtn">Confirm Payment</button>
                 </div>
-            </form>
+            </div>
         </div>
     `;
     document.body.appendChild(modal);
 
-    modal.querySelector('#cancelPayBtn').addEventListener('click', () => modal.remove());
-    modal.querySelector('#payForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
+    // Helper to close modal
+    const close = () => modal.remove();
 
-        // 1. Record Payment (await to ensure Firestore update before UI refresh)
-        await store.addPayment({
-            debtId: debtId,
-            amount: formData.get('amount'),
-            date: formData.get('date'),
-            note: formData.get('note')
-        });
+    // Attach listeners using scoped selector
+    modal.querySelector('#cancelPayBtn').addEventListener('click', close);
 
-        // 2. Handle Recurring Debt
-        if (formData.get('recurring')) {
-            const currentDueDate = new Date(debt.dueDate);
-            // Add 1 month, handling year rollover automatically
-            currentDueDate.setMonth(currentDueDate.getMonth() + 1);
+    modal.querySelector('#confirmPayBtn').addEventListener('click', async () => {
+        const btn = modal.querySelector('#confirmPayBtn');
+        const amountInput = modal.querySelector('#payAmount');
+        const dateInput = modal.querySelector('#payDate');
+        const noteInput = modal.querySelector('#payNote');
+        const recurringInput = modal.querySelector('#recurring');
 
-            // Format as YYYY-MM-DD
-            const nextDueDate = currentDueDate.toISOString().split('T')[0];
-
-            await store.addDebt({
-                name: debt.name,
-                balance: debt.balance, // Assuming same amount
-                dueDate: nextDueDate,
-                personId: debt.personId,
-                note: debt.note || ''
-            });
+        // Manual Validation
+        if (!amountInput.value || !dateInput.value) {
+            alert('Please fill in Amount and Date');
+            return;
         }
 
-        modal.remove();
-        // Notify listeners that data may have changed
-        store.notifyListeners();
-        // Give Firestore snapshot a moment to update before re-rendering
-        setTimeout(() => {
-            console.log('[App] Store subscription fired');
-            const activeTab = document.querySelector('.nav-item.active');
-            const view = activeTab ? activeTab.dataset.view : 'dashboard';
+        try {
+            btn.textContent = 'Processing...';
+            btn.disabled = true;
+
+            // 1. Record Payment
+            await store.addPayment({
+                debtId: debtId,
+                amount: amountInput.value,
+                date: dateInput.value,
+                note: noteInput.value
+            });
             console.log('[App] Active view:', view);
             if (view === 'dashboard') renderDashboard();
             else renderDebts();
         }, 250);
-    });
+});
 };
 
 export const showEditPaymentModal = (paymentId) => {
