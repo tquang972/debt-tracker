@@ -447,7 +447,9 @@ export const showPayModal = (debtId) => {
             }
 
             try {
+                alert("About to close modal...");
                 close();
+                alert("Modal closed successfully!");
             } catch (closeErr) {
                 alert("Payment saved, but failed to close modal: " + closeErr.message);
             }
