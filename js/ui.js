@@ -429,11 +429,32 @@ export const showPayModal = (debtId) => {
                 date: dateInput.value,
                 note: noteInput.value
             });
-            console.log('[App] Active view:', view);
-            if (view === 'dashboard') renderDashboard();
-            else renderDebts();
-        }, 250);
-});
+            // 2. Handle Recurring Debt
+            if (recurringInput.checked) {
+                const currentDueDate = new Date(debt.dueDate);
+                currentDueDate.setMonth(currentDueDate.getMonth() + 1);
+                const nextDueDate = currentDueDate.toISOString().split('T')[0];
+
+                await store.addDebt({
+                    name: debt.name,
+                    balance: debt.balance,
+                    dueDate: nextDueDate,
+                    personId: debt.personId,
+                    note: debt.note || ''
+                });
+            }
+
+            close();
+            // Force refresh of UI
+            renderDebts();
+
+        } catch (err) {
+            console.error(err);
+            alert('Error processing payment: ' + err.message);
+            btn.textContent = 'Confirm Payment';
+            btn.disabled = false;
+        }
+    });
 };
 
 export const showEditPaymentModal = (paymentId) => {
