@@ -446,21 +446,8 @@ export const showPayModal = (debtId) => {
                 }
             }
 
-            // Close modal by hiding first, then removing
-            modal.style.display = 'none';
-            setTimeout(() => {
-                if (modal && modal.parentNode) {
-                    modal.parentNode.removeChild(modal);
-                }
-            }, 100);
-
-            // Force refresh of UI
-            try {
-                renderDebts();
-            } catch (renderErr) {
-                console.error("Render error:", renderErr);
-                // Don't alert for render error as data is safe
-            }
+            // Close modal (same as Cancel button)
+            close();
 
         } catch (err) {
             console.error(err);
