@@ -431,22 +431,37 @@ export const showPayModal = (debtId) => {
             });
             // 2. Handle Recurring Debt
             if (recurringInput.checked) {
-                const currentDueDate = new Date(debt.dueDate);
-                currentDueDate.setMonth(currentDueDate.getMonth() + 1);
-                const nextDueDate = currentDueDate.toISOString().split('T')[0];
+                try {
+                    const currentDueDate = new Date(debt.dueDate);
+                    currentDueDate.setMonth(currentDueDate.getMonth() + 1);
+                    const nextDueDate = currentDueDate.toISOString().split('T')[0];
 
-                await store.addDebt({
-                    name: debt.name,
-                    balance: debt.balance,
-                    dueDate: nextDueDate,
-                    personId: debt.personId,
-                    note: debt.note || ''
-                });
+                    await store.addDebt({
+                        name: debt.name,
+                        balance: debt.balance,
+                        dueDate: nextDueDate,
+                        personId: debt.personId,
+                        note: debt.note || ''
+                    });
+                } catch (recErr) {
+                    console.error("Recurring debt error:", recErr);
+                    alert("Payment saved, but failed to create next month's debt: " + recErr.message);
+                }
             }
 
-            close();
+            try {
+                close();
+            } catch (closeErr) {
+                alert("Payment saved, but failed to close modal: " + closeErr.message);
+            }
+
             // Force refresh of UI
-            renderDebts();
+            try {
+                renderDebts();
+            } catch (renderErr) {
+                console.error("Render error:", renderErr);
+                // Don't alert for render error as data is safe
+            }
 
         } catch (err) {
             console.error(err);
