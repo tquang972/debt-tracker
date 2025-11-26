@@ -384,7 +384,13 @@ export const showPayModal = (debtId) => {
                 </div>
                 <div class="form-group">
                     <label>Date</label>
-                    <input type="date" id="payDate" value="${new Date().toISOString().split('T')[0]}" required>
+                    <input type="date" id="payDate" value="${(() => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        })()}" required>
                 </div>
                 <div class="form-group">
                     <label>Note</label>
