@@ -60,15 +60,18 @@ if (existingModal) {
 ### The Debugging Hierarchy (ALWAYS follow this order)
 
 #### 1. **Inspect the Actual State** (DOM, Network, Console)
-- **BEFORE writing any code**, open DevTools and inspect:
+- **BEFORE writing any code**, inspect the actual state:
+  - **Use browser subagent** to navigate to the live site and inspect the DOM
   - DOM: Are there duplicate elements? Is the element actually in the DOM?
   - Console: Are there errors? What are the actual values of variables?
   - Network: Are requests succeeding? What's the response?
-- **Action:** If user reports a UI issue, FIRST ask them to inspect the DOM or provide a screenshot of DevTools
+- **Action:** If user reports a UI issue, use browser subagent to reproduce and inspect, OR ask user to inspect DevTools and share screenshot
+- **CRITICAL:** Browser subagent can see the actual rendered HTML - use it to verify assumptions before writing code
 
 #### 2. **Reproduce** 
 - If an issue cannot be reproduced in the agent's environment, assume **Environment Divergence** (caching, browser extension, device specific).
 - **Action:** Add aggressive, visible logging (alerts or on-screen logs) to the production build to capture the user's state.
+- **Action:** Use browser subagent with `?debug=true` to see debug console output
 
 #### 3. **Check Simple Issues First**
 - Duplicate elements
@@ -76,6 +79,7 @@ if (existingModal) {
 - Typos in IDs/classes
 - Missing elements
 - **Action:** Use `console.log` to verify assumptions (e.g., "Is this function being called once or twice?")
+- **Action:** Use browser subagent to count elements: `document.querySelectorAll('.modal-overlay').length`
 
 #### 4. **Isolate**
 - If a standard HTML feature (like `<form>`) is behaving unpredictably, **remove the abstraction**.
@@ -84,18 +88,22 @@ if (existingModal) {
 #### 5. **Verify**
 - **Action:** Always verify fixes in an **Incognito/Private window** to rule out caching issues before closing the task.
 - **Action:** Implement a "Version Indicator" in the UI (completed) to allow users to verify they are running the latest code.
+- **Action:** Use browser subagent to verify the fix works on the live site
 
 ### Specific Lessons Learned
 
 1. **DOM Inspection is Step 1:** Before assuming complex async/timing issues, ALWAYS inspect the actual DOM state
-2. **Ask the User to Inspect:** Users can see things we can't (especially in their specific browser/environment)
-3. **Prevent Duplicate Elements:** Any function that creates DOM elements should check if they already exist
-4. **Event Listener Hygiene:** Be careful about attaching event listeners during re-renders - they can stack up
-5. **Simpler is Better:** The fix was 3 lines of code. The debugging took 2 hours because we didn't check the basics first.
+2. **Use Browser Subagent:** The browser subagent can navigate to the live site and inspect the DOM - use it BEFORE writing code
+3. **Ask the User to Inspect:** Users can see things we can't (especially in their specific browser/environment)
+4. **Prevent Duplicate Elements:** Any function that creates DOM elements should check if they already exist
+5. **Event Listener Hygiene:** Be careful about attaching event listeners during re-renders - they can stack up
+6. **Simpler is Better:** The fix was 3 lines of code. The debugging took 2 hours because we didn't check the basics first.
+7. **Never Guess, Always Verify:** Assumptions are the enemy. Use tools (browser subagent, console logs, user screenshots) to verify actual state.
 
 ### Updated Debugging Checklist
 
 When a UI element isn't behaving as expected:
+- [ ] **Use Browser Subagent** - Navigate to live site, inspect DOM, check for duplicates
 - [ ] **Inspect the DOM** - Is the element there? Are there duplicates?
 - [ ] **Check the Console** - Any errors? Any unexpected logs?
 - [ ] **Verify Event Listeners** - Is the listener attached? Is it attached multiple times?
@@ -105,3 +113,6 @@ When a UI element isn't behaving as expected:
 - [ ] **Ask the User** - Can they inspect DevTools and share what they see?
 
 **Only after checking all of the above should you assume complex issues like async timing, browser quirks, or race conditions.**
+
+### Golden Rule
+**NEVER GUESS. ALWAYS ASK QUESTIONS IF YOU DON'T KNOW. ASSUMPTIONS ARE THE BIGGEST PITFALL IN SOFTWARE ENGINEERING.**
