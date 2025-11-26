@@ -441,9 +441,16 @@ export const showPayModal = (debtId) => {
             // 2. Handle Recurring Debt
             if (recurringInput.checked) {
                 try {
-                    const currentDueDate = new Date(debt.dueDate);
+                    // Parse date manually to avoid timezone issues
+                    const [year, month, day] = debt.dueDate.split('-').map(Number);
+                    const currentDueDate = new Date(year, month - 1, day); // month is 0-indexed
                     currentDueDate.setMonth(currentDueDate.getMonth() + 1);
-                    const nextDueDate = currentDueDate.toISOString().split('T')[0];
+
+                    // Format as YYYY-MM-DD
+                    const nextYear = currentDueDate.getFullYear();
+                    const nextMonth = String(currentDueDate.getMonth() + 1).padStart(2, '0');
+                    const nextDay = String(currentDueDate.getDate()).padStart(2, '0');
+                    const nextDueDate = `${nextYear}-${nextMonth}-${nextDay}`;
 
                     await store.addDebt({
                         name: debt.name,
