@@ -123,9 +123,6 @@ export const renderDebts = () => {
     if (errorLog) errorLog.style.display = 'none';
 
     const debts = store.getDebts().filter(d => d.balance >= 0.01);
-    console.log("[UI] renderDebts called");
-    console.log("[UI] Current User ID:", store.getCurrentUserId());
-    console.log("[UI] Debts found:", debts.length, debts);
 
     mainContent.innerHTML = `
         <div class="section-header">
