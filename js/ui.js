@@ -361,6 +361,13 @@ export const showAddDebtModal = () => {
 };
 
 export const showPayModal = (debtId) => {
+    // Prevent duplicate modals
+    const existingModal = document.querySelector('.modal-overlay');
+    if (existingModal) {
+        console.log('[DEBUG] Modal already exists, removing it first');
+        existingModal.remove();
+    }
+
     const debt = store.getDebts().find(d => d.id === debtId);
     if (!debt) return;
 
@@ -397,7 +404,12 @@ export const showPayModal = (debtId) => {
     document.body.appendChild(modal);
 
     // Helper to close modal
-    const close = () => modal.remove();
+    const close = () => {
+        console.log('[DEBUG] close() function called');
+        console.log('[DEBUG] Calling modal.remove()');
+        modal.remove();
+        console.log('[DEBUG] modal.remove() completed');
+    };
 
     // Attach listeners using scoped selector
     modal.querySelector('#cancelPayBtn').addEventListener('click', close);
@@ -446,8 +458,14 @@ export const showPayModal = (debtId) => {
                 }
             }
 
+            console.log('[DEBUG] About to call close()');
+            console.log('[DEBUG] modal exists?', !!modal);
+            console.log('[DEBUG] modal.parentNode exists?', !!modal.parentNode);
+
             // Close modal (same as Cancel button)
             close();
+
+            console.log('[DEBUG] close() completed');
 
         } catch (err) {
             console.error(err);
