@@ -446,17 +446,13 @@ export const showPayModal = (debtId) => {
                 }
             }
 
-            // Close modal aggressively
-            try {
-                // Use setTimeout to defer removal to next tick
-                setTimeout(() => {
-                    if (modal && modal.parentNode) {
-                        modal.parentNode.removeChild(modal);
-                    }
-                }, 0);
-            } catch (closeErr) {
-                alert("Payment saved, but failed to close modal: " + closeErr.message);
-            }
+            // Close modal by hiding first, then removing
+            modal.style.display = 'none';
+            setTimeout(() => {
+                if (modal && modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+            }, 100);
 
             // Force refresh of UI
             try {
