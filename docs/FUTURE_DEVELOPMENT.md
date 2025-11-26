@@ -1,7 +1,9 @@
 # Future Development Ideas
 
 ## Feature Requests
-
+- add analytics for future months payment
+- add graphics
+- add drop down from analytics to see all payments
 ### High Priority
 - [ ] 
 

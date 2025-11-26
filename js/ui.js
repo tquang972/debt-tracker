@@ -229,11 +229,18 @@ export const renderAnalytics = () => {
 
         if (!dataByYear[year]) dataByYear[year] = {};
         if (!dataByYear[year][month]) {
-            dataByYear[year][month] = { total: 0, count: 0 };
+            dataByYear[year][month] = { total: 0, count: 0, payments: [] };
         }
 
         dataByYear[year][month].total += parseFloat(payment.amount);
         dataByYear[year][month].count += 1;
+
+        // Add payment details
+        const debt = debts.find(d => d.id === payment.debtId);
+        dataByYear[year][month].payments.push({
+            ...payment,
+            debtName: debt ? debt.name : 'Unknown Debt'
+        });
     });
 
     // Sort years descending
@@ -256,7 +263,6 @@ export const renderAnalytics = () => {
         <div class="analytics-container">
             ${years.map(year => {
         const yearTotal = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.total, 0);
-        const yearCount = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.count, 0);
 
         return `
                     <div class="analytics-year-section">
@@ -270,16 +276,31 @@ export const renderAnalytics = () => {
             if (!data) return '';
 
             const barWidth = (data.total / maxMonthTotal * 100).toFixed(1);
+            const monthId = `analytics-${year}-${month}`;
 
             return `
-                                    <div class="analytics-month-row">
-                                        <div class="analytics-month-label">${month}</div>
-                                        <div class="analytics-bar-container">
-                                            <div class="analytics-bar" style="width: ${barWidth}%"></div>
+                                    <div class="analytics-month-wrapper">
+                                        <div class="analytics-month-row" onclick="document.getElementById('${monthId}').classList.toggle('visible'); this.classList.toggle('expanded');">
+                                            <div class="analytics-month-label">${month}</div>
+                                            <div class="analytics-bar-container">
+                                                <div class="analytics-bar" style="width: ${barWidth}%"></div>
+                                            </div>
+                                            <div class="analytics-month-details">
+                                                <span class="analytics-amount">${formatCurrency(data.total)}</span>
+                                                <span class="analytics-count">(${data.count})</span>
+                                                <svg class="analytics-chevron" viewBox="0 0 24 24">
+                                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                                                </svg>
+                                            </div>
                                         </div>
-                                        <div class="analytics-month-details">
-                                            <span class="analytics-amount">${formatCurrency(data.total)}</span>
-                                            <span class="analytics-count">(${data.count})</span>
+                                        <div id="${monthId}" class="analytics-payment-list">
+                                            ${data.payments.sort((a, b) => new Date(b.date) - new Date(a.date)).map(pay => `
+                                                <div class="analytics-payment-item">
+                                                    <span class="analytics-payment-date">${formatDate(pay.date)}</span>
+                                                    <span class="analytics-payment-name">${pay.debtName}</span>
+                                                    <span class="analytics-payment-amount">${formatCurrency(pay.amount)}</span>
+                                                </div>
+                                            `).join('')}
                                         </div>
                                     </div>
                                 `;

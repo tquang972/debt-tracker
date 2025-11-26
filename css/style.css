@@ -349,3 +349,75 @@
     font-size: 0.875rem;
     color: var(--text-secondary);
 }
+
+.analytics-month-row {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.analytics-month-row:hover {
+    background-color: var(--bg-body);
+}
+
+.analytics-chevron {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    fill: var(--text-secondary);
+}
+
+.analytics-month-row.expanded .analytics-chevron {
+    transform: rotate(180deg);
+}
+
+.analytics-payment-list {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 4rem;
+    background-color: var(--bg-body);
+    border-radius: 0 0 8px 8px;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.analytics-payment-list.visible {
+    display: flex;
+}
+
+.analytics-payment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.875rem;
+}
+
+.analytics-payment-date {
+    color: var(--text-secondary);
+    width: 80px;
+}
+
+.analytics-payment-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 1rem;
+}
+
+.analytics-payment-amount {
+    font-weight: 600;
+    color: var(--accent-primary);
+}
