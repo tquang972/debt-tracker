@@ -386,9 +386,11 @@ export const showPayModal = (debtId) => {
                     <label>Date</label>
                     <input type="date" id="payDate" value="${(() => {
             const today = new Date();
-            const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0');
-            const day = String(today.getDate()).padStart(2, '0');
+            // Force CT timezone
+            const ctDate = new Date(today.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+            const year = ctDate.getFullYear();
+            const month = String(ctDate.getMonth() + 1).padStart(2, '0');
+            const day = String(ctDate.getDate()).padStart(2, '0');
             return `${year}-${month}-${day}`;
         })()}" required>
                 </div>
