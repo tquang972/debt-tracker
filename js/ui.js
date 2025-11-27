@@ -39,15 +39,30 @@ export const renderUserSelector = () => {
 };
 
 export const renderDashboard = () => {
-    const debts = store.getDebts().filter(d => d.balance >= 0.01); // Only show unpaid debts (threshold for floating-point precision)
+    // Hide loading elements
+    const loadingMsg = document.getElementById('loadingMsg');
+    const errorLog = document.getElementById('errorLog');
+    if (loadingMsg) loadingMsg.style.display = 'none';
+    if (errorLog) errorLog.style.display = 'none';
+
+    const debts = store.getDebts().filter(d => d.balance >= 0.01);
     const totalDebt = debts.reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
-    // Forecasting
-    const weeklyDue = debts.filter(d => isThisWeek(d.dueDate)).reduce((sum, d) => sum + parseFloat(d.balance), 0); // Simplified: assumes full balance due, logic can be refined
-    const monthlyDue = debts.filter(d => isThisMonth(d.dueDate)).reduce((sum, d) => sum + parseFloat(d.balance), 0);
+    // Calculate forecast
+    const today = new Date();
+    const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
-    const upcomingDebts = debts
-        .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    const weeklyDue = debts
+        .filter(d => new Date(d.dueDate) <= nextWeek)
+        .reduce((sum, d) => sum + parseFloat(d.balance), 0);
+
+    const monthlyDue = debts
+        .filter(d => new Date(d.dueDate) <= endOfMonth)
+        .reduce((sum, d) => sum + parseFloat(d.balance), 0);
+
+    // Sort by due date
+    debts.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
     mainContent.innerHTML = `
         <header class="dashboard-header">
@@ -74,12 +89,13 @@ export const renderDashboard = () => {
 
         <section class="upcoming-section">
             <header class="section-header">
-                <h3 class="section-header__title">Upcoming</h3>
+                <h3 class="section-header__title">All Debts</h3>
+                <button class="btn-icon" id="addDebtBtn">+</button>
             </header>
             
             <div class="debt-list">
-                ${upcomingDebts.map(debt => createDebtItem(debt)).join('')}
-                ${upcomingDebts.length === 0 ? '<p class="empty-state">No upcoming debts.</p>' : ''}
+                ${debts.map(debt => createDebtItem(debt)).join('')}
+                ${debts.length === 0 ? '<p class="empty-state">No debts found.</p>' : ''}
             </div>
         </section>
     `;
@@ -99,7 +115,9 @@ export const renderDashboard = () => {
         });
     }
 
-    // Attach event listeners for debt actions in Upcoming list
+    // Attach event listeners for debt actions
+    document.getElementById('addDebtBtn').addEventListener('click', showAddDebtModal);
+
     document.querySelectorAll('.pay-btn').forEach(btn => {
         btn.addEventListener('click', () => showPayModal(btn.dataset.id));
     });
@@ -703,12 +721,10 @@ export const showDeletePaymentModal = (paymentId) => {
         <p class="modal__text">Choose how to delete this payment:</p>
         <div class="form__actions form__actions--vertical">
             <button type="button" class="btn btn--primary" id="restoreBtn">
-                Restore to Upcoming
-                <div class="btn__description">Add ${formatCurrency(payment.amount)} back to debt balance</div>
+                Restore Balance & Delete
             </button>
             <button type="button" class="btn btn--danger" id="permanentDeleteBtn">
-                Permanently Delete
-                <div class="btn__description">Remove payment without changing balance</div>
+                Delete Record Only
             </button>
             <button type="button" class="btn btn--secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
         </div>
