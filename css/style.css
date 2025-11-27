@@ -88,6 +88,41 @@
     flex: 1;
 }
 
+.debt-item__name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.debt-item__note {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 2px;
+}
+
+.debt-item__due {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.debt-item__actions {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.debt-item__balance {
+    font-weight: 700;
+}
+
+.debt-item__buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
 .history-item {
     display: flex;
     justify-content: space-between;

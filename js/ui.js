@@ -366,9 +366,9 @@ const createDebtItem = (debt) => {
             <div class="debt-item__actions">
                 <div class="debt-item__balance">${formatCurrency(debt.balance)}</div>
                 <div class="debt-item__buttons">
-                    <button class="btn btn--sm pay-btn" data-id="${debt.id}">Pay</button>
                     <button class="btn-icon btn-icon--sm edit-debt-btn" data-id="${debt.id}">✏️</button>
                     <button class="btn-icon btn-icon--sm delete-debt-btn" data-id="${debt.id}">🗑️</button>
+                    <button class="btn btn--sm pay-btn" data-id="${debt.id}">Pay</button>
                 </div>
             </div>
         </article>
