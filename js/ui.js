@@ -377,33 +377,72 @@ const createDebtItem = (debt) => {
 
 // --- Modals ---
 
+const showModal = (content) => {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    overlay.innerHTML = `
+        <section class="modal">
+            ${content}
+        </section>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Close on click outside
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            document.body.removeChild(overlay);
+        }
+    });
+
+    // Close on Escape key
+    const handleEsc = (e) => {
+        if (e.key === 'Escape') {
+            if (document.body.contains(overlay)) {
+                document.body.removeChild(overlay);
+            }
+            document.removeEventListener('keydown', handleEsc);
+        }
+    };
+    document.addEventListener('keydown', handleEsc);
+
+    return overlay;
+};
+
 export const showAddDebtModal = () => {
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
-        <div class="modal card">
-            <h3>Add New Debt</h3>
+        <section class="modal">
+            <h3 class="modal__title">Add New Debt</h3>
             <form id="addDebtForm">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" name="name" required placeholder="e.g. Car Loan">
+                <div class="form__group">
+                    <label class="form__label">Name</label>
+                    <input type="text" name="name" class="form__input" required placeholder="e.g. Car Loan">
                 </div>
-                <div class="form-group">
-                    <label>Balance</label>
-                    <input type="number" name="balance" step="0.01" required placeholder="0.00">
+                <div class="form__group">
+                    <label class="form__label">Balance</label>
+                    <input type="number" name="balance" class="form__input" step="0.01" required placeholder="0.00">
                 </div>
-                <div class="form-group">
-                    <label>Due Date</label>
-                    <input type="date" name="dueDate" required>
+                <div class="form__group">
+                    <label class="form__label">Due Date</label>
+                    <input type="date" name="dueDate" class="form__input" required>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
-                    <button type="submit" class="btn">Save</button>
+                <div class="form__actions">
+                    <button type="button" class="btn btn--secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save</button>
                 </div>
             </form>
-        </div>
+        </section>
     `;
     document.body.appendChild(modal);
+
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
 
     document.getElementById('cancelBtn').addEventListener('click', () => modal.remove());
     document.getElementById('addDebtForm').addEventListener('submit', (e) => {
@@ -434,17 +473,17 @@ export const showPayModal = (debtId) => {
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
-        <div class="modal card">
-            <h3>Make Payment</h3>
-            <p>For: ${debt.name}</p>
+        <section class="modal">
+            <h3 class="modal__title">Make Payment</h3>
+            <p class="modal__subtitle">For: ${debt.name}</p>
             <div id="payContainer">
-                <div class="form-group">
-                    <label>Amount</label>
-                    <input type="number" id="payAmount" step="0.01" value="${debt.balance}" required>
+                <div class="form__group">
+                    <label class="form__label">Amount</label>
+                    <input type="number" id="payAmount" class="form__input" step="0.01" value="${debt.balance}" required>
                 </div>
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" id="payDate" value="${(() => {
+                <div class="form__group">
+                    <label class="form__label">Date</label>
+                    <input type="date" id="payDate" class="form__input" value="${(() => {
             const today = new Date();
             // Force CT timezone
             const ctDate = new Date(today.toLocaleString('en-US', { timeZone: 'America/Chicago' }));
@@ -454,20 +493,20 @@ export const showPayModal = (debtId) => {
             return `${year}-${month}-${day}`;
         })()}" required>
                 </div>
-                <div class="form-group">
-                    <label>Note</label>
-                    <input type="text" id="payNote" placeholder="Optional note">
+                <div class="form__group">
+                    <label class="form__label">Note</label>
+                    <input type="text" id="payNote" class="form__input" placeholder="Optional note">
                 </div>
-                <div class="form-group checkbox-group">
+                <div class="form__group checkbox-group">
                     <input type="checkbox" id="recurring" checked>
                     <label for="recurring">Populate next month's debt?</label>
                 </div>
-                <div class="form-actions">
-                    <button type="button" class="btn-secondary" id="cancelPayBtn">Cancel</button>
-                    <button type="button" class="btn" id="confirmPayBtn">Confirm Payment</button>
+                <div class="form__actions">
+                    <button type="button" class="btn btn--secondary" id="cancelPayBtn">Cancel</button>
+                    <button type="button" class="btn btn--primary" id="confirmPayBtn">Confirm Payment</button>
                 </div>
             </div>
-        </div>
+        </section>
     `;
     document.body.appendChild(modal);
 
