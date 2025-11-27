@@ -639,8 +639,13 @@ export const showEditPaymentModal = (paymentId) => {
                 <input type="number" name="amount" class="form__input" step="0.01" value="${payment.amount}" required>
             </div>
             <div class="form__group">
-                <label class="form__label">Date</label>
+                <label class="form__label">Paid Date</label>
                 <input type="date" name="date" class="form__input" value="${payment.date}" required>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Debt Due Date</label>
+                <input type="date" name="debtDueDate" class="form__input" value="${currentDebt ? currentDebt.dueDate : ''}">
+                <div class="form__help">Updates the due date for this debt</div>
             </div>
             <div class="form__group">
                 <label class="form__label">Note</label>
@@ -656,12 +661,23 @@ export const showEditPaymentModal = (paymentId) => {
     overlay.querySelector('#editPaymentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
+
+        // Update payment
         await store.updatePayment(paymentId, {
             debtId: formData.get('debtId'),
             amount: formData.get('amount'),
             date: formData.get('date'),
             note: formData.get('note')
         });
+
+        // Update debt due date if changed
+        const newDueDate = formData.get('debtDueDate');
+        if (currentDebt && newDueDate && newDueDate !== currentDebt.dueDate) {
+            await store.updateDebt(currentDebt.id, {
+                dueDate: newDueDate
+            });
+        }
+
         document.body.removeChild(overlay);
         store.notifyListeners();
     });
