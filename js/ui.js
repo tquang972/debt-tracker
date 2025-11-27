@@ -238,8 +238,15 @@ export const renderHistory = () => {
 export const renderAnalytics = () => {
     const currentUserId = store.getCurrentUserId();
     const allPayments = store.getPayments();
-    const debts = store.getDebts('all');
+    const allDebts = store.getDebts('all');
+    const debts = allDebts.filter(d => d.personId === currentUserId);
 
+    console.log('[DEBUG] renderAnalytics debt filtering', {
+        currentUserId,
+        allDebtsCount: allDebts.length,
+        filteredDebtsCount: debts.length,
+        filteredDebtsNames: debts.map(d => d.name),
+    });
     // Filter payments for current user
     const payments = allPayments.filter(pay => {
         const debt = debts.find(d => d.id === pay.debtId);
