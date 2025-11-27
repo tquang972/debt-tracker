@@ -111,7 +111,6 @@ export const renderDashboard = () => {
     document.querySelectorAll('.delete-debt-btn').forEach(btn => {
         btn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            e.preventDefault();
             if (confirm('Delete this debt?')) {
                 await store.deleteDebt(btn.dataset.id);
             }
