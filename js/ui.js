@@ -205,7 +205,10 @@ export const renderHistory = () => {
                 <article class="history-item">
                     <div class="history-item__details">
                         <div class="history-item__name">${debtName}</div>
-                        <span class="history-item__date">${formatDate(pay.date)}</span>
+                        <div class="history-item__dates">
+                            <span class="history-item__date">Paid: ${formatDate(pay.date)}</span>
+                            ${debt && debt.dueDate ? `<span class="history-item__due-date">Due: ${formatDate(debt.dueDate)}</span>` : ''}
+                        </div>
                         ${pay.note ? `<span class="history-item__note">${pay.note}</span>` : ''}
                     </div>
                     <div class="history-item__right">
