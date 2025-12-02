@@ -239,14 +239,10 @@ export const renderAnalytics = () => {
     const currentUserId = store.getCurrentUserId();
     const allPayments = store.getPayments();
     const allDebts = store.getDebts('all');
-    const debts = allDebts.filter(d => d.personId === currentUserId);
+    const filteredDebts = allDebts.filter(d => d.personId === currentUserId);
 
-    console.log('[DEBUG] renderAnalytics debt filtering', {
-        currentUserId,
-        allDebtsCount: allDebts.length,
-        filteredDebtsCount: debts.length,
-        filteredDebtsNames: debts.map(d => d.name),
-    });
+
+    const debts = filteredDebts;
     // Filter payments for current user
     const payments = allPayments.filter(pay => {
         const debt = debts.find(d => d.id === pay.debtId);
@@ -625,8 +621,10 @@ export const showEditPaymentModal = (paymentId) => {
     const payment = store.getPayments().find(p => p.id === paymentId);
     if (!payment) return;
 
-    const debts = store.getDebts('all');
-    const currentDebt = debts.find(d => d.id === payment.debtId);
+    const currentUserId = store.getCurrentUserId();
+    const allDebts = store.getDebts('all');
+    const debts = allDebts.filter(d => d.personId === currentUserId);
+    const currentDebt = allDebts.find(d => d.id === payment.debtId);
 
     const overlay = showModal(`
         <h3 class="modal__title">Edit Payment</h3>

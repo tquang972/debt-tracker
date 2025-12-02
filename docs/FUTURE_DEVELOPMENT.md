@@ -4,6 +4,9 @@
 - add analytics for future months payment[done]
 - add graphics
 - add drop down from analytics to see all payments[done]
+- combine Debt tab with overview tab[done]
+- show due date and paid date in history
+- Add Log in to access backend data
 ### High Priority
 - [ ] 
 
