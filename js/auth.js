@@ -1,40 +1,24 @@
 /**
  * Authentication Module
  * Handles Firebase Authentication for the Debt Tracker app
+ * Uses Firebase Compat SDK to match existing store.js implementation
  */
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-    signOut as firebaseSignOut,
-    onAuthStateChanged as firebaseOnAuthStateChanged
-} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-
-// Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyCfsNlaVRn0SG-lShPngu37D6AKEXVebb8",
-    authDomain: "debt-tracker-cf9e6.firebaseapp.com",
-    projectId: "debt-tracker-cf9e6",
-    storageBucket: "debt-tracker-cf9e6.firebasestorage.app",
-    messagingSenderId: "804807373024",
-    appId: "1:804807373024:web:1f7e6943e55668cf39e085",
-    measurementId: "G-812W9QY820"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+// Firebase is already initialized in firebase-config.js (via index.html scripts)
+// We just need to access the auth service
 
 /**
  * Sign in with email and password
  * @param {string} email - User email
  * @param {string} password - User password
- * @returns {Promise<UserCredential>}
+ * @returns {Promise<firebase.auth.UserCredential>}
  */
 export async function signIn(email, password) {
     try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const auth = window.firebase.auth();
+        // Set persistence to LOCAL so login survives refreshes
+        await auth.setPersistence(window.firebase.auth.Auth.Persistence.LOCAL);
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
         console.log('[Auth] User signed in:', userCredential.user.email);
         return userCredential;
     } catch (error) {
@@ -49,8 +33,9 @@ export async function signIn(email, password) {
  */
 export async function signOut() {
     try {
-        await firebaseSignOut(auth);
+        await window.firebase.auth().signOut();
         console.log('[Auth] User signed out');
+
         // Handle GitHub Pages redirect issue (missing trailing slash)
         const path = window.location.pathname;
         let target = 'login.html';
@@ -74,7 +59,8 @@ export async function signOut() {
  * @returns {Function} Unsubscribe function
  */
 export function onAuthStateChanged(callback) {
-    return firebaseOnAuthStateChanged(auth, (user) => {
+    const auth = window.firebase.auth();
+    return auth.onAuthStateChanged((user) => {
         if (user) {
             console.log('[Auth] User authenticated:', user.email);
         } else {
@@ -86,10 +72,10 @@ export function onAuthStateChanged(callback) {
 
 /**
  * Get the current authenticated user
- * @returns {User|null}
+ * @returns {firebase.User|null}
  */
 export function getCurrentUser() {
-    return auth.currentUser;
+    return window.firebase.auth().currentUser;
 }
 
 /**
@@ -106,14 +92,10 @@ export function requireAuth() {
                 console.log('[Auth] Not authenticated, redirecting to login');
 
                 // Handle GitHub Pages redirect issue (missing trailing slash)
-                // If path is like /debt-tracker (no slash), 'login.html' resolves to /login.html (wrong)
-                // We want /debt-tracker/login.html
                 const path = window.location.pathname;
                 let target = 'login.html';
 
                 if (!path.endsWith('/') && !path.endsWith('.html')) {
-                    // We are likely at a directory root without slash
-                    // Construct absolute path to ensure we stay in the directory
                     const url = new URL(window.location.href);
                     url.pathname = url.pathname + '/login.html';
                     target = url.href;
