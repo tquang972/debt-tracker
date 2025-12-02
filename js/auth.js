@@ -51,7 +51,17 @@ export async function signOut() {
     try {
         await firebaseSignOut(auth);
         console.log('[Auth] User signed out');
-        window.location.href = 'login.html';
+        // Handle GitHub Pages redirect issue (missing trailing slash)
+        const path = window.location.pathname;
+        let target = 'login.html';
+
+        if (!path.endsWith('/') && !path.endsWith('.html')) {
+            const url = new URL(window.location.href);
+            url.pathname = url.pathname + '/login.html';
+            target = url.href;
+        }
+
+        window.location.href = target;
     } catch (error) {
         console.error('[Auth] Sign out error:', error);
         throw error;
