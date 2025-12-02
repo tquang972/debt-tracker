@@ -253,49 +253,42 @@ export const renderAnalytics = () => {
         return debt && debt.personId === currentUserId;
     });
 
-    // 1. Calculate Actual Payments (Group by Year/Month)
+    // 1. Initialize structure and Aggregate by Debt Due Date
+    // This ensures that if a debt is fully paid, it shows as 100% (Green) in its due month,
+    // regardless of when the payments were actually made.
     const dataByYear = {};
-    payments.forEach(payment => {
-        const date = new Date(payment.date);
-        const year = date.getFullYear();
-        const month = date.toLocaleString('default', { month: 'short' });
-
-        if (!dataByYear[year]) dataByYear[year] = {};
-        if (!dataByYear[year][month]) {
-            dataByYear[year][month] = { total: 0, count: 0, payments: [], expected: 0 };
-        }
-
-        dataByYear[year][month].total += parseFloat(payment.amount);
-        dataByYear[year][month].count += 1;
-
-        // Add payment details
-        const debt = debts.find(d => d.id === payment.debtId);
-        dataByYear[year][month].payments.push({
-            ...payment,
-            debtName: debt ? debt.name : 'Unknown Debt'
-        });
-    });
-
-    // 2. Calculate Expected Payments (based on Debts)
-    // Expected = Current Balance + All Payments made to that debt
     const userDebts = debts.filter(d => d.personId === currentUserId);
+
     userDebts.forEach(debt => {
+        if (!debt.dueDate) return; // Skip if no due date
+
         const date = new Date(debt.dueDate);
         const year = date.getFullYear();
         const month = date.toLocaleString('default', { month: 'short' });
 
-        // Calculate total original value of the debt
-        const debtPayments = allPayments.filter(p => p.debtId === debt.id);
-        const totalPaid = debtPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
-        const originalAmount = parseFloat(debt.balance) + totalPaid;
-
-        // Initialize structure if it doesn't exist (e.g. no payments made yet)
         if (!dataByYear[year]) dataByYear[year] = {};
         if (!dataByYear[year][month]) {
             dataByYear[year][month] = { total: 0, count: 0, payments: [], expected: 0 };
         }
 
+        // Calculate amounts for this debt
+        const debtPayments = allPayments.filter(p => p.debtId === debt.id);
+        const totalPaid = debtPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const originalAmount = parseFloat(debt.balance) + totalPaid;
+
+        // Add to month totals
         dataByYear[year][month].expected += originalAmount;
+        dataByYear[year][month].total += totalPaid;
+        dataByYear[year][month].count += debtPayments.length;
+
+        // Add associated payments to the list
+        debtPayments.forEach(payment => {
+            dataByYear[year][month].payments.push({
+                ...payment,
+                debtName: debt.name,
+                paymentDate: payment.date // Keep track of actual payment date
+            });
+        });
     });
 
     // Sort years descending

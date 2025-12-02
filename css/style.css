@@ -147,6 +147,10 @@
 .history-item__details {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    /* Critical for text truncation/wrapping in flex items */
+    margin-right: 1rem;
 }
 
 .history-item__name {
@@ -164,6 +168,10 @@
     font-size: 0.8rem;
     color: var(--text-secondary);
     font-style: italic;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    margin-top: 0.25rem;
+    line-height: 1.4;
 }
 
 .history-item__right {
