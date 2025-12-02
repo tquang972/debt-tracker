@@ -4,42 +4,49 @@
 }
 
 .summary-card {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    border: 1px solid #3b82f6;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid var(--border);
     text-align: center;
     padding: 2rem;
-    border-radius: 12px;
+    border-radius: 20px;
     /* Added explicit border-radius since .card is removed */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 .summary-card__title {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
+    color: var(--text-gold);
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
 }
 
 .summary-card__amount {
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 3rem;
+    font-weight: 300;
     color: var(--text-primary);
+    letter-spacing: -1px;
 }
 
 .dashboard-forecast {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 .forecast-card {
     flex: 1;
-    padding: 1rem;
+    padding: 1.25rem;
     text-align: center;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 16px;
+    transition: transform 0.2s;
+}
+
+.forecast-card:active {
+    transform: scale(0.98);
 }
 
 .forecast-card__title {
@@ -79,8 +86,8 @@
     align-items: center;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
+    border-radius: 16px;
+    padding: 1.25rem;
     margin-bottom: 0.75rem;
 }
 
@@ -91,6 +98,7 @@
 .debt-item__name {
     font-weight: 600;
     font-size: 1.1rem;
+    color: var(--text-primary);
 }
 
 .debt-item__note {
@@ -102,7 +110,8 @@
 
 .debt-item__due {
     font-size: 0.875rem;
-    color: var(--text-secondary);
+    color: var(--text-gold);
+    /* Gold for due dates */
 }
 
 .debt-item__actions {
@@ -115,6 +124,7 @@
 
 .debt-item__balance {
     font-weight: 700;
+    font-size: 1.1rem;
 }
 
 .debt-item__buttons {
@@ -129,8 +139,8 @@
     align-items: center;
     background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
+    border-radius: 16px;
+    padding: 1.25rem;
     margin-bottom: 0.75rem;
 }
 
@@ -199,29 +209,71 @@
 .btn-icon--sm {
     background: transparent;
     border: none;
-    font-size: 1.2rem;
+    color: var(--accent-primary);
+    /* Gold */
     cursor: pointer;
-    padding: 0.25rem;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+    padding: 0.5rem;
+    opacity: 0.8;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    width: auto;
+    height: auto;
+    box-shadow: none;
 }
 
 .btn-icon--sm:hover {
+    transform: scale(1.1);
     opacity: 1;
+    background: transparent;
+    box-shadow: none;
+    color: var(--accent-hover);
+    /* Lighter Gold on hover */
+}
+
+.btn-icon--sm svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    stroke: none;
+}
+
+/* Specific hover colors if needed, but gold is requested for both */
+.edit-debt-btn,
+.edit-pay-btn,
+.delete-debt-btn,
+.delete-pay-btn {
+    color: var(--accent-primary);
+}
+
+.delete-debt-btn:hover,
+.delete-pay-btn:hover {
+    color: var(--accent-hover);
 }
 
 .btn-icon {
-    background: var(--accent-primary);
-    color: white;
-    border: none;
-    width: 32px;
-    height: 32px;
+    background: #000000;
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     font-size: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    background: var(--accent-primary);
+    color: #000000;
+    box-shadow: 0 4px 15px rgba(212, 180, 131, 0.4);
+    transform: scale(1.05);
 }
 
 /* Modals */
@@ -316,46 +368,63 @@
 
 /* Buttons */
 .btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.875rem 1.5rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
 }
 
 .btn:active {
-    transform: scale(0.98);
+    transform: scale(0.96);
 }
 
 .btn--primary {
     background: var(--accent-primary);
-    color: white;
+    color: #000000;
+    /* Black text on gold for contrast */
 }
 
 .btn--primary:hover {
-    background: var(--accent-secondary);
+    background: var(--accent-hover);
 }
 
 .btn--secondary {
-    background: transparent;
-    border: 1px solid var(--border);
+    background: var(--accent-tertiary);
+    border: 1px solid transparent;
     color: var(--text-primary);
 }
 
 .btn--secondary:hover {
-    background: var(--bg-body);
+    background: #333;
     border-color: var(--text-secondary);
 }
 
 .btn--danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+}
+
+.btn--danger:hover {
     background: var(--danger);
     color: white;
 }
 
-.btn--danger:hover {
-    opacity: 0.9;
+.pay-btn {
+    background: #000000;
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pay-btn:hover {
+    background: var(--accent-primary);
+    color: #000000;
+    box-shadow: 0 4px 15px rgba(212, 180, 131, 0.4);
 }
 
 .history-right {

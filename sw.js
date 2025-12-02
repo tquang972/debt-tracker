@@ -1,4 +1,4 @@
-const CACHE_NAME = 'debt-tracker-v1';
+const CACHE_NAME = 'debt-tracker-v7';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -18,6 +18,9 @@ const ASSETS_TO_CACHE = [
 
 // Install event - cache assets
 self.addEventListener('install', (event) => {
+    // Force immediate activation
+    self.skipWaiting();
+
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
@@ -28,43 +31,66 @@ self.addEventListener('install', (event) => {
 
 // Activate event - cleanup old caches
 self.addEventListener('activate', (event) => {
+    // Take control of all clients immediately
     event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CACHE_NAME) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
+        Promise.all([
+            self.clients.claim(),
+            caches.keys().then((cacheNames) => {
+                return Promise.all(
+                    cacheNames.map((cacheName) => {
+                        if (cacheName !== CACHE_NAME) {
+                            return caches.delete(cacheName);
+                        }
+                    })
+                );
+            })
+        ])
     );
 });
 
 // Fetch event - Network first, fallback to cache for data
 // Stale-while-revalidate for static assets
+// Fetch event - Network first for local assets, stale-while-revalidate for others
 self.addEventListener('fetch', (event) => {
     // Skip cross-origin requests (like Firebase)
     if (!event.request.url.startsWith(self.location.origin)) {
         return;
     }
 
+    const requestUrl = new URL(event.request.url);
+
+    // Network First strategy for HTML, CSS, JS to ensure updates are seen immediately
+    if (requestUrl.pathname.endsWith('.html') ||
+        requestUrl.pathname.endsWith('.css') ||
+        requestUrl.pathname.endsWith('.js')) {
+
+        event.respondWith(
+            fetch(event.request)
+                .then((networkResponse) => {
+                    return caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, networkResponse.clone());
+                        return networkResponse;
+                    });
+                })
+                .catch(() => {
+                    return caches.match(event.request);
+                })
+        );
+        return;
+    }
+
+    // Stale-while-revalidate for other assets (images, fonts)
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
-            // Return cached response if found
             if (cachedResponse) {
-                // Update cache in background (stale-while-revalidate)
                 fetch(event.request).then((networkResponse) => {
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, networkResponse.clone());
                     });
-                }).catch(() => {
-                    // Network failed, just use cache
-                });
+                }).catch(() => { });
                 return cachedResponse;
             }
 
-            // If not in cache, fetch from network
             return fetch(event.request).then((networkResponse) => {
                 return caches.open(CACHE_NAME).then((cache) => {
                     cache.put(event.request, networkResponse.clone());

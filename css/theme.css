@@ -1,15 +1,32 @@
 :root {
-    /* Colors - Slate/Blue Premium Dark Theme */
-    --bg-body: #0f172a;
-    --bg-card: #1e293b;
-    --bg-nav: #1e293b;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --accent-primary: #3b82f6;
-    --accent-hover: #2563eb;
+    /* Colors - Premium Gold/Dark Theme */
+    --bg-body: #050505;
+    /* Deep Black */
+    --bg-card: #141414;
+    /* Dark Grey */
+    --bg-nav: #0a0a0a;
+    /* Almost Black */
+
+    --text-primary: #FFFFFF;
+    /* White */
+    --text-secondary: #A1A1AA;
+    /* Light Grey */
+    --text-gold: #D4B483;
+    /* Gold text */
+
+    --accent-primary: #D4B483;
+    /* Muted Gold */
+    --accent-hover: #C19F6E;
+    /* Darker Gold */
+    --accent-tertiary: #2A2A2A;
+    /* Dark Grey for secondary elements */
+
     --danger: #ef4444;
     --success: #22c55e;
-    --border: #334155;
+    --warning: #eab308;
+
+    --border: #27272a;
+    /* Subtle border */
 
     /* Spacing */
     --safe-area-top: env(safe-area-inset-top);
@@ -48,9 +65,9 @@ body {
 .app-header {
     padding: 1rem;
     padding-top: calc(1rem + var(--safe-area-top));
-    background: rgba(15, 23, 42, 0.95);
-    /* Slightly more opaque */
-    backdrop-filter: blur(10px);
+    background: rgba(5, 5, 5, 0.85);
+    /* Matches new bg-body */
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
@@ -63,9 +80,11 @@ body {
 .app-title {
     font-size: 1.25rem;
     font-weight: 700;
-    background: linear-gradient(to right, #60a5fa, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-primary);
+    /* Removed gradient for cleaner look, or use Gold gradient */
+    /* background: linear-gradient(to right, #D4B483, #F3E5AB); */
+    /* -webkit-background-clip: text; */
+    /* -webkit-text-fill-color: transparent; */
 }
 
 .user-select-input {

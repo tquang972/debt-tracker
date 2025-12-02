@@ -216,8 +216,12 @@ export const renderHistory = () => {
                             -${formatCurrency(pay.amount)}
                         </div>
                         <div class="history-item__actions">
-                            <button class="btn-icon btn-icon--sm edit-pay-btn" data-id="${pay.id}">✏️</button>
-                            <button class="btn-icon btn-icon--sm delete-pay-btn" data-id="${pay.id}">🗑️</button>
+                            <button class="btn-icon btn-icon--sm edit-pay-btn" data-id="${pay.id}" aria-label="Edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                            </button>
+                            <button class="btn-icon btn-icon--sm delete-pay-btn" data-id="${pay.id}" aria-label="Delete">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                            </button>
                         </div>
                     </div>
                 </article>
@@ -393,8 +397,12 @@ const createDebtItem = (debt) => {
             <div class="debt-item__actions">
                 <div class="debt-item__balance">${formatCurrency(debt.balance)}</div>
                 <div class="debt-item__buttons">
-                    <button class="btn-icon btn-icon--sm edit-debt-btn" data-id="${debt.id}">✏️</button>
-                    <button class="btn-icon btn-icon--sm delete-debt-btn" data-id="${debt.id}">🗑️</button>
+                    <button class="btn-icon btn-icon--sm edit-debt-btn" data-id="${debt.id}" aria-label="Edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    </button>
+                    <button class="btn-icon btn-icon--sm delete-debt-btn" data-id="${debt.id}" aria-label="Delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    </button>
                     <button class="btn btn--sm pay-btn" data-id="${debt.id}">Pay</button>
                 </div>
             </div>
