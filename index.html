@@ -19,8 +19,13 @@
     <div id="app">
         <header class="app-header">
             <h1 class="app-title">Debt Tracker</h1>
-            <div class="user-selector" id="userSelector">
-                <!-- User toggle will go here -->
+            <div class="header-actions">
+                <div class="user-selector" id="userSelector">
+                    <!-- User toggle will go here -->
+                </div>
+                <button id="logoutBtn" class="btn btn--secondary btn--sm" style="margin-left: 0.5rem;">
+                    Logout
+                </button>
             </div>
         </header>
 
@@ -107,16 +112,25 @@
 
     <!-- Manual Loader to ensure Firebase is ready before App -->
     <script>
-        function loadApp() {
+        async function loadApp() {
             if (window.firebase && window.firebase.firestore) {
-                console.log("Firebase ready, loading app...");
-                import('./js/app.js')
-                    .then(() => console.log("App loaded successfully"))
-                    .catch(e => {
+                console.log("Firebase ready, checking authentication...");
+
+                // Check authentication before loading app
+                try {
+                    const { requireAuth } = await import('./js/auth.js');
+                    await requireAuth(); // This will redirect to login if not authenticated
+
+                    console.log("Authenticated, loading app...");
+                    await import('./js/app.js');
+                    console.log("App loaded successfully");
+                } catch (e) {
+                    if (e.message !== 'Not authenticated') {
                         console.error("Failed to load app:", e);
                         document.getElementById('loadingMsg').textContent = 'Error loading app.js';
                         document.getElementById('errorLog').textContent = e.toString();
-                    });
+                    }
+                }
             } else {
                 console.log("Waiting for Firebase...");
                 setTimeout(loadApp, 200);
