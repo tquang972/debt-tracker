@@ -94,7 +94,22 @@ export function requireAuth() {
                 resolve(user);
             } else {
                 console.log('[Auth] Not authenticated, redirecting to login');
-                window.location.href = 'login.html';
+
+                // Handle GitHub Pages redirect issue (missing trailing slash)
+                // If path is like /debt-tracker (no slash), 'login.html' resolves to /login.html (wrong)
+                // We want /debt-tracker/login.html
+                const path = window.location.pathname;
+                let target = 'login.html';
+
+                if (!path.endsWith('/') && !path.endsWith('.html')) {
+                    // We are likely at a directory root without slash
+                    // Construct absolute path to ensure we stay in the directory
+                    const url = new URL(window.location.href);
+                    url.pathname = url.pathname + '/login.html';
+                    target = url.href;
+                }
+
+                window.location.href = target;
                 reject(new Error('Not authenticated'));
             }
         });
