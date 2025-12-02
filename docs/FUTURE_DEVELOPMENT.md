@@ -5,8 +5,9 @@
 - add graphics
 - add drop down from analytics to see all payments[done]
 - combine Debt tab with overview tab[done]
-- show due date and paid date in history
-- [x] Add Log in to access backend data
+- show due date and paid date in history[done]
+- [x] Add Log in to access backend data[done]
+- Implement Color like Robinhood Credit card app
 ### High Priority
 - [ ] 
 

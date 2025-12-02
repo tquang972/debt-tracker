@@ -41,19 +41,23 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding-top: var(--safe-area-top);
+    /* padding-top moved to header for immersive feel */
     padding-bottom: var(--safe-area-bottom);
 }
 
 .app-header {
     padding: 1rem;
-    background: rgba(15, 23, 42, 0.9);
+    padding-top: calc(1rem + var(--safe-area-top));
+    background: rgba(15, 23, 42, 0.95);
+    /* Slightly more opaque */
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 10;
+    position: sticky;
+    top: 0;
 }
 
 .app-title {

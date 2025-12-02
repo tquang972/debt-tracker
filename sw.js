@@ -1,50 +1,76 @@
-const CACHE_NAME = 'debt-tracker-v23';
-const ASSETS = [
+const CACHE_NAME = 'debt-tracker-v1';
+const ASSETS_TO_CACHE = [
     './',
     './index.html',
-    './css/theme.css',
+    './login.html',
     './css/style.css',
+    './css/theme.css',
     './js/app.js',
+    './js/auth.js',
+    './js/ui.js',
     './js/store.js',
     './js/firebase-config.js',
-    './js/initialData.js',
-    './js/utils.js',
-    './js/ui.js',
-    './js/notifications.js',
     './js/lib/firebase-app-compat.js',
+    './js/lib/firebase-auth-compat.js',
     './js/lib/firebase-firestore-compat.js',
     './manifest.json'
 ];
 
-self.addEventListener('install', (e) => {
-    e.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+// Install event - cache assets
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                return cache.addAll(ASSETS_TO_CACHE);
+            })
     );
-    self.skipWaiting();
 });
 
-self.addEventListener('activate', (e) => {
-    e.waitUntil(
-        caches.keys().then((keys) => {
+// Activate event - cleanup old caches
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
             return Promise.all(
-                keys.map((key) => {
-                    if (key !== CACHE_NAME) {
-                        return caches.delete(key);
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName);
                     }
                 })
             );
         })
     );
-    self.clients.claim();
 });
 
-self.addEventListener('fetch', (e) => {
-    // Bypass cache for HTML pages to ensure latest index.html and inline scripts
-    if (e.request.destination === 'document') {
-        e.respondWith(fetch(e.request));
+// Fetch event - Network first, fallback to cache for data
+// Stale-while-revalidate for static assets
+self.addEventListener('fetch', (event) => {
+    // Skip cross-origin requests (like Firebase)
+    if (!event.request.url.startsWith(self.location.origin)) {
         return;
     }
-    e.respondWith(
-        fetch(e.request).catch(() => caches.match(e.request))
+
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            // Return cached response if found
+            if (cachedResponse) {
+                // Update cache in background (stale-while-revalidate)
+                fetch(event.request).then((networkResponse) => {
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, networkResponse.clone());
+                    });
+                }).catch(() => {
+                    // Network failed, just use cache
+                });
+                return cachedResponse;
+            }
+
+            // If not in cache, fetch from network
+            return fetch(event.request).then((networkResponse) => {
+                return caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(event.request, networkResponse.clone());
+                    return networkResponse;
+                });
+            });
+        })
     );
 });
