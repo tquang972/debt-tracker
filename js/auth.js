@@ -51,7 +51,7 @@ export async function signOut() {
     try {
         await firebaseSignOut(auth);
         console.log('[Auth] User signed out');
-        window.location.href = '/login.html';
+        window.location.href = 'login.html';
     } catch (error) {
         console.error('[Auth] Sign out error:', error);
         throw error;
@@ -94,7 +94,7 @@ export function requireAuth() {
                 resolve(user);
             } else {
                 console.log('[Auth] Not authenticated, redirecting to login');
-                window.location.href = '/login.html';
+                window.location.href = 'login.html';
                 reject(new Error('Not authenticated'));
             }
         });
