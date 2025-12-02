@@ -6,6 +6,7 @@
 
 // Firebase is already initialized in firebase-config.js (via index.html scripts)
 // We just need to access the auth service
+import './firebase-config.js';
 
 /**
  * Sign in with email and password
