@@ -34,6 +34,7 @@ export const renderUserSelector = () => {
             if (activeTab === 'dashboard') renderDashboard();
             else if (activeTab === 'debts') renderDebts();
             else if (activeTab === 'history') renderHistory();
+            else if (activeTab === 'analytics') renderAnalytics();
         }
     });
 };
