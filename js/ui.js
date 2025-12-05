@@ -275,6 +275,7 @@ export const renderAnalytics = () => {
         const debtPayments = allPayments.filter(p => p.debtId === debt.id);
         const totalPaid = debtPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
         const originalAmount = parseFloat(debt.balance) + totalPaid;
+        const remainingBalance = parseFloat(debt.balance);
 
         // Add to month totals
         dataByYear[year][month].expected += originalAmount;
@@ -285,10 +286,22 @@ export const renderAnalytics = () => {
         debtPayments.forEach(payment => {
             dataByYear[year][month].payments.push({
                 ...payment,
+                type: 'payment',
                 debtName: debt.name,
-                paymentDate: payment.date // Keep track of actual payment date
+                paymentDate: payment.date
             });
         });
+
+        // Add pending item if there is a remaining balance
+        if (remainingBalance > 0) {
+            dataByYear[year][month].payments.push({
+                type: 'pending',
+                id: `pending-${debt.id}`,
+                amount: remainingBalance,
+                debtName: debt.name,
+                date: debt.dueDate // Use due date for sorting/display
+            });
+        }
     });
 
     // Sort years descending
@@ -357,13 +370,17 @@ export const renderAnalytics = () => {
                                             </div>
                                         </div>
                                         <ul id="${monthId}" class="analytics-payment-list">
-                                            ${data.payments.sort((a, b) => new Date(b.date) - new Date(a.date)).map(pay => `
-                                                <li class="analytics-payment-item">
+                                            ${data.payments.sort((a, b) => new Date(b.date) - new Date(a.date)).map(pay => {
+                const isPending = pay.type === 'pending';
+                return `
+                                                <li class="analytics-payment-item ${isPending ? 'analytics-payment-item--pending' : ''}">
                                                     <span class="analytics-payment-item__date">${formatDate(pay.date)}</span>
-                                                    <span class="analytics-payment-item__name">${pay.debtName}</span>
+                                                    <span class="analytics-payment-item__name">
+                                                        ${pay.debtName} 
+                                                    </span>
                                                     <span class="analytics-payment-item__amount">${formatCurrency(pay.amount)}</span>
                                                 </li>
-                                            `).join('')}
+                                            `}).join('')}
                                         </ul>
                                     </article>
                                 `;

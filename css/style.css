@@ -649,3 +649,19 @@
     font-weight: 600;
     color: var(--accent-primary);
 }
+
+.analytics-payment-item--pending .analytics-payment-item__amount {
+    color: var(--danger);
+}
+
+.status-badge {
+    font-size: 0.7rem;
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    border: 1px solid var(--danger);
+    vertical-align: middle;
+    font-weight: normal;
+}
