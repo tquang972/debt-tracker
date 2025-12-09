@@ -263,7 +263,9 @@ export const renderAnalytics = () => {
     userDebts.forEach(debt => {
         if (!debt.dueDate) return; // Skip if no due date
 
-        const date = new Date(debt.dueDate);
+        // Parse date manually to avoid timezone issues (YYYY-MM-DD -> Local Date)
+        const [y, m, d] = debt.dueDate.split('-').map(Number);
+        const date = new Date(y, m - 1, d);
         const year = date.getFullYear();
         const month = date.toLocaleString('default', { month: 'short' });
 
