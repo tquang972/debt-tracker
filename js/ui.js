@@ -264,7 +264,6 @@ export const renderAnalytics = () => {
         if (!debt.dueDate) return; // Skip if no due date
 
         // Parse date manually to avoid timezone issues (YYYY-MM-DD -> Local Date)
-        console.log(`[Analytics] Parsing debt: ${debt.name}, Due: ${debt.dueDate}`);
         const [y, m, d] = debt.dueDate.split('-').map(Number);
         const date = new Date(y, m - 1, d);
         const year = date.getFullYear();
