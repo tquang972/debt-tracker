@@ -49,31 +49,48 @@ export const renderDashboard = () => {
     const debts = store.getDebts().filter(d => d.balance >= 0.01);
     const totalDebt = debts.reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
-    // Calculate forecast (Calendar Week: ends Saturday)
+    // Calculate forecast windows (Monday to Sunday)
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize today to start of day
 
-    const dayOfWeek = today.getDay(); // 0 (Sun) to 6 (Sat)
-    const diffToSaturday = 6 - dayOfWeek;
-    const endOfWeek = new Date(today.getTime() + diffToSaturday * 24 * 60 * 60 * 1000);
-    endOfWeek.setHours(23, 59, 59, 999);
+    // Get Monday of this week (for baseline)
+    const day = today.getDay(); // 0 (Sun) to 6 (Sat)
+    const diffToMonday = (day === 0 ? -6 : 1 - day); // Mon is day 1. If Sun, go back 6.
+    const startOfThisWeek = new Date(today.getTime() + diffToMonday * 24 * 60 * 60 * 1000);
+
+    // This Week Range (Mon 12/15 - Sun 12/21)
+    const endOfThisWeek = new Date(startOfThisWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+    endOfThisWeek.setHours(23, 59, 59, 999);
+
+    // 2nd Week Range (Mon 12/22 - Sun 12/28)
+    const startOf2ndWeek = new Date(startOfThisWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const endOf2ndWeek = new Date(startOf2ndWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+    endOf2ndWeek.setHours(23, 59, 59, 999);
+
+    // 3rd Week Range (Mon 12/29 - Sun 01/04)
+    const startOf3rdWeek = new Date(startOfThisWeek.getTime() + 14 * 24 * 60 * 60 * 1000);
+    const endOf3rdWeek = new Date(startOf3rdWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+    endOf3rdWeek.setHours(23, 59, 59, 999);
 
     const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     endOfMonth.setHours(23, 59, 59, 999);
 
-    const endOf2Weeks = new Date(endOfWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const endOf3Weeks = new Date(endOfWeek.getTime() + 14 * 24 * 60 * 60 * 1000);
-
     const weeklyDue = debts
-        .filter(d => parseLocalDate(d.dueDate) <= endOfWeek)
+        .filter(d => parseLocalDate(d.dueDate) <= endOfThisWeek)
         .reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     const twoWeeksDue = debts
-        .filter(d => parseLocalDate(d.dueDate) <= endOf2Weeks)
+        .filter(d => {
+            const date = parseLocalDate(d.dueDate);
+            return date >= startOf2ndWeek && date <= endOf2ndWeek;
+        })
         .reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     const threeWeeksDue = debts
-        .filter(d => parseLocalDate(d.dueDate) <= endOf3Weeks)
+        .filter(d => {
+            const date = parseLocalDate(d.dueDate);
+            return date >= startOf3rdWeek && date <= endOf3rdWeek;
+        })
         .reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     const monthlyDue = debts
