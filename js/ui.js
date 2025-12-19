@@ -49,15 +49,20 @@ export const renderDashboard = () => {
     const debts = store.getDebts().filter(d => d.balance >= 0.01);
     const totalDebt = debts.reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
-    // Calculate forecast
+    // Calculate forecast (Calendar Week: ends Saturday)
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Normalize today to start of day
 
-    const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const dayOfWeek = today.getDay(); // 0 (Sun) to 6 (Sat)
+    const diffToSaturday = 6 - dayOfWeek;
+    const endOfWeek = new Date(today.getTime() + diffToSaturday * 24 * 60 * 60 * 1000);
+    endOfWeek.setHours(23, 59, 59, 999);
+
     const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    endOfMonth.setHours(23, 59, 59, 999);
 
     const weeklyDue = debts
-        .filter(d => parseLocalDate(d.dueDate) <= nextWeek)
+        .filter(d => parseLocalDate(d.dueDate) <= endOfWeek)
         .reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     const monthlyDue = debts
