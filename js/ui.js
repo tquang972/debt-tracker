@@ -1,5 +1,5 @@
 import { store } from './store.js';
-import { formatCurrency, formatDate, getRelativeDate, isThisWeek, isThisMonth } from './utils.js';
+import { formatCurrency, formatDate, getRelativeDate, isThisWeek, isThisMonth, parseLocalDate } from './utils.js';
 
 const app = document.getElementById('app');
 const mainContent = document.getElementById('mainContent');
@@ -51,19 +51,21 @@ export const renderDashboard = () => {
 
     // Calculate forecast
     const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize today to start of day
+
     const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
     const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
 
     const weeklyDue = debts
-        .filter(d => new Date(d.dueDate) <= nextWeek)
+        .filter(d => parseLocalDate(d.dueDate) <= nextWeek)
         .reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     const monthlyDue = debts
-        .filter(d => new Date(d.dueDate) <= endOfMonth)
+        .filter(d => parseLocalDate(d.dueDate) <= endOfMonth)
         .reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     // Sort by due date
-    debts.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    debts.sort((a, b) => parseLocalDate(a.dueDate) - parseLocalDate(b.dueDate));
 
     mainContent.innerHTML = `
         <header class="dashboard-header">

@@ -1,5 +1,5 @@
 import { store } from './store.js';
-import { getRelativeDate } from './utils.js';
+import { getRelativeDate, parseLocalDate } from './utils.js';
 
 export const requestPermission = async () => {
     if (!('Notification' in window)) {
@@ -29,8 +29,7 @@ export const checkDueDates = async () => {
     debts.forEach(debt => {
         if (debt.balance <= 0) return;
 
-        const dueDate = new Date(debt.dueDate);
-        dueDate.setHours(0, 0, 0, 0);
+        const dueDate = parseLocalDate(debt.dueDate);
 
         const diffTime = dueDate - today;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

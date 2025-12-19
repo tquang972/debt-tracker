@@ -13,7 +13,7 @@ export const formatDate = (dateStr) => {
 };
 
 // Helper to parse YYYY-MM-DD as local date
-const parseLocalDate = (dateStr) => {
+export const parseLocalDate = (dateStr) => {
     if (!dateStr) return null;
     const [y, m, d] = dateStr.split('-').map(Number);
     return new Date(y, m - 1, d);
