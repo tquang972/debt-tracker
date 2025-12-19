@@ -61,8 +61,19 @@ export const renderDashboard = () => {
     const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
     endOfMonth.setHours(23, 59, 59, 999);
 
+    const endOf2Weeks = new Date(endOfWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
+    const endOf3Weeks = new Date(endOfWeek.getTime() + 14 * 24 * 60 * 60 * 1000);
+
     const weeklyDue = debts
         .filter(d => parseLocalDate(d.dueDate) <= endOfWeek)
+        .reduce((sum, d) => sum + parseFloat(d.balance), 0);
+
+    const twoWeeksDue = debts
+        .filter(d => parseLocalDate(d.dueDate) <= endOf2Weeks)
+        .reduce((sum, d) => sum + parseFloat(d.balance), 0);
+
+    const threeWeeksDue = debts
+        .filter(d => parseLocalDate(d.dueDate) <= endOf3Weeks)
         .reduce((sum, d) => sum + parseFloat(d.balance), 0);
 
     const monthlyDue = debts
@@ -82,6 +93,14 @@ export const renderDashboard = () => {
                 <article class="forecast-card">
                     <h4 class="forecast-card__title">Due This Week</h4>
                     <div class="forecast-card__amount">${formatCurrency(weeklyDue)}</div>
+                </article>
+                <article class="forecast-card">
+                    <h4 class="forecast-card__title">Due in 2 Weeks</h4>
+                    <div class="forecast-card__amount">${formatCurrency(twoWeeksDue)}</div>
+                </article>
+                <article class="forecast-card">
+                    <h4 class="forecast-card__title">Due in 3 Weeks</h4>
+                    <div class="forecast-card__amount">${formatCurrency(threeWeeksDue)}</div>
                 </article>
                 <article class="forecast-card">
                     <h4 class="forecast-card__title">Due This Month</h4>

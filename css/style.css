@@ -30,7 +30,8 @@
 }
 
 .dashboard-forecast {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     margin-top: 1.5rem;
 }
