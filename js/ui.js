@@ -1,4 +1,4 @@
-import { store } from './store.js';
+import { store, CATEGORIES } from './store.js';
 import { formatCurrency, formatDate, getRelativeDate, isThisWeek, isThisMonth, parseLocalDate } from './utils.js';
 
 const app = document.getElementById('app');
@@ -441,10 +441,14 @@ export const renderAnalytics = () => {
 };
 
 const createDebtItem = (debt) => {
+    const category = debt.category || 'Uncategorized';
     return `
         <article class="debt-item">
             <div class="debt-item__info">
-                <div class="debt-item__name">${debt.name}</div>
+                <div class="debt-item__header">
+                    <div class="debt-item__name">${debt.name}</div>
+                    <span class="debt-item__category">${category}</span>
+                </div>
                 ${debt.note ? `<div class="debt-item__note">${debt.note}</div>` : ''}
                 <div class="debt-item__due ${getRelativeDate(debt.dueDate) === 'Overdue' ? 'text-danger' : ''}">
                     Due: ${formatDate(debt.dueDate)} (${getRelativeDate(debt.dueDate)})
@@ -519,6 +523,12 @@ export const showAddDebtModal = () => {
                     <label class="form__label">Due Date</label>
                     <input type="date" name="dueDate" class="form__input" required>
                 </div>
+                <div class="form__group">
+                    <label class="form__label">Category</label>
+                    <select name="category" class="form__input">
+                        ${CATEGORIES.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+                    </select>
+                </div>
                 <div class="form__actions">
                     <button type="button" class="btn btn--secondary" id="cancelBtn">Cancel</button>
                     <button type="submit" class="btn btn--primary">Save</button>
@@ -543,6 +553,7 @@ export const showAddDebtModal = () => {
             name: formData.get('name'),
             balance: formData.get('balance'),
             dueDate: formData.get('dueDate'),
+            category: formData.get('category'),
             personId: store.getCurrentUserId()
         });
         modal.remove();
@@ -756,6 +767,7 @@ export const showEditDebtModal = (debtId) => {
     const debt = store.getDebts('all').find(d => d.id === debtId);
     if (!debt) return;
 
+    const currentCategory = debt.category || 'Uncategorized';
     const overlay = showModal(`
         <h3 class="modal__title">Edit Debt</h3>
         <form id="editDebtForm">
@@ -770,6 +782,12 @@ export const showEditDebtModal = (debtId) => {
             <div class="form__group">
                 <label class="form__label">Due Date</label>
                 <input type="date" name="dueDate" class="form__input" value="${debt.dueDate}" required>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Category</label>
+                <select name="category" class="form__input">
+                    ${CATEGORIES.map(cat => `<option value="${cat}" ${cat === currentCategory ? 'selected' : ''}>${cat}</option>`).join('')}
+                </select>
             </div>
             <div class="form__group">
                 <label class="form__label">Note</label>
@@ -789,6 +807,7 @@ export const showEditDebtModal = (debtId) => {
             name: formData.get('name'),
             balance: formData.get('balance'),
             dueDate: formData.get('dueDate'),
+            category: formData.get('category'),
             note: formData.get('note')
         });
         document.body.removeChild(overlay);

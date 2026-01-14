@@ -1,6 +1,18 @@
 import { db } from './firebase-config.js';
 import { initialData } from './initialData.js';
 
+// Predefined categories for debt classification
+export const CATEGORIES = [
+    'Auto',
+    'Credit Card',
+    'Loan',
+    'Utilities',
+    'Insurance',
+    'Medical',
+    'Other',
+    'Uncategorized'
+];
+
 const STORAGE_KEY = 'debt_tracker_data_v13';
 
 export class Store {

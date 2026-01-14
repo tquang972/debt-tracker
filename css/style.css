@@ -102,6 +102,25 @@
     color: var(--text-primary);
 }
 
+.debt-item__header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.debt-item__category {
+    font-size: 0.7rem;
+    background: rgba(212, 180, 131, 0.15);
+    color: var(--accent-primary);
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 180, 131, 0.3);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .debt-item__note {
     font-size: 0.8rem;
     color: var(--text-secondary);
