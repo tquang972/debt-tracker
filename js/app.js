@@ -1,8 +1,8 @@
 console.log("[App] Loading imports...");
-import { renderDashboard, renderDebts, renderHistory, renderAnalytics, showPayModal, renderUserSelector } from './ui.js?v=21';
-import { store } from './store.js?v=21';
-import { checkDueDates } from './notifications.js?v=21';
-import { signOut } from './auth.js?v=21';
+import { renderDashboard, renderDebts, renderHistory, renderAnalytics, showPayModal, renderUserSelector } from './ui.js?v=22';
+import { store } from './store.js?v=22';
+import { checkDueDates } from './notifications.js?v=22';
+import { signOut } from './auth.js?v=22';
 console.log("[App] Imports loaded, store:", store);
 
 const init = () => {
