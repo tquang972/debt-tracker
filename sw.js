@@ -1,4 +1,4 @@
-const CACHE_NAME = 'debt-tracker-v24';
+const CACHE_NAME = 'debt-tracker-v25';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
