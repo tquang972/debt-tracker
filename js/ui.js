@@ -220,7 +220,7 @@ export const renderDebts = () => {
     });
 };
 
-export const renderHistory = () => {
+export const renderHistory = (categoryFilter = 'All') => {
     // Hide loading elements
     const loadingMsg = document.getElementById('loadingMsg');
     const errorLog = document.getElementById('errorLog');
@@ -232,23 +232,48 @@ export const renderHistory = () => {
     const debts = store.getDebts('all');
 
     // Filter payments to only show those for current user's debts
-    const payments = allPayments.filter(pay => {
+    let payments = allPayments.filter(pay => {
         const debt = debts.find(d => d.id === pay.debtId);
         return debt && debt.personId === currentUserId;
     });
 
+    // Apply category filter
+    if (categoryFilter !== 'All') {
+        payments = payments.filter(pay => {
+            const debt = debts.find(d => d.id === pay.debtId);
+            return (debt?.category || 'Uncategorized') === categoryFilter;
+        });
+    }
+
+    // Get unique categories from current user's debts for filter options
+    const userCategories = [...new Set(
+        debts.filter(d => d.personId === currentUserId)
+            .map(d => d.category || 'Uncategorized')
+    )].sort();
+
     mainContent.innerHTML = `
         <header class="section-header">
             <h3 class="section-header__title">Payment History</h3>
+            <select id="historyCategoryFilter" class="form__input history-filter">
+                <option value="All" ${categoryFilter === 'All' ? 'selected' : ''}>All Categories</option>
+                ${userCategories.map(cat => `<option value="${cat}" ${categoryFilter === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+            </select>
         </header>
         <div class="history-list">
-            ${payments.map(pay => {
+            ${payments.length === 0 ? '<p class="empty-state">No payments found for this filter.</p>' : payments.map(pay => {
         const debt = debts.find(d => d.id === pay.debtId);
         const debtName = debt ? debt.name : 'Unknown Debt';
+        const category = debt?.category || 'Uncategorized';
+        const debtId = debt?.id;
         return `
                 <article class="history-item">
                     <div class="history-item__details">
-                        <div class="history-item__name">${debtName}</div>
+                        <div class="history-item__header">
+                            <div class="history-item__name">${debtName}</div>
+                            <select class="history-category-select" data-debt-id="${debtId}">
+                                ${CATEGORIES.map(cat => `<option value="${cat}" ${cat === category ? 'selected' : ''}>${cat}</option>`).join('')}
+                            </select>
+                        </div>
                         <div class="history-item__dates">
                             <span class="history-item__date">Paid: ${formatDate(pay.date)}</span>
                             ${debt && debt.dueDate ? `<span class="history-item__due-date">Due: ${formatDate(debt.dueDate)}</span>` : ''}
@@ -273,6 +298,34 @@ export const renderHistory = () => {
     }).join('')}
         </div>
     `;
+
+    // Category filter change handler
+    document.getElementById('historyCategoryFilter')?.addEventListener('change', (e) => {
+        renderHistory(e.target.value);
+    });
+
+    // Category change handlers for individual items
+    const resizeSelect = (select) => {
+        // Create temporary span to measure text
+        const temp = document.createElement('span');
+        temp.style.cssText = 'visibility:hidden;position:absolute;font-size:0.65rem;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;';
+        temp.textContent = select.options[select.selectedIndex].text;
+        document.body.appendChild(temp);
+        select.style.width = (temp.offsetWidth + 18) + 'px';
+        document.body.removeChild(temp);
+    };
+
+    document.querySelectorAll('.history-category-select').forEach(select => {
+        resizeSelect(select); // Initial size
+        select.addEventListener('change', async (e) => {
+            resizeSelect(e.target); // Resize on change
+            const debtId = e.target.dataset.debtId;
+            const newCategory = e.target.value;
+            if (debtId) {
+                await store.updateDebt(debtId, { category: newCategory });
+            }
+        });
+    });
 
     document.querySelectorAll('.edit-pay-btn').forEach(btn => {
         btn.addEventListener('click', () => showEditPaymentModal(btn.dataset.id));
@@ -314,7 +367,7 @@ export const renderAnalytics = () => {
 
         if (!dataByYear[year]) dataByYear[year] = {};
         if (!dataByYear[year][month]) {
-            dataByYear[year][month] = { total: 0, count: 0, payments: [], expected: 0 };
+            dataByYear[year][month] = { total: 0, count: 0, payments: [], expected: 0, categories: {} };
         }
 
         // Calculate amounts for this debt
@@ -322,6 +375,13 @@ export const renderAnalytics = () => {
         const totalPaid = debtPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
         const originalAmount = parseFloat(debt.balance) + totalPaid;
         const remainingBalance = parseFloat(debt.balance);
+
+        // Track by category
+        const category = debt.category || 'Uncategorized';
+        if (!dataByYear[year][month].categories[category]) {
+            dataByYear[year][month].categories[category] = 0;
+        }
+        dataByYear[year][month].categories[category] += totalPaid;
 
         // Add to month totals
         dataByYear[year][month].expected += originalAmount;
@@ -334,6 +394,7 @@ export const renderAnalytics = () => {
                 ...payment,
                 type: 'payment',
                 debtName: debt.name,
+                category: category,
                 paymentDate: payment.date
             });
         });
@@ -362,6 +423,22 @@ export const renderAnalytics = () => {
         });
     });
 
+    // Calculate spending by category
+    const categoryTotals = {};
+    userDebts.forEach(debt => {
+        const category = debt.category || 'Uncategorized';
+        const debtPayments = allPayments.filter(p => p.debtId === debt.id);
+        const totalPaid = debtPayments.reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        if (!categoryTotals[category]) {
+            categoryTotals[category] = { paid: 0, expected: 0 };
+        }
+        categoryTotals[category].paid += totalPaid;
+        categoryTotals[category].expected += parseFloat(debt.balance) + totalPaid;
+    });
+
+    const categoryEntries = Object.entries(categoryTotals).sort((a, b) => b[1].paid - a[1].paid);
+    const maxCategoryPaid = Math.max(...categoryEntries.map(([_, data]) => data.paid), 1);
+
     const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     mainContent.innerHTML = `
@@ -369,9 +446,20 @@ export const renderAnalytics = () => {
             <h3 class="section-header__title">Analytics</h3>
         </header>
         <div class="analytics-container">
+            <!-- Monthly Breakdown -->
             ${years.map(year => {
         const yearTotal = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.total, 0);
         const yearExpected = Object.values(dataByYear[year]).reduce((sum, data) => sum + data.expected, 0);
+
+        // Calculate yearly category totals
+        const yearCategories = {};
+        Object.values(dataByYear[year]).forEach(monthData => {
+            Object.entries(monthData.categories || {}).forEach(([cat, amount]) => {
+                if (!yearCategories[cat]) yearCategories[cat] = 0;
+                yearCategories[cat] += amount;
+            });
+        });
+        const yearCatEntries = Object.entries(yearCategories).filter(([_, amt]) => amt > 0).sort((a, b) => b[1] - a[1]);
 
         return `
                     <section class="analytics-year">
@@ -382,20 +470,80 @@ export const renderAnalytics = () => {
                                 <span class="analytics-year__expected">Exp: ${formatCurrency(yearExpected)}</span>
                             </div>
                         </header>
+                        <!-- Year Category Totals -->
+                        ${yearCatEntries.length > 0 ? `
+                        <div class="year-category-breakdown">
+                            ${yearCatEntries.map(([cat, amt]) => `<span class="year-cat-tag">${cat}: ${formatCurrency(amt)}</span>`).join('')}
+                        </div>
+                        ` : ''}
+                        
+                        <!-- Category Bar Chart by Month -->
+                        ${(() => {
+                // Build chart data
+                const chartMonths = monthOrder.filter(m => dataByYear[year][m]);
+                const allCats = [...new Set(chartMonths.flatMap(m => Object.keys(dataByYear[year][m].categories || {})))].sort();
+                const maxMonthCatTotal = Math.max(...chartMonths.map(m =>
+                    Object.values(dataByYear[year][m].categories || {}).reduce((s, v) => s + v, 0)
+                ), 1);
+
+                const catColors = {
+                    'Auto': '#3b82f6',
+                    'Credit Card': '#f59e0b',
+                    'Loan': '#10b981',
+                    'Utilities': '#8b5cf6',
+                    'Insurance': '#ec4899',
+                    'Medical': '#06b6d4',
+                    'Other': '#6b7280',
+                    'Uncategorized': '#9ca3af'
+                };
+
+                if (chartMonths.length === 0) return '';
+
+                return `
+                            <div class="category-chart">
+                                <div class="category-chart__legend">
+                                    ${allCats.map(cat => `<span class="chart-legend-item" style="--cat-color: ${catColors[cat] || '#888'}">${cat}</span>`).join('')}
+                                </div>
+                                <div class="category-chart__bars">
+                                    ${chartMonths.map(month => {
+                    const cats = dataByYear[year][month].categories || {};
+                    const monthTotal = Object.values(cats).reduce((s, v) => s + v, 0);
+                    const barHeight = (monthTotal / maxMonthCatTotal * 100).toFixed(1);
+
+                    return `
+                                        <div class="chart-bar-group">
+                                            <div class="chart-bar-stack" style="height: ${barHeight}%">
+                                                ${allCats.map(cat => {
+                        const catAmt = cats[cat] || 0;
+                        const segHeight = monthTotal > 0 ? (catAmt / monthTotal * 100).toFixed(1) : 0;
+                        return segHeight > 0 ? `<div class="chart-bar-segment" style="height: ${segHeight}%; background: ${catColors[cat] || '#888'};" title="${cat}: ${formatCurrency(catAmt)}"></div>` : '';
+                    }).join('')}
+                                            </div>
+                                            <span class="chart-bar-label">${month}</span>
+                                        </div>`;
+                }).join('')}
+                                </div>
+                            </div>`;
+            })()}
+                        
                         <div class="analytics-year__months">
                             ${monthOrder.map(month => {
-            const data = dataByYear[year][month];
-            if (!data) return '';
+                const data = dataByYear[year][month];
+                if (!data) return '';
 
-            const barWidth = (data.total / maxMonthTotal * 100).toFixed(1);
-            const expectedWidth = (data.expected / maxMonthTotal * 100).toFixed(1);
-            const monthId = `analytics-${year}-${month}`;
+                const barWidth = (data.total / maxMonthTotal * 100).toFixed(1);
+                const expectedWidth = (data.expected / maxMonthTotal * 100).toFixed(1);
+                const monthId = `analytics-${year}-${month}`;
 
-            // Calculate progress percentage for color coding
-            const percentPaid = data.expected > 0 ? (data.total / data.expected * 100) : 0;
-            const progressClass = percentPaid >= 100 ? 'complete' : percentPaid >= 50 ? 'good' : 'pending';
+                // Calculate progress percentage for color coding
+                const percentPaid = data.expected > 0 ? (data.total / data.expected * 100) : 0;
+                const progressClass = percentPaid >= 100 ? 'complete' : percentPaid >= 50 ? 'good' : 'pending';
 
-            return `
+                // Month category breakdown
+                const monthCatEntries = Object.entries(data.categories || {}).filter(([_, amt]) => amt > 0).sort((a, b) => b[1] - a[1]);
+                const maxMonthCat = Math.max(...monthCatEntries.map(([_, amt]) => amt), 1);
+
+                return `
                                     <article class="analytics-month">
                                         <div class="analytics-month__summary" onclick="document.getElementById('${monthId}').classList.toggle('visible'); this.parentElement.classList.toggle('expanded');">
                                             <div class="analytics-month__label">${month}</div>
@@ -416,21 +564,42 @@ export const renderAnalytics = () => {
                                             </div>
                                         </div>
                                         <ul id="${monthId}" class="analytics-payment-list">
-                                            ${data.payments.sort((a, b) => new Date(b.date) - new Date(a.date)).map(pay => {
-                const isPending = pay.type === 'pending';
-                return `
-                                                <li class="analytics-payment-item ${isPending ? 'analytics-payment-item--pending' : ''}">
+                                            <!-- Month Category Breakdown with expandable transactions -->
+                                            ${monthCatEntries.length > 0 ? `
+                                            <li class="month-category-breakdown">
+                                                ${monthCatEntries.map(([cat, amt], idx) => {
+                    const catBarWidth = (amt / maxMonthCat * 100).toFixed(1);
+                    const catPayments = data.payments.filter(p => p.category === cat && p.type === 'payment');
+                    const catId = `cat-${year}-${month}-${idx}`;
+                    return `<div class="month-cat-section">
+                    <div class="month-cat-row" onclick="document.getElementById('${catId}').classList.toggle('visible'); this.classList.toggle('expanded');">
+                        <span class="month-cat-label">${cat}</span>
+                        <div class="month-cat-bar-container"><div class="month-cat-bar" style="width: ${catBarWidth}%"></div></div>
+                        <span class="month-cat-amount">${formatCurrency(amt)}</span>
+                        <svg class="month-cat-chevron" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+                    </div>
+                    <ul id="${catId}" class="cat-transaction-list">
+                        ${catPayments.map(p => `<li class="cat-transaction-item">
+                            <span class="cat-tx-date">${formatDate(p.date)}</span>
+                            <span class="cat-tx-name">${p.debtName}</span>
+                            <span class="cat-tx-amount">${formatCurrency(p.amount)}</span>
+                        </li>`).join('')}
+                    </ul>
+                </div>`;
+                }).join('')}
+                                            </li>
+                                            ` : ''}
+                                            ${data.payments.filter(p => p.type === 'pending').map(pay => `
+                                                <li class="analytics-payment-item analytics-payment-item--pending">
                                                     <span class="analytics-payment-item__date">${formatDate(pay.date)}</span>
-                                                    <span class="analytics-payment-item__name">
-                                                        ${pay.debtName} 
-                                                    </span>
+                                                    <span class="analytics-payment-item__name">${pay.debtName}</span>
                                                     <span class="analytics-payment-item__amount">${formatCurrency(pay.amount)}</span>
                                                 </li>
-                                            `}).join('')}
+                                            `).join('')}
                                         </ul>
                                     </article>
                                 `;
-        }).join('')}
+            }).join('')}
                         </div>
                     </section>
                 `;

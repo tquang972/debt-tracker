@@ -4,7 +4,7 @@ export const initialData = {
     {
       "id": "dung",
       "name": "Dung",
-      "isDefault": true
+      "isDefault": false
     },
     {
       "id": "pop",
@@ -14,7 +14,7 @@ export const initialData = {
     {
       "id": "quang",
       "name": "Quang",
-      "isDefault": false
+      "isDefault": true
     }
   ],
   "debts": [
