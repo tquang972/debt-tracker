@@ -283,6 +283,7 @@ export const renderHistory = (categoryFilter = 'All') => {
                             <span class="history-item__date">Paid: ${formatDate(pay.date)}</span>
                             ${debt && debt.dueDate ? `<span class="history-item__due-date">Due: ${formatDate(debt.dueDate)}</span>` : ''}
                         </div>
+                        ${debt?.note ? `<span class="history-item__note history-item__note--debt">${debt.note}</span>` : ''}
                         ${pay.note ? `<span class="history-item__note">${pay.note}</span>` : ''}
                     </div>
                     <div class="history-item__right">
@@ -840,7 +841,8 @@ export const showPayModal = (debtId) => {
                         balance: debt.balance,
                         dueDate: nextDueDate,
                         personId: debt.personId,
-                        note: debt.note || ''
+                        note: debt.note || '',
+                        category: debt.category || 'Uncategorized'
                     });
                 } catch (recErr) {
                     console.error("Recurring debt error:", recErr);
