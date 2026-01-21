@@ -658,8 +658,8 @@ const showModal = (content) => {
 
     document.body.appendChild(overlay);
 
-    // Close on click outside
-    overlay.addEventListener('click', (e) => {
+    // Close on mousedown outside (not click, to prevent closing during text selection)
+    overlay.addEventListener('mousedown', (e) => {
         if (e.target === overlay) {
             document.body.removeChild(overlay);
         }
@@ -713,8 +713,8 @@ export const showAddDebtModal = () => {
     `;
     document.body.appendChild(modal);
 
-    // Close on overlay click
-    modal.addEventListener('click', (e) => {
+    // Close on mousedown outside (not click, to prevent closing during text selection)
+    modal.addEventListener('mousedown', (e) => {
         if (e.target === modal) {
             modal.remove();
         }
