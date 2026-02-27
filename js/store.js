@@ -21,7 +21,10 @@ export class Store {
         this.data = {
             people: [],
             debts: [],
-            payments: []
+            payments: [],
+            benefits: [],
+            points: [],
+            point_transactions: []
         };
         this.db = db;
         this.currentUserId = 'me';
@@ -73,6 +76,27 @@ export class Store {
         this.db.collection('payments').onSnapshot((snapshot) => {
             console.log("[Store] Payments snapshot received:", snapshot.docs.length, "payments");
             this.data.payments = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            this.notifyListeners();
+        });
+
+        // Benefits
+        this.db.collection('benefits').onSnapshot((snapshot) => {
+            console.log("[Store] Benefits snapshot received:", snapshot.docs.length, "benefits");
+            this.data.benefits = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            this.notifyListeners();
+        });
+
+        // Points
+        this.db.collection('points').onSnapshot((snapshot) => {
+            console.log("[Store] Points snapshot received:", snapshot.docs.length, "points");
+            this.data.points = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+            this.notifyListeners();
+        });
+
+        // Point Transactions
+        this.db.collection('point_transactions').onSnapshot((snapshot) => {
+            console.log("[Store] Point Transactions snapshot received:", snapshot.docs.length, "txs");
+            this.data.point_transactions = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
             this.notifyListeners();
         });
     }
@@ -275,6 +299,135 @@ export class Store {
         }
 
         await paymentRef.update(newData);
+    }
+
+    // --- Benefits ---
+    getBenefits(personId = this.currentUserId, includeUsed = false) {
+        let benefits = this.data.benefits;
+        if (personId !== 'all') {
+            benefits = benefits.filter(b => b.personId === personId);
+        }
+        if (!includeUsed) {
+            benefits = benefits.filter(b => !b.used);
+        }
+        return benefits.sort((a, b) => new Date(a.expirationDate) - new Date(b.expirationDate));
+    }
+
+    async addBenefit(benefit) {
+        await this.db.collection('benefits').add(benefit);
+    }
+
+    async updateBenefit(id, updates) {
+        await this.db.collection('benefits').doc(id).update(updates);
+    }
+
+    async deleteBenefit(id) {
+        await this.db.collection('benefits').doc(id).delete();
+    }
+
+    async markBenefitUsed(id) {
+        const benefit = this.data.benefits.find(b => b.id === id);
+        if (!benefit) return;
+
+        // Mark current as used
+        await this.updateBenefit(id, { used: true, usedDate: new Date().toISOString() });
+
+        // If recurring, create next cycle
+        if (benefit.frequency && benefit.frequency !== 'One-Time') {
+            const nextDate = new Date(benefit.expirationDate);
+            // Handle timezone offset by using local parts
+            const [y, m, d] = benefit.expirationDate.split('-').map(Number);
+            const dateObj = new Date(y, m - 1, d);
+
+            if (benefit.frequency === 'Monthly') dateObj.setMonth(dateObj.getMonth() + 1);
+            else if (benefit.frequency === 'Quarterly') dateObj.setMonth(dateObj.getMonth() + 3);
+            else if (benefit.frequency === 'Semi-Annual') dateObj.setMonth(dateObj.getMonth() + 6);
+            else if (benefit.frequency === 'Annual') dateObj.setFullYear(dateObj.getFullYear() + 1);
+
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            const newDateStr = `${year}-${month}-${day}`;
+
+            const newBenefit = {
+                cardName: benefit.cardName,
+                amount: benefit.amount,
+                frequency: benefit.frequency,
+                category: benefit.category || 'Other',
+                note: benefit.note || '',
+                personId: benefit.personId,
+                expirationDate: newDateStr,
+                used: false,
+                usedDate: null
+            };
+
+            await this.addBenefit(newBenefit);
+        }
+    }
+
+    async unmarkBenefitUsed(id) {
+        const benefit = this.data.benefits.find(b => b.id === id);
+        if (!benefit) return;
+
+        // Note: This does NOT automatically delete the auto-generated renewal benefit
+        // It simply restores the current one to the active list.
+        await this.updateBenefit(id, { used: false, usedDate: null });
+    }
+
+    // --- Points ---
+    getPoints(personId = this.currentUserId) {
+        if (personId === 'all') return this.data.points;
+        return this.data.points.filter(p => p.personId === personId);
+    }
+
+    async addPoint(point) {
+        await this.db.collection('points').add(point);
+    }
+
+    async updatePoint(id, updates) {
+        await this.db.collection('points').doc(id).update(updates);
+    }
+
+    async deletePoint(id) {
+        await this.db.collection('points').doc(id).delete();
+    }
+
+    // --- Point Transactions ---
+    getPointTransactions(personId = this.currentUserId, pointId = null) {
+        let txs = this.data.point_transactions;
+        if (personId !== 'all') {
+            txs = txs.filter(t => t.personId === personId);
+        }
+        if (pointId) {
+            txs = txs.filter(t => t.pointId === pointId);
+        }
+        return txs.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    async addPointTransaction(tx) {
+        await this.db.collection('point_transactions').add(tx);
+    }
+
+    async deletePointTransaction(id) {
+        await this.db.collection('point_transactions').doc(id).delete();
+    }
+
+    async updatePointBalance(pointId, amountChange, type, note, date) {
+        const point = this.data.points.find(p => p.id === pointId);
+        if (!point) return;
+
+        const newBalance = parseFloat(point.balance) + parseFloat(amountChange);
+        await this.updatePoint(pointId, { balance: newBalance });
+
+        await this.addPointTransaction({
+            pointId: pointId,
+            programName: point.programName,
+            personId: point.personId,
+            amountChange: parseFloat(amountChange),
+            type: type, // 'Earned' or 'Used'
+            note: note || '',
+            date: date || new Date().toISOString()
+        });
     }
 }
 

@@ -23,18 +23,29 @@ export const renderUserSelector = () => {
                 const newId = store.addPerson(name);
                 store.setCurrentUserId(newId);
                 renderUserSelector();
-                renderDashboard(); // Refresh view
+
+                const activeTab = document.querySelector('.nav-item.active');
+                const view = activeTab ? activeTab.dataset.view : 'dashboard';
+                if (view === 'dashboard') renderDashboard();
+                else if (view === 'debts') renderDebts();
+                else if (view === 'history') renderHistory();
+                else if (view === 'analytics') renderAnalytics();
+                else if (view === 'benefits') renderBenefits();
+                else if (view === 'points') renderPoints();
             } else {
                 e.target.value = currentId; // Revert
             }
         } else {
             store.setCurrentUserId(e.target.value);
             // Refresh current view
-            const activeTab = document.querySelector('.nav-item.active').dataset.view;
-            if (activeTab === 'dashboard') renderDashboard();
-            else if (activeTab === 'debts') renderDebts();
-            else if (activeTab === 'history') renderHistory();
-            else if (activeTab === 'analytics') renderAnalytics();
+            const activeTab = document.querySelector('.nav-item.active');
+            const view = activeTab ? activeTab.dataset.view : 'dashboard';
+            if (view === 'dashboard') renderDashboard();
+            else if (view === 'debts') renderDebts();
+            else if (view === 'history') renderHistory();
+            else if (view === 'analytics') renderAnalytics();
+            else if (view === 'benefits') renderBenefits();
+            else if (view === 'points') renderPoints();
         }
     });
 };
@@ -1021,5 +1032,549 @@ export const showDeletePaymentModal = (paymentId) => {
     overlay.querySelector('#permanentDeleteBtn').addEventListener('click', async () => {
         await store.permanentlyDeletePayment(paymentId);
         document.body.removeChild(overlay);
+    });
+};
+
+export const renderBenefits = (categoryFilter = 'All', viewMode = 'Active') => {
+    const loadingMsg = document.getElementById('loadingMsg');
+    const errorLog = document.getElementById('errorLog');
+    if (loadingMsg) loadingMsg.style.display = 'none';
+    if (errorLog) errorLog.style.display = 'none';
+
+    // Get all benefits, true flag includes the used ones
+    const allBenefits = store.getBenefits(store.getCurrentUserId(), true);
+
+    // Filter by Active vs Used
+    let displayBenefits = allBenefits.filter(b => viewMode === 'Used' ? b.used : !b.used);
+
+    if (categoryFilter !== 'All') {
+        displayBenefits = displayBenefits.filter(b => (b.category || 'Other') === categoryFilter);
+    }
+
+    const uniqueCategories = [...new Set(allBenefits.map(b => b.category || 'Other'))].sort();
+
+    mainContent.innerHTML = `
+        <header class="section-header" style="flex-wrap: wrap; margin-bottom: 0.5rem;">
+            <h3 class="section-header__title">Credit Card Benefits</h3>
+            <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+                <select id="benefitCategoryFilter" class="form__input" style="padding: 0.25rem; font-size: 0.85rem; height: 36px; margin: 0;">
+                    <option value="All" ${categoryFilter === 'All' ? 'selected' : ''}>All Categories</option>
+                    ${uniqueCategories.map(cat => `<option value="${cat}" ${categoryFilter === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+                </select>
+                <div style="display: flex; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border); overflow: hidden;">
+                    <button class="btn btn--sm ${viewMode === 'Active' ? 'btn--primary' : ''}" id="viewActiveBtn" style="border-radius: 0; background: ${viewMode === 'Active' ? 'var(--accent-primary)' : 'transparent'}; color: ${viewMode === 'Active' ? '#000' : 'var(--text-secondary)'};">Active</button>
+                    <button class="btn btn--sm ${viewMode === 'Used' ? 'btn--primary' : ''}" id="viewUsedBtn" style="border-radius: 0; background: ${viewMode === 'Used' ? 'var(--accent-primary)' : 'transparent'}; color: ${viewMode === 'Used' ? '#000' : 'var(--text-secondary)'}; border-left: 1px solid var(--border);">Used</button>
+                </div>
+                <button class="btn-icon" id="addBenefitBtn">+</button>
+            </div>
+        </header>
+        <div class="debt-list">
+            ${displayBenefits.map(benefit => createBenefitItem(benefit, viewMode)).join('')}
+            ${displayBenefits.length === 0 ? `<p class="empty-state">No ${viewMode.toLowerCase()} benefits found.</p>` : ''}
+        </div>
+    `;
+
+    document.getElementById('benefitCategoryFilter').addEventListener('change', (e) => {
+        renderBenefits(e.target.value, viewMode);
+    });
+
+    document.getElementById('viewActiveBtn').addEventListener('click', () => {
+        if (viewMode !== 'Active') renderBenefits(categoryFilter, 'Active');
+    });
+
+    document.getElementById('viewUsedBtn').addEventListener('click', () => {
+        if (viewMode !== 'Used') renderBenefits(categoryFilter, 'Used');
+    });
+
+    document.getElementById('addBenefitBtn').addEventListener('click', showAddBenefitModal);
+
+    document.querySelectorAll('.edit-benefit-btn').forEach(btn => {
+        btn.addEventListener('click', () => showEditBenefitModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-benefit-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (confirm('Delete this benefit?')) {
+                await store.deleteBenefit(btn.dataset.id);
+            }
+        });
+    });
+
+    document.querySelectorAll('.use-benefit-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (viewMode === 'Active') {
+                if (confirm('Mark this benefit as used? It will be moved to the Used tab.')) {
+                    await store.markBenefitUsed(btn.dataset.id);
+                }
+            } else {
+                if (confirm('Unmark this benefit? It will be moved back to the Active tab.')) {
+                    await store.unmarkBenefitUsed(btn.dataset.id);
+                }
+            }
+        });
+    });
+};
+
+const createBenefitItem = (benefit, viewMode) => {
+    const categoryName = benefit.category || 'Other';
+    const isUsed = benefit.used;
+    const itemOpacity = isUsed ? '0.6' : '1';
+    const textDecoration = isUsed ? 'line-through' : 'none';
+
+    return `
+        <article class="debt-item" style="opacity: ${itemOpacity};">
+            <div class="debt-item__info">
+                <div class="debt-item__header">
+                    <div class="debt-item__name" style="text-decoration: ${textDecoration};">${benefit.cardName}</div>
+                    <div style="display:flex; gap: 0.25rem;">
+                        <span class="debt-item__category" style="background: var(--bg-hover); color: var(--text-primary); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; text-decoration: ${textDecoration};">${categoryName}</span>
+                        <span class="debt-item__category" style="background: var(--bg-hover); color: var(--text-primary); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; text-decoration: ${textDecoration};">${benefit.frequency || 'Annual'}</span>
+                    </div>
+                </div>
+                ${benefit.note ? `<div class="debt-item__note" style="text-decoration: ${textDecoration};">${benefit.note}</div>` : ''}
+                <div class="debt-item__due" style="text-decoration: ${textDecoration};">
+                    ${isUsed && benefit.usedDate ? `Used on: ${formatDate(benefit.usedDate.split('T')[0])}` : `Expires/Renews: ${formatDate(benefit.expirationDate)}`}
+                </div>
+            </div>
+            <div class="debt-item__actions">
+                <div class="debt-item__balance" style="text-decoration: ${textDecoration};">${formatCurrency(benefit.amount)}</div>
+                <div class="debt-item__buttons" style="display: flex; gap: 0.5rem; align-items: center;">
+                    ${viewMode === 'Active' ? `
+                    <button class="btn-icon btn-icon--sm edit-benefit-btn" data-id="${benefit.id}" aria-label="Edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    </button>
+                    ` : ''}
+                    <button class="btn-icon btn-icon--sm delete-benefit-btn" data-id="${benefit.id}" aria-label="Delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    </button>
+                    <button class="btn btn--sm use-benefit-btn" style="background: ${isUsed ? 'var(--bg-body)' : 'var(--accent-primary)'}; border: 1px solid var(--accent-primary); color: ${isUsed ? 'var(--text-primary)' : '#000000'}; font-weight: 600;" data-id="${benefit.id}">
+                        ${isUsed ? 'Unmark Used' : 'Mark Used'}
+                    </button>
+                </div>
+            </div>
+        </article>
+    `;
+};
+
+export const showAddBenefitModal = () => {
+    const overlay = showModal(`
+        <h3 class="modal__title">Add Credit Card Benefit</h3>
+        <form id="addBenefitForm">
+            <div class="form__group">
+                <label class="form__label">Card Name</label>
+                <input type="text" name="cardName" class="form__input" required placeholder="e.g. Amex Gold (Dining Credit)">
+            </div>
+            <div class="form__group">
+                <label class="form__label">Amount Value</label>
+                <input type="number" name="amount" class="form__input" step="0.01" required placeholder="120.00">
+            </div>
+            <div class="form__group">
+                <label class="form__label">Frequency</label>
+                <select name="frequency" class="form__input">
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Semi-Annual">Semi-Annual</option>
+                    <option value="Annual">Annual</option>
+                    <option value="One-Time">One-Time</option>
+                </select>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Category</label>
+                <select name="category" class="form__input">
+                    <option value="Dining">Dining</option>
+                    <option value="Flight">Flight</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Ride Share">Ride Share</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Streaming">Streaming</option>
+                    <option value="Other" selected>Other</option>
+                </select>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Expiration / Renewal Date</label>
+                <input type="date" name="expirationDate" class="form__input" required>
+            </div>
+             <div class="form__group">
+                <label class="form__label">Note (Optional)</label>
+                <input type="text" name="note" class="form__input" placeholder="e.g. $10 per month">
+            </div>
+            <div class="form__actions">
+                <button type="button" class="btn btn--secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                <button type="submit" class="btn btn--primary">Save</button>
+            </div>
+        </form>
+    `);
+
+    overlay.querySelector('#addBenefitForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        await store.addBenefit({
+            cardName: formData.get('cardName'),
+            amount: formData.get('amount'),
+            frequency: formData.get('frequency'),
+            category: formData.get('category'),
+            expirationDate: formData.get('expirationDate'),
+            note: formData.get('note'),
+            personId: store.getCurrentUserId()
+        });
+        document.body.removeChild(overlay);
+    });
+};
+
+export const showEditBenefitModal = (benefitId) => {
+    const benefit = store.getBenefits().find(b => b.id === benefitId);
+    if (!benefit) return;
+
+    const overlay = showModal(`
+        <h3 class="modal__title">Edit Benefit</h3>
+        <form id="editBenefitForm">
+            <div class="form__group">
+                <label class="form__label">Card Name</label>
+                <input type="text" name="cardName" class="form__input" value="${benefit.cardName}" required>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Amount Value</label>
+                <input type="number" name="amount" class="form__input" step="0.01" value="${benefit.amount}" required>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Frequency</label>
+                <select name="frequency" class="form__input">
+                    <option value="Monthly" ${benefit.frequency === 'Monthly' ? 'selected' : ''}>Monthly</option>
+                    <option value="Quarterly" ${benefit.frequency === 'Quarterly' ? 'selected' : ''}>Quarterly</option>
+                    <option value="Semi-Annual" ${benefit.frequency === 'Semi-Annual' ? 'selected' : ''}>Semi-Annual</option>
+                    <option value="Annual" ${benefit.frequency === 'Annual' ? 'selected' : ''}>Annual</option>
+                    <option value="One-Time" ${benefit.frequency === 'One-Time' ? 'selected' : ''}>One-Time</option>
+                </select>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Category</label>
+                <select name="category" class="form__input">
+                    <option value="Dining" ${benefit.category === 'Dining' ? 'selected' : ''}>Dining</option>
+                    <option value="Flight" ${benefit.category === 'Flight' ? 'selected' : ''}>Flight</option>
+                    <option value="Hotel" ${benefit.category === 'Hotel' ? 'selected' : ''}>Hotel</option>
+                    <option value="Ride Share" ${benefit.category === 'Ride Share' ? 'selected' : ''}>Ride Share</option>
+                    <option value="Retail" ${benefit.category === 'Retail' ? 'selected' : ''}>Retail</option>
+                    <option value="Streaming" ${benefit.category === 'Streaming' ? 'selected' : ''}>Streaming</option>
+                    <option value="Other" ${(benefit.category === 'Other' || !benefit.category) ? 'selected' : ''}>Other</option>
+                </select>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Expiration / Renewal Date</label>
+                <input type="date" name="expirationDate" class="form__input" value="${benefit.expirationDate}" required>
+            </div>
+             <div class="form__group">
+                <label class="form__label">Note</label>
+                <input type="text" name="note" class="form__input" value="${benefit.note || ''}" placeholder="Optional note">
+            </div>
+            <div class="form__actions">
+                <button type="button" class="btn btn--secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                <button type="submit" class="btn btn--primary">Update</button>
+            </div>
+        </form>
+    `);
+
+    overlay.querySelector('#editBenefitForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        await store.updateBenefit(benefitId, {
+            cardName: formData.get('cardName'),
+            amount: formData.get('amount'),
+            frequency: formData.get('frequency'),
+            category: formData.get('category'),
+            expirationDate: formData.get('expirationDate'),
+            note: formData.get('note')
+        });
+        document.body.removeChild(overlay);
+        store.notifyListeners();
+    });
+};
+
+export const renderPoints = () => {
+    const loadingMsg = document.getElementById('loadingMsg');
+    const errorLog = document.getElementById('errorLog');
+    if (loadingMsg) loadingMsg.style.display = 'none';
+    if (errorLog) errorLog.style.display = 'none';
+
+    const points = store.getPoints();
+
+    let totalEstimatedValue = 0;
+    points.forEach(p => {
+        if (p.estimatedValue) totalEstimatedValue += parseFloat(p.estimatedValue);
+    });
+
+    const txs = store.getPointTransactions();
+
+    const monthlyUsage = {};
+    const usedTxs = txs.filter(t => t.type === 'Used');
+    usedTxs.forEach(tx => {
+        const dateObj = new Date(tx.date);
+        // Using UTC to avoid timezone shift on local dates
+        const monthYear = dateObj.toLocaleDateString('default', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+        if (!monthlyUsage[monthYear]) monthlyUsage[monthYear] = 0;
+        monthlyUsage[monthYear] += Math.abs(tx.amountChange);
+    });
+
+    const monthlyUsageListHTML = Object.entries(monthlyUsage)
+        .sort((a, b) => new Date(b[0]) - new Date(a[0])) // Sort reversed
+        .map(([monthStr, amount]) => `
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border);">
+                <span style="color: var(--text-secondary);">${monthStr}</span>
+                <span style="color: var(--accent-primary); font-weight: 500;">${amount.toLocaleString()}</span>
+            </div>
+        `).join('');
+
+    mainContent.innerHTML = `
+        <header class="section-header" style="flex-wrap: wrap; margin-bottom: 0.5rem;">
+            <div>
+                <h3 class="section-header__title">Points & Travel Credits</h3>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">
+                    Total Est. Value: <span style="color: var(--text-gold); font-weight: 600;">${formatCurrency(totalEstimatedValue)}</span>
+                </div>
+            </div>
+            <button class="btn-icon" id="addPointBtn">+</button>
+        </header>
+        <div class="debt-list">
+            ${points.map(point => createPointItem(point)).join('')}
+            ${points.length === 0 ? '<p class="empty-state">No points or credits found.</p>' : ''}
+        </div>
+        ${Object.keys(monthlyUsage).length > 0 ? `
+        <div style="margin-top: 2rem; background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border);">
+            <h4 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.1rem;">Usage By Month</h4>
+            ${monthlyUsageListHTML}
+        </div>
+        ` : ''}
+    `;
+
+    document.getElementById('addPointBtn').addEventListener('click', showAddPointModal);
+
+    document.querySelectorAll('.update-point-btn').forEach(btn => {
+        btn.addEventListener('click', () => showUpdatePointBalanceModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.edit-point-btn').forEach(btn => {
+        btn.addEventListener('click', () => showEditPointModal(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-point-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            if (confirm('Delete this entry?')) {
+                await store.deletePoint(btn.dataset.id);
+            }
+        });
+    });
+};
+
+const createPointItem = (point) => {
+    const isCredit = point.type === 'Credit';
+    const displayBalance = Math.floor(point.balance).toLocaleString();
+    let balanceText = isCredit ? formatCurrency(point.balance) : `${displayBalance} ${point.type}`;
+    if (point.type === 'Certificate') {
+        balanceText = `${displayBalance} Cert(s)`;
+    }
+
+    return `
+        <article class="debt-item">
+            <div class="debt-item__info">
+                <div class="debt-item__header">
+                    <div class="debt-item__name">${point.programName}</div>
+                    <div style="display:flex; gap: 0.25rem;">
+                        <span class="debt-item__category" style="background: var(--bg-hover); color: var(--text-primary); padding: 2px 6px; border-radius: 4px; font-size: 0.75rem;">${point.type}</span>
+                    </div>
+                </div>
+                ${point.note ? `<div class="debt-item__note">${point.note}</div>` : ''}
+                <div class="debt-item__due">
+                    ${point.expirationDate ? `Expires: ${formatDate(point.expirationDate)}` : 'No Expiration'}
+                </div>
+            </div>
+            <div class="debt-item__actions">
+                <div class="debt-item__balance" style="font-size: 1rem;">${balanceText}</div>
+                ${point.estimatedValue ? `<div style="font-size: 0.75rem; color: var(--text-gold); margin-bottom: 0.5rem;">Value: ${formatCurrency(point.estimatedValue)}</div>` : '<div style="margin-bottom: 0.5rem;"></div>'}
+                <div class="debt-item__buttons" style="display: flex; gap: 0.5rem; align-items: center; justify-content: flex-end;">
+                    <button class="btn-icon btn-icon--sm update-point-btn" data-id="${point.id}" aria-label="Update Balance">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                    </button>
+                    <button class="btn-icon btn-icon--sm edit-point-btn" data-id="${point.id}" aria-label="Edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    </button>
+                    <button class="btn-icon btn-icon--sm delete-point-btn" data-id="${point.id}" aria-label="Delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </article>
+    `;
+};
+
+export const showAddPointModal = () => {
+    const overlay = showModal(`
+        <h3 class="modal__title">Add Points/Credits</h3>
+        <form id="addPointForm">
+            <div class="form__group">
+                <label class="form__label">Program Name</label>
+                <input type="text" name="programName" class="form__input" required placeholder="e.g. Chase UR, Amex MR">
+            </div>
+            <div class="form__group">
+                <label class="form__label">Type</label>
+                <select name="type" class="form__input">
+                    <option value="Points">Points</option>
+                    <option value="Miles">Miles</option>
+                    <option value="Credit">Travel Credit ($)</option>
+                    <option value="Certificate">Free Night Certificate</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Balance / Amount</label>
+                <input type="number" name="balance" class="form__input" step="0.01" required placeholder="100000">
+            </div>
+            <div class="form__group">
+                <label class="form__label">Estimated Cash Value ($) (Optional)</label>
+                <input type="number" name="estimatedValue" class="form__input" step="0.01" placeholder="1000.00">
+            </div>
+            <div class="form__group">
+                <label class="form__label">Expiration Date (Optional)</label>
+                <input type="date" name="expirationDate" class="form__input">
+            </div>
+             <div class="form__group">
+                <label class="form__label">Note (Optional)</label>
+                <input type="text" name="note" class="form__input" placeholder="e.g. Saving for Japan trip">
+            </div>
+            <div class="form__actions">
+                <button type="button" class="btn btn--secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                <button type="submit" class="btn btn--primary">Save</button>
+            </div>
+        </form>
+    `);
+
+    overlay.querySelector('#addPointForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        await store.addPoint({
+            programName: formData.get('programName'),
+            type: formData.get('type'),
+            balance: parseFloat(formData.get('balance')) || 0,
+            estimatedValue: parseFloat(formData.get('estimatedValue')) || null,
+            expirationDate: formData.get('expirationDate'),
+            note: formData.get('note'),
+            personId: store.getCurrentUserId()
+        });
+        document.body.removeChild(overlay);
+    });
+};
+
+export const showEditPointModal = (pointId) => {
+    const point = store.getPoints().find(p => p.id === pointId);
+    if (!point) return;
+
+    const overlay = showModal(`
+        <h3 class="modal__title">Edit Entry</h3>
+        <form id="editPointForm">
+            <div class="form__group">
+                <label class="form__label">Program Name</label>
+                <input type="text" name="programName" class="form__input" value="${point.programName}" required>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Type</label>
+                <select name="type" class="form__input">
+                    <option value="Points" ${point.type === 'Points' ? 'selected' : ''}>Points</option>
+                    <option value="Miles" ${point.type === 'Miles' ? 'selected' : ''}>Miles</option>
+                    <option value="Credit" ${point.type === 'Credit' ? 'selected' : ''}>Travel Credit ($)</option>
+                    <option value="Certificate" ${point.type === 'Certificate' ? 'selected' : ''}>Free Night Certificate</option>
+                    <option value="Other" ${point.type === 'Other' ? 'selected' : ''}>Other</option>
+                </select>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Balance / Amount</label>
+                <input type="number" name="balance" class="form__input" step="0.01" value="${point.balance}" required>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Estimated Cash Value ($) (Optional)</label>
+                <input type="number" name="estimatedValue" class="form__input" step="0.01" value="${point.estimatedValue || ''}">
+            </div>
+            <div class="form__group">
+                <label class="form__label">Expiration Date (Optional)</label>
+                <input type="date" name="expirationDate" class="form__input" value="${point.expirationDate || ''}">
+            </div>
+             <div class="form__group">
+                <label class="form__label">Note</label>
+                <input type="text" name="note" class="form__input" value="${point.note || ''}" placeholder="Optional note">
+            </div>
+            <div class="form__actions">
+                <button type="button" class="btn btn--secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                <button type="submit" class="btn btn--primary">Update</button>
+            </div>
+        </form>
+    `);
+
+    overlay.querySelector('#editPointForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        await store.updatePoint(pointId, {
+            programName: formData.get('programName'),
+            type: formData.get('type'),
+            balance: parseFloat(formData.get('balance')) || 0,
+            estimatedValue: parseFloat(formData.get('estimatedValue')) || null,
+            expirationDate: formData.get('expirationDate'),
+            note: formData.get('note')
+        });
+        document.body.removeChild(overlay);
+        store.notifyListeners();
+    });
+};
+
+export const showUpdatePointBalanceModal = (pointId) => {
+    const point = store.getPoints().find(p => p.id === pointId);
+    if (!point) return;
+
+    const overlay = showModal(`
+        <h3 class="modal__title">Update Balance</h3>
+        <p class="modal__subtitle" style="margin-bottom: 1rem; color: var(--text-secondary); text-align: center;">${point.programName} (Current: ${Math.floor(point.balance).toLocaleString()} ${point.type})</p>
+        <form id="updatePointBalanceForm">
+            <div class="form__group">
+                <label class="form__label">Transaction Type</label>
+                <select name="type" class="form__input" id="txTypeSelect">
+                    <option value="Used">Used / Redeemed (-)</option>
+                    <option value="Earned">Earned / Added (+)</option>
+                </select>
+            </div>
+            <div class="form__group">
+                <label class="form__label">Amount</label>
+                <input type="number" name="amount" class="form__input" step="0.01" required placeholder="e.g. 5000">
+            </div>
+            <div class="form__group">
+                <label class="form__label">Date</label>
+                <input type="date" name="date" class="form__input" value="${new Date().toISOString().split('T')[0]}" required>
+            </div>
+             <div class="form__group">
+                <label class="form__label">Note (Optional)</label>
+                <input type="text" name="note" class="form__input" placeholder="e.g. Flight to Tokyo">
+            </div>
+            <div class="form__actions">
+                <button type="button" class="btn btn--secondary" onclick="this.closest('.modal-overlay').remove()">Cancel</button>
+                <button type="submit" class="btn btn--primary">Save Update</button>
+            </div>
+        </form>
+    `);
+
+    overlay.querySelector('#updatePointBalanceForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const type = formData.get('type');
+        let amount = parseFloat(formData.get('amount'));
+        if (type === 'Used') amount = -Math.abs(amount);
+        else amount = Math.abs(amount);
+
+        await store.updatePointBalance(
+            pointId,
+            amount,
+            type,
+            formData.get('note'),
+            formData.get('date') + 'T12:00:00.000Z'
+        );
+        document.body.removeChild(overlay);
+        store.notifyListeners();
     });
 };

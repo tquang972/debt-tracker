@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Firebase
+.firebase/
+
+# Service account keys - NEVER COMMIT THESE
+service-account.json
+*-service-account.json
+*.pem
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
