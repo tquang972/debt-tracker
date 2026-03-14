@@ -159,7 +159,7 @@
                     await requireAuth(); // This will redirect to login if not authenticated
 
                     console.log("Authenticated, loading app...");
-                    await import('./js/app.js?v=25');
+                    await import('./js/app.js?v=26');
                     console.log("App loaded successfully");
                 } catch (e) {
                     if (e.message !== 'Not authenticated') {
