@@ -1336,7 +1336,10 @@ export const renderPoints = () => {
             <button class="btn-icon" id="addPointBtn">+</button>
         </header>
         <div class="debt-list">
-            ${points.map(point => createPointItem(point)).join('')}
+            ${points.map(point => {
+        const usedAmount = usedTxs.filter(t => t.pointId === point.id).reduce((sum, t) => sum + Math.abs(t.amountChange), 0);
+        return createPointItem(point, usedAmount);
+    }).join('')}
             ${points.length === 0 ? '<p class="empty-state">No points or credits found.</p>' : ''}
         </div>
         ${Object.keys(monthlyUsage).length > 0 ? `
@@ -1367,12 +1370,14 @@ export const renderPoints = () => {
     });
 };
 
-const createPointItem = (point) => {
+const createPointItem = (point, usedAmount = 0) => {
     const isCredit = point.type === 'Credit';
     const displayBalance = Math.floor(point.balance).toLocaleString();
     let balanceText = isCredit ? formatCurrency(point.balance) : `${displayBalance} ${point.type}`;
+    let usedText = isCredit ? formatCurrency(usedAmount) : `${Math.floor(usedAmount).toLocaleString()} ${point.type}`;
     if (point.type === 'Certificate') {
         balanceText = `${displayBalance} Cert(s)`;
+        usedText = `${Math.floor(usedAmount).toLocaleString()} Cert(s)`;
     }
 
     return `
@@ -1388,20 +1393,19 @@ const createPointItem = (point) => {
                 <div class="debt-item__due">
                     ${point.expirationDate ? `Expires: ${formatDate(point.expirationDate)}` : 'No Expiration'}
                 </div>
+                ${usedAmount > 0 ? `<div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;">Total Used: <span style="color: var(--text-primary); font-weight: 500;">${usedText}</span></div>` : ''}
             </div>
             <div class="debt-item__actions">
                 <div class="debt-item__balance" style="font-size: 1rem;">${balanceText}</div>
                 ${point.estimatedValue ? `<div style="font-size: 0.75rem; color: var(--text-gold); margin-bottom: 0.5rem;">Value: ${formatCurrency(point.estimatedValue)}</div>` : '<div style="margin-bottom: 0.5rem;"></div>'}
                 <div class="debt-item__buttons" style="display: flex; gap: 0.5rem; align-items: center; justify-content: flex-end;">
-                    <button class="btn-icon btn-icon--sm update-point-btn" data-id="${point.id}" aria-label="Update Balance">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-                    </button>
                     <button class="btn-icon btn-icon--sm edit-point-btn" data-id="${point.id}" aria-label="Edit">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
                     </button>
                     <button class="btn-icon btn-icon--sm delete-point-btn" data-id="${point.id}" aria-label="Delete">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                     </button>
+                    <button class="btn btn--sm update-point-btn" style="background: var(--accent-primary); color: #000000; font-weight: 600;" data-id="${point.id}">Mark Used</button>
                 </div>
             </div>
         </article>
@@ -1536,13 +1540,13 @@ export const showUpdatePointBalanceModal = (pointId) => {
             <div class="form__group">
                 <label class="form__label">Transaction Type</label>
                 <select name="type" class="form__input" id="txTypeSelect">
-                    <option value="Used">Used / Redeemed (-)</option>
+                    <option value="Used" selected>Used / Redeemed (-)</option>
                     <option value="Earned">Earned / Added (+)</option>
                 </select>
             </div>
             <div class="form__group">
                 <label class="form__label">Amount</label>
-                <input type="number" name="amount" class="form__input" step="0.01" required placeholder="e.g. 5000">
+                <input type="number" name="amount" class="form__input" step="0.01" value="${point.balance > 0 ? point.balance : ''}" required placeholder="e.g. 5000">
             </div>
             <div class="form__group">
                 <label class="form__label">Date</label>
