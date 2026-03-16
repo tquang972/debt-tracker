@@ -180,7 +180,13 @@ export class Store {
 
     // --- People ---
     getPeople() {
-        return this.data.people;
+        // Deduplicate by name, keeping the first occurrence (which has the original ID)
+        const seen = new Set();
+        return this.data.people.filter(p => {
+            if (seen.has(p.name)) return false;
+            seen.add(p.name);
+            return true;
+        });
     }
 
     getCurrentUserId() {
