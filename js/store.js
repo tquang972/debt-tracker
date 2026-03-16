@@ -180,13 +180,26 @@ export class Store {
 
     // --- People ---
     getPeople() {
-        // Deduplicate by name, keeping the first occurrence (which has the original ID)
+        return this.data.people;
+    }
+
+    // Returns deduplicated people list for display (dropdown)
+    getPeopleForDisplay() {
         const seen = new Set();
         return this.data.people.filter(p => {
             if (seen.has(p.name)) return false;
             seen.add(p.name);
             return true;
         });
+    }
+
+    // Returns ALL person IDs that share the same name as the current user
+    // This ensures data linked to any duplicate person entry is included
+    getPersonIds(personId = this.currentUserId) {
+        if (personId === 'all') return null; // null means no filter
+        const person = this.data.people.find(p => p.id === personId);
+        if (!person) return [personId];
+        return this.data.people.filter(p => p.name === person.name).map(p => p.id);
     }
 
     getCurrentUserId() {
@@ -205,7 +218,8 @@ export class Store {
     // --- Debts ---
     getDebts(personId = this.currentUserId) {
         if (personId === 'all') return this.data.debts;
-        return this.data.debts.filter(d => d.personId === personId);
+        const ids = this.getPersonIds(personId);
+        return this.data.debts.filter(d => ids.includes(d.personId));
     }
 
     async addDebt(debt) {
@@ -311,7 +325,8 @@ export class Store {
     getBenefits(personId = this.currentUserId, includeUsed = false) {
         let benefits = this.data.benefits;
         if (personId !== 'all') {
-            benefits = benefits.filter(b => b.personId === personId);
+            const ids = this.getPersonIds(personId);
+            benefits = benefits.filter(b => ids.includes(b.personId));
         }
         if (!includeUsed) {
             benefits = benefits.filter(b => !b.used);
@@ -382,7 +397,10 @@ export class Store {
 
     // --- Points ---
     getPoints(personId = this.currentUserId) {
-        let points = personId === 'all' ? this.data.points : this.data.points.filter(p => p.personId === personId);
+        let points = personId === 'all' ? this.data.points : this.data.points.filter(p => {
+            const ids = this.getPersonIds(personId);
+            return ids.includes(p.personId);
+        });
 
         return points.sort((a, b) => {
             if (!a.expirationDate && !b.expirationDate) return 0;
@@ -408,7 +426,8 @@ export class Store {
     getPointTransactions(personId = this.currentUserId, pointId = null) {
         let txs = this.data.point_transactions;
         if (personId !== 'all') {
-            txs = txs.filter(t => t.personId === personId);
+            const ids = this.getPersonIds(personId);
+            txs = txs.filter(t => ids.includes(t.personId));
         }
         if (pointId) {
             txs = txs.filter(t => t.pointId === pointId);

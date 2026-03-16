@@ -6,7 +6,7 @@ const mainContent = document.getElementById('mainContent');
 const userSelector = document.getElementById('userSelector');
 
 export const renderUserSelector = () => {
-    const people = store.getPeople();
+    const people = store.getPeopleForDisplay();
     const currentId = store.getCurrentUserId();
 
     userSelector.innerHTML = `
