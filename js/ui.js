@@ -6,7 +6,7 @@ const mainContent = document.getElementById('mainContent');
 const userSelector = document.getElementById('userSelector');
 
 export const renderUserSelector = () => {
-    const people = store.getPeople();
+    const people = store.getPeopleForDisplay();
     const currentId = store.getCurrentUserId();
 
     userSelector.innerHTML = `
@@ -16,7 +16,12 @@ export const renderUserSelector = () => {
         </select>
     `;
 
-    document.getElementById('userSelect').addEventListener('change', (e) => {
+    // Clone-replace to guarantee no stacked event listeners from rapid re-renders
+    const oldSelect = document.getElementById('userSelect');
+    const newSelect = oldSelect.cloneNode(true);
+    oldSelect.parentNode.replaceChild(newSelect, oldSelect);
+
+    newSelect.addEventListener('change', (e) => {
         if (e.target.value === 'add_new') {
             const name = prompt('Enter name for new person:');
             if (name) {

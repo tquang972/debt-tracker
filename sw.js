@@ -1,4 +1,4 @@
-const CACHE_NAME = 'debt-tracker-v26';
+const CACHE_NAME = 'debt-tracker-v27';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -9,6 +9,8 @@ const ASSETS_TO_CACHE = [
     './js/auth.js',
     './js/ui.js',
     './js/store.js',
+    './js/utils.js',
+    './js/notifications.js',
     './js/firebase-config.js',
     './js/lib/firebase-app-compat.js',
     './js/lib/firebase-auth-compat.js',
