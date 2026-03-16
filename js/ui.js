@@ -255,7 +255,7 @@ export const renderHistory = (categoryFilter = 'All') => {
     // Filter payments to only show those for current user's debts
     let payments = allPayments.filter(pay => {
         const debt = debts.find(d => d.id === pay.debtId);
-        return debt && debt.personId === currentUserId;
+        return debt && store.getPersonIds(currentUserId).includes(debt.personId);
     });
 
     // Apply category filter
@@ -268,7 +268,7 @@ export const renderHistory = (categoryFilter = 'All') => {
 
     // Get unique categories from current user's debts for filter options
     const userCategories = [...new Set(
-        debts.filter(d => d.personId === currentUserId)
+        debts.filter(d => store.getPersonIds(currentUserId).includes(d.personId))
             .map(d => d.category || 'Uncategorized')
     )].sort();
 
@@ -362,21 +362,21 @@ export const renderAnalytics = () => {
     const currentUserId = store.getCurrentUserId();
     const allPayments = store.getPayments();
     const allDebts = store.getDebts('all');
-    const filteredDebts = allDebts.filter(d => d.personId === currentUserId);
+    const filteredDebts = allDebts.filter(d => store.getPersonIds(currentUserId).includes(d.personId));
 
 
     const debts = filteredDebts;
     // Filter payments for current user
     const payments = allPayments.filter(pay => {
         const debt = debts.find(d => d.id === pay.debtId);
-        return debt && debt.personId === currentUserId;
+        return debt && store.getPersonIds(currentUserId).includes(debt.personId);
     });
 
     // 1. Initialize structure and Aggregate by Debt Due Date
     // This ensures that if a debt is fully paid, it shows as 100% (Green) in its due month,
     // regardless of when the payments were actually made.
     const dataByYear = {};
-    const userDebts = debts.filter(d => d.personId === currentUserId);
+    const userDebts = debts.filter(d => store.getPersonIds(currentUserId).includes(d.personId));
 
     userDebts.forEach(debt => {
         if (!debt.dueDate) return; // Skip if no due date
@@ -890,7 +890,7 @@ export const showEditPaymentModal = (paymentId) => {
 
     const currentUserId = store.getCurrentUserId();
     const allDebts = store.getDebts('all');
-    const debts = allDebts.filter(d => d.personId === currentUserId);
+    const debts = allDebts.filter(d => store.getPersonIds(currentUserId).includes(d.personId));
     const currentDebt = allDebts.find(d => d.id === payment.debtId);
 
     const overlay = showModal(`
