@@ -210,10 +210,14 @@ export class Store {
     }
 
     // --- Debts ---
-    getDebts(personId = this.currentUserId) {
-        if (personId === 'all') return this.data.debts;
+    getDebts(personId = this.currentUserId, includeArchived = false) {
+        let debts = this.data.debts;
+        if (!includeArchived) {
+            debts = debts.filter(d => !d.isArchived);
+        }
+        if (personId === 'all') return debts;
         const ids = this.getPersonIds(personId);
-        return this.data.debts.filter(d => ids.includes(d.personId));
+        return debts.filter(d => ids.includes(d.personId));
     }
 
     async addDebt(debt) {
@@ -266,7 +270,11 @@ export class Store {
         const debt = this.data.debts.find(d => d.id === payment.debtId);
         if (debt) {
             const newBalance = parseFloat(debt.balance) + parseFloat(payment.amount);
-            await this.updateDebt(debt.id, { balance: newBalance });
+            const updates = { balance: newBalance };
+            if (debt.isArchived && newBalance > 0) {
+                updates.isArchived = false;
+            }
+            await this.updateDebt(debt.id, updates);
         }
 
         await paymentRef.delete();
