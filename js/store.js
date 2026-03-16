@@ -376,14 +376,8 @@ export class Store {
 
     // --- Points ---
     getPoints(personId = this.currentUserId) {
-        let points = personId === 'all' ? this.data.points : this.data.points.filter(p => p.personId === personId);
-
-        return points.sort((a, b) => {
-            if (!a.expirationDate && !b.expirationDate) return 0;
-            if (!a.expirationDate) return 1;
-            if (!b.expirationDate) return -1;
-            return new Date(a.expirationDate) - new Date(b.expirationDate);
-        });
+        if (personId === 'all') return this.data.points;
+        return this.data.points.filter(p => p.personId === personId);
     }
 
     async addPoint(point) {

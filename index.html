@@ -48,8 +48,8 @@
                 </div>
             </div>
             <div class="footer-content">
-                <p>Debt Tracker v1.7.0</p>
-                <p>&copy; 2025</p>
+                <p>Debt Tracker v1.6.3</p>
+                <p>&copy; 2024</p>
             </div>
         </header>
 
@@ -159,7 +159,7 @@
                     await requireAuth(); // This will redirect to login if not authenticated
 
                     console.log("Authenticated, loading app...");
-                    await import('./js/app.js?v=26');
+                    await import('./js/app.js?v=25');
                     console.log("App loaded successfully");
                 } catch (e) {
                     if (e.message !== 'Not authenticated') {
