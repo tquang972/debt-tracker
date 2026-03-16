@@ -44,15 +44,9 @@ export class Store {
         this.setupListeners();
         console.log("[Store] Listeners setup complete");
 
-        // 2. Check for Migration
-        setTimeout(async () => {
-            console.log("[Store] Migration check - people.length:", this.data.people.length);
-            if (this.data.people.length === 0) {
-                await this.migrateData();
-            } else {
-                console.log("[Store] Data already exists, skipping migration");
-            }
-        }, 2000);
+        // Migration disabled - data already exists in Firestore.
+        // The old auto-migration had a race condition that could
+        // create duplicate entries on slow network loads.
     }
 
     setupListeners() {
